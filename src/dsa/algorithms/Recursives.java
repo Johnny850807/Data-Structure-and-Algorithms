@@ -27,12 +27,6 @@ public interface Recursives{
     int R_gcd(int a, int b);
 
     int NR_gcd(int a, int b);
-    /**
-     * @param n select from 1 ~ n th items
-     * @param w the remaining space size of the knapsack
-     * @return
-     */
-    int R_01knapsack(int n, int w);
 
     /**
      * @param n number of heaps
@@ -51,6 +45,11 @@ public interface Recursives{
      */
     void R_permutation(int[] nums, int from, int to);
 
-    public static void main(String[] args) {
-    }
+
+    /**
+     * @param n select from 1 ~ n th items
+     * @param w the remaining space size of the knapsack
+     * @return
+     */
+    int R_01knapsack(int n, int w);
 }
