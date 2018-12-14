@@ -24,6 +24,32 @@ public interface Recursives{
 
     int R_binomialCoefficient(int n, int r);
 
+    int R_gcd(int a, int b);
+
+    int NR_gcd(int a, int b);
+    /**
+     * @param n select from 1 ~ n th items
+     * @param w the remaining space size of the knapsack
+     * @return
+     */
+    int R_01knapsack(int n, int w);
+
+    /**
+     * @param n number of heaps
+     * @param source move from where
+     * @param buffer use where to buffer
+     * @param target the place wanna put on
+     * @return the steps it takes and print the procedure
+     */
+    int R_towerOfHanoi(int n, char source, char buffer, char target);
+
+    /**
+     * @param nums a list of permuted nums, each row is a permutation
+     * @param from beginning of the permutation range
+     * @param to end of the permutation range
+     * @return list of all possible permuted letters
+     */
+    void R_permutation(int[] nums, int from, int to);
 
     public static void main(String[] args) {
     }
