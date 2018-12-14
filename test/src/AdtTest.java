@@ -2,21 +2,32 @@ import dsa.adt.AdtFactory;
 import dsa.adt.Stack;
 import org.junit.Assert;
 import org.junit.Test;
+import practices.waterball.adt.WbAdtFactory;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class AdtTest {
-    AdtFactory adtFactory;
+    AdtFactory adtFactory = new WbAdtFactory();  // replace the factory with yours
 
     @Test
-    public void testStack(){
-        Stack stack = adtFactory.createStack(10);
-        stack.push(1).push(3).push(5).push(7).push(9);
-        assertEquals(9, stack.pop());
-        assertEquals(7, stack.pop());
-        assertEquals(5, stack.pop());
-        assertEquals(3, stack.pop());
-        assertEquals(1, stack.pop());
+    public void testAdt(){
+        assertStack(adtFactory.createArrayStack(1000), 1000, true);
+        assertStack(adtFactory.createLinkedListStack(), -1, false);
     }
+
+
+    private void assertStack(Stack stack, int maxSize, boolean hasSizeLimit){
+        assertTrue(stack.isEmpty());
+
+        for (int i = 1; i <= maxSize; i ++)
+            stack.push(i);
+
+        assertTrue(!hasSizeLimit ^ stack.isFull());
+
+        for (int i = maxSize; i >= 1; i --)
+            assertEquals(i, stack.pop());
+    }
+
+
 
 }
