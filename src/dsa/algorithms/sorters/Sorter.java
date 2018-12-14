@@ -1,22 +1,22 @@
 package dsa.algorithms.sorters;
 
-import dsa.datastructures.DataStructure;
+import dsa.Utils;
 
 public interface Sorter {
 
-    default <T extends Comparable<T>> void sort(DataStructure<T> dataStructure, boolean ascending){
-        this.sort(dataStructure);
+    default void sort(int[] nums, boolean ascending){
+        this.sort(nums);
 
         if (!ascending)
-            dataStructure.reverse();
+            Utils.reverseArray(nums);
     }
 
     /**
      * Sort the data structure in the 'ascending' order.
-     * @param ds the sorted data structure
+     * @param nums numbers
      * @param <T> the element type which should be comparable
      */
-    <T extends Comparable<T>> void sort(DataStructure<T> ds);
+    <T extends Comparable<T>> void sort(int[] nums);
 
 
 }

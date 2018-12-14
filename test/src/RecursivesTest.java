@@ -1,13 +1,12 @@
 import dsa.algorithms.Recursives;
-import org.junit.Assert;
 import org.junit.Test;
-import practices.waterball.MyRecursives;
+import practices.waterball.WbRecursives;
 
 import static org.junit.Assert.assertEquals;
 
 @SuppressWarnings("ALL")
 public class RecursivesTest {
-    Recursives recursives = new MyRecursives();  // replace with your own implementation
+    Recursives recursives = new WbRecursives();  // replace with your own implementation
 
     @Test
     public void outputTest(){

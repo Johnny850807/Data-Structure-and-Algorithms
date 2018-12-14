@@ -1,11 +1,12 @@
+import dsa.Utils;
 import practices.waterball.sorter.InsertionSort;
 import dsa.algorithms.sorters.Sorter;
-import dsa.datastructures.RandomIntegersArray;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import javax.rmi.CORBA.Util;
 import java.util.Arrays;
 
 public class SortersTest {
@@ -13,8 +14,8 @@ public class SortersTest {
     private static final int NUMBER_TO = 50;
     private static final int NUMBER_SIZE = NUMBER_TO - NUMBER_FROM;
 
-    private static final Integer[] massiveSortedNums = new Integer[NUMBER_SIZE];
-    private RandomIntegersArray dsa = new RandomIntegersArray(NUMBER_FROM, NUMBER_TO);
+    private static final int[] massiveSortedNums = new int[NUMBER_SIZE];
+    private static final int[] randomNumbers = Utils.createRandomNumbers(NUMBER_FROM, NUMBER_TO);
 
     private Sorter sorter = new InsertionSort();
 
@@ -26,13 +27,13 @@ public class SortersTest {
 
     @Before
     public void setup(){
-        System.out.println("Before sorted: " + dsa);
+        System.out.println("Before sorted: " + Arrays.toString(randomNumbers));
     }
 
     @Test
     public void testSorter(){
-        sorter.sort(dsa);
-        System.out.println("After sorted: " + dsa);
-        Assert.assertTrue(Arrays.deepEquals(massiveSortedNums, dsa.getArray()));
+        sorter.sort(randomNumbers);
+        System.out.println("After sorted: " +  Arrays.toString(randomNumbers));
+        Assert.assertArrayEquals(massiveSortedNums, randomNumbers);
     }
 }

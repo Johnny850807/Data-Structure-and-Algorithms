@@ -2,9 +2,8 @@ package practices.waterball;
 
 import dsa.algorithms.Recursives;
 
-import java.util.Arrays;
 
-public class MyRecursives implements Recursives{
+public class WbRecursives implements Recursives{
 
     @Override
     public int NR_Fibonacci(int n) {
