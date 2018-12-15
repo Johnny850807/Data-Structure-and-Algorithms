@@ -1,4 +1,4 @@
-package practices.waterball.adt;
+package practices.waterball;
 
 import java.util.function.BiFunction;
 

@@ -1,11 +1,10 @@
 package practices.waterball;
 
 import dsa.algorithms.Compiler;
-import practices.waterball.adt.Operator;
 
 import java.util.*;
 
-import static practices.waterball.adt.Operator.*;
+import static practices.waterball.Operator.*;
 
 public class WbCompiler implements Compiler{
 
