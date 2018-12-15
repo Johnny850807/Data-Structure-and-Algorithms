@@ -1,13 +1,10 @@
 package practices.waterball.adt;
 
-import dsa.adt.Stack;
+import dsa.adt.ArrayStack;
+import dsa.adt.LinkedListStack;
 
-public class WbLinkedListStack extends Stack{
+public class WbLinkedListStack extends LinkedListStack {
     private Node top = null;
-
-    public WbLinkedListStack() {
-        super((int) Double.POSITIVE_INFINITY);
-    }
 
     @Override
     public boolean isFull() {
@@ -20,7 +17,7 @@ public class WbLinkedListStack extends Stack{
     }
 
     @Override
-    public Stack push(int item) {
+    public LinkedListStack push(int item) {
         Node node = new Node(item);
         node.link = top;
         top = node;

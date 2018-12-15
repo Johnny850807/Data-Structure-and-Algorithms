@@ -4,7 +4,7 @@ package dsa.algorithms;
  * Method prefixed by NR means Non-recursive, by R means Recursive.
  * See default methods NR_Factorization, R_Factorization as examples.
  */
-public interface Recursives{
+public interface BasicRecursive {
 
     default int NR_Factorization(int n){
         for (int i = n-1; i > 0; i --)
@@ -43,13 +43,7 @@ public interface Recursives{
      * @param to end of the permutation range
      * @return list of all possible permuted letters
      */
-    void R_permutation(int[] nums, int from, int to);
+    void R_generatePermutation(int[] nums, int from, int to);
 
 
-    /**
-     * @param n select from 1 ~ n th items
-     * @param w the remaining space size of the knapsack
-     * @return
-     */
-    int R_01knapsack(int n, int w);
 }

@@ -1,17 +1,17 @@
 package practices.waterball;
 
-import dsa.algorithms.Recursives;
+import dsa.algorithms.BasicRecursive;
 
 
-public class WbRecursives implements Recursives{
+public class WbBasicRecursive implements BasicRecursive {
 
     @Override
     public int NR_Fibonacci(int n) {
         int a = 0, b = 1, c = 0;
         if (n == 0)
-            return a;
+            return 0;
         if (n == 1)
-            return b;
+            return 1;
         for (int i = 2; i <= n ; i ++)
         {
             c = a + b;
@@ -87,12 +87,12 @@ public class WbRecursives implements Recursives{
             R_towerOfHanoi(n-1, source, target, temporary);
             R_towerOfHanoi(1, source, temporary, target);
             R_towerOfHanoi(n-1, temporary, source, target);
-            return exponent(2, n)-1; //general solution
+            return exponent(2, n)-1; //general solution of step count
         }
     }
 
     @Override
-    public void R_permutation(int[] nums, int from, int to) {
+    public void R_generatePermutation(int[] nums, int from, int to) {
         if (from == to)
         {
             for (int i = 0; i <= to; i ++)
@@ -104,7 +104,7 @@ public class WbRecursives implements Recursives{
             for (int i = from; i <= to; i ++)
             {
                 swap(nums, from, i);
-                R_permutation(nums, from+1, to);
+                R_generatePermutation(nums, from+1, to);
                 swap(nums, from, i);
             }
         }
@@ -122,9 +122,4 @@ public class WbRecursives implements Recursives{
         array[b] = temp;
     }
 
-    @Override
-    public int R_01knapsack(int n, int w) {
-
-        return 0;
-    }
 }

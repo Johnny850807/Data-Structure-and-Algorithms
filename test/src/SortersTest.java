@@ -1,12 +1,11 @@
 import dsa.Utils;
-import practices.waterball.sorter.InsertionSort;
-import dsa.algorithms.sorters.Sorter;
+import practices.waterball.WbSorter;
+import dsa.algorithms.Sorter;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import javax.rmi.CORBA.Util;
 import java.util.Arrays;
 
 public class SortersTest {
@@ -15,9 +14,9 @@ public class SortersTest {
     private static final int NUMBER_SIZE = NUMBER_TO - NUMBER_FROM;
 
     private static final int[] massiveSortedNums = new int[NUMBER_SIZE];
-    private static final int[] randomNumbers = Utils.createRandomNumbers(NUMBER_FROM, NUMBER_TO);
+    private int[] randomNumbers;
 
-    private Sorter sorter = new InsertionSort();
+    private Sorter sorter = new WbSorter();  // replace this with your own sorter
 
     @BeforeClass
     public static void beforeClass(){
@@ -27,13 +26,43 @@ public class SortersTest {
 
     @Before
     public void setup(){
+        randomNumbers = Utils.createRandomNumbers(NUMBER_FROM, NUMBER_TO);
         System.out.println("Before sorted: " + Arrays.toString(randomNumbers));
     }
 
     @Test
-    public void testSorter(){
-        sorter.sort(randomNumbers);
-        System.out.println("After sorted: " +  Arrays.toString(randomNumbers));
+    public void testBubbleSort(){
+        sorter.bubbleSort(randomNumbers);
+        System.out.println("After bubble sort: " +  Arrays.toString(randomNumbers));
         Assert.assertArrayEquals(massiveSortedNums, randomNumbers);
     }
+
+    @Test
+    public void testInsertionSort(){
+        sorter.insertionSort(randomNumbers);
+        System.out.println("After insertionSort sort: " +  Arrays.toString(randomNumbers));
+        Assert.assertArrayEquals(massiveSortedNums, randomNumbers);
+    }
+
+    @Test
+    public void testMergeSort(){
+        sorter.mergeSort(randomNumbers);
+        System.out.println("After mergeSort sort: " +  Arrays.toString(randomNumbers));
+        Assert.assertArrayEquals(massiveSortedNums, randomNumbers);
+    }
+
+    @Test
+    public void testQuickSort(){
+        sorter.quickSort(randomNumbers);
+        System.out.println("After quickSort sort: " +  Arrays.toString(randomNumbers));
+        Assert.assertArrayEquals(massiveSortedNums, randomNumbers);
+    }
+
+    @Test
+    public void testRadixSort(){
+        sorter.radixSort(randomNumbers);
+        System.out.println("After radixSort sort: " +  Arrays.toString(randomNumbers));
+        Assert.assertArrayEquals(massiveSortedNums, randomNumbers);
+    }
+
 }

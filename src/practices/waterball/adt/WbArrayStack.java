@@ -1,12 +1,11 @@
 package practices.waterball.adt;
 
-import dsa.adt.Stack;
+import dsa.adt.ArrayStack;
 
-public class WbArrayStack extends Stack{
+public class WbArrayStack extends ArrayStack {
     private int top = -1;
-    private int[] elements = new int[MAX_SIZE];
 
-    public WbArrayStack(int MAX_SIZE) {
+    WbArrayStack(int MAX_SIZE) {
         super(MAX_SIZE);
     }
 
@@ -21,7 +20,7 @@ public class WbArrayStack extends Stack{
     }
 
     @Override
-    public Stack push(int item) {
+    public ArrayStack push(int item) {
         if (isFull())
             throw new RuntimeException("Full");
         elements[++top] = item;

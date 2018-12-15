@@ -60,7 +60,7 @@ public class WbCompiler implements Compiler{
 
     @Override
     public int evaluatePostfix(String postfix) {
-        StringTokenizer tokenizer = new StringTokenizer(postfix);
+        StringTokenizer tokenizer = new StringTokenizer(postfix);  //reverse: read from right to left
         Stack<String> stack = new Stack<>();
         while(tokenizer.hasMoreTokens())
         {
@@ -81,10 +81,44 @@ public class WbCompiler implements Compiler{
         return Integer.parseInt(stack.pop());
     }
 
+    /*
+        Almost as same as evaluating Postfix
+     */
     @Override
     public int evaluatePrefix(String prefix) {
-        StringTokenizer tokenizer = new StringTokenizer(prefix);
-        return 0;
+        StringTokenizer tokenizer = reverseStringTokenizer(new StringTokenizer(prefix));  //reverse: read from right to left
+        Stack<String> stack = new Stack<>();
+        while(tokenizer.hasMoreTokens())
+        {
+            String token = tokenizer.nextToken();
+            if (isOperand(token))
+            {
+                stack.push(token);
+            }
+            else
+            {
+                Operator operator = fromToken(token);
+                int num1 = Integer.parseInt(stack.pop()); //note the first popped element is the second operand
+                int num2 = Integer.parseInt(stack.pop());
+                int result = operator.apply(num1, num2);
+                stack.push(String.valueOf(result));
+            }
+        }
+        return Integer.parseInt(stack.pop());
+    }
+
+    /**
+     * e.g. 1 + 23 * 57  => 57 * 23 + 1
+     */
+    private StringTokenizer reverseStringTokenizer(StringTokenizer tokenizer){
+        Stack<String> stack = new Stack<>();
+        while (tokenizer.hasMoreTokens())
+            stack.push(tokenizer.nextToken());
+        StringBuilder stringBuilder = new StringBuilder();
+        while (!stack.isEmpty())
+            stringBuilder.append(stack.pop()).append(" ");
+        String reverseTokenStr = stringBuilder.toString().trim();
+        return new StringTokenizer(reverseTokenStr);
     }
 
 }

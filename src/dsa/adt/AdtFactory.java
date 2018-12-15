@@ -1,6 +1,8 @@
 package dsa.adt;
 
 public interface AdtFactory {
-    Stack createArrayStack(int maxSize);
-    Stack createLinkedListStack();
+    ArrayStack createArrayStack(int maxSize);
+    LinkedListStack createLinkedListStack();
+    MultipleStack createDoubleStack(int maxSize);
+    MultipleStack createMultipleStack(int n, int maxSize);
 }
