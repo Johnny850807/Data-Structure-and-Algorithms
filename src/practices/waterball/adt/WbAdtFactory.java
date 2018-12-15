@@ -20,8 +20,8 @@ public class WbAdtFactory implements AdtFactory {
     }
 
     @Override
-    public MultipleStack createMultipleStack(int n, int maxSize) {
-        return new WbMultipleStack(maxSize);
+    public MultipleStack createMultipleStack(int stackCount, int maxSize) {
+        return new WbMultipleStack(stackCount, maxSize);
     }
 
     @Override

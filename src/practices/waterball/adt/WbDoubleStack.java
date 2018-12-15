@@ -12,7 +12,7 @@ public class WbDoubleStack extends MultipleStack {
     private int top0;
     private int top1;
      WbDoubleStack(int MAX_SIZE) {
-        super(MAX_SIZE);
+        super(2, MAX_SIZE);
         top0 = -1;
         top1 = MAX_SIZE;
     }

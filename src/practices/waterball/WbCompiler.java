@@ -1,6 +1,7 @@
-package practices.waterball.adt;
+package practices.waterball;
 
 import dsa.algorithms.Compiler;
+import practices.waterball.adt.Operator;
 
 import java.util.*;
 
@@ -40,7 +41,7 @@ public class WbCompiler implements Compiler{
                 }
                 stack.pop(); //pop "("
             }
-            else  //operand
+            else  //is operand
             {
                 postfix.append(token).append(" ");
             }
@@ -54,8 +55,54 @@ public class WbCompiler implements Compiler{
 
     @Override
     public String infixToPrefix(String infix) {
-        StringTokenizer tokenizer = new StringTokenizer(infix);
-        return null;
+        StringTokenizer tokenizer = reverseStringTokenizer(new StringTokenizer(infix));
+        StringBuilder prefix = new StringBuilder();
+        Stack<String> prefixStack = new Stack<>();
+        Stack<String> operatorStack = new Stack<>();
+
+        while(tokenizer.hasMoreTokens())
+        {
+            String token = tokenizer.nextToken();
+            if (token.equals(")"))
+            {
+                operatorStack.push(token);
+            }
+            else if (isOperator(token))
+            {
+                while(!operatorStack.isEmpty() &&
+                        !operatorStack.peek().equals(")") &&
+                        priority(token) < priority(operatorStack.peek()))  //note that left-associate uses '<' rather than '<='
+                {
+                    prefixStack.push(operatorStack.pop());
+                }
+                operatorStack.push(token);
+            }
+            else if (token.equals("("))
+            {
+                while(!operatorStack.peek().equals(")"))
+                {
+                    prefixStack.push(operatorStack.pop());
+                }
+                operatorStack.pop();  //pop the ')'
+            }
+            else  //is operand
+            {
+                prefixStack.push(token);
+            }
+        }
+
+        while (!operatorStack.isEmpty())
+            prefixStack.push(operatorStack.pop());
+
+        while (!prefixStack.isEmpty())
+            prefix.append(prefixStack.pop()).append(" ");
+
+        return prefix.toString().trim();
+    }
+
+    @Override
+    public int evaluateInfix(String infix) {
+        return evaluatePostfix(infixToPostfix(infix));
     }
 
     @Override

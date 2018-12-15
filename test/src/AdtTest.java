@@ -30,7 +30,7 @@ public class AdtTest {
     @Test
     public void testMultipleStacks(){
         assertMultipleStack(adtFactory.createDoubleStack(1000), 500, 2);
-        assertMultipleStack(adtFactory.createMultipleStack(10, 1000), 500, 10);
+        assertMultipleStack(adtFactory.createMultipleStack(10, 1000), 100, 10);
     }
 
 

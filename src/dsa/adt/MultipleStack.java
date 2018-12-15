@@ -1,10 +1,12 @@
 package dsa.adt;
 
 public abstract class MultipleStack implements ADT{
+    protected final int stackCount;
     protected final int MAX_SIZE;
     protected final int[] elements;
 
-    public MultipleStack(int MAX_SIZE) {
+    public MultipleStack(int stackCount, int MAX_SIZE) {
+        this.stackCount = stackCount;
         this.MAX_SIZE = MAX_SIZE;
         this.elements = new int[MAX_SIZE];
     }
