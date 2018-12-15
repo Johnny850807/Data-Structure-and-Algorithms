@@ -5,4 +5,7 @@ public interface AdtFactory {
     LinkedListStack createLinkedListStack();
     MultipleStack createDoubleStack(int maxSize);
     MultipleStack createMultipleStack(int n, int maxSize);
+    Queue createCircularArrayQueue(int maxSize);
+    Queue createSingleLinkedListQueue();
+    Queue createCircularLinkedListQueue();
 }

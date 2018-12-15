@@ -1,9 +1,6 @@
 package practices.waterball.adt;
 
-import dsa.adt.AdtFactory;
-import dsa.adt.ArrayStack;
-import dsa.adt.LinkedListStack;
-import dsa.adt.MultipleStack;
+import dsa.adt.*;
 
 public class WbAdtFactory implements AdtFactory {
 
@@ -25,5 +22,20 @@ public class WbAdtFactory implements AdtFactory {
     @Override
     public MultipleStack createMultipleStack(int n, int maxSize) {
         return new WbMultipleStack(maxSize);
+    }
+
+    @Override
+    public Queue createCircularArrayQueue(int maxSize) {
+        return new WbCircularArrayQueue(maxSize);
+    }
+
+    @Override
+    public Queue createSingleLinkedListQueue() {
+        return new WbSingleLinkedListQueue();
+    }
+
+    @Override
+    public Queue createCircularLinkedListQueue() {
+        return new WbCircularLinkedListQueue();
     }
 }

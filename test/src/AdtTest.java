@@ -1,7 +1,4 @@
-import dsa.adt.AdtFactory;
-import dsa.adt.ArrayStack;
-import dsa.adt.MultipleStack;
-import dsa.adt.SingleStack;
+import dsa.adt.*;
 import org.junit.Test;
 import practices.waterball.adt.WbAdtFactory;
 
@@ -14,35 +11,35 @@ public class AdtTest {
     @Test
     public void testStack(){
         assertStack(adtFactory.createArrayStack(1000), 1000, true);
-        assertStack(adtFactory.createLinkedListStack(), -1, false);
+        assertStack(adtFactory.createLinkedListStack(), 1000, false);
     }
 
 
-    private void assertStack(SingleStack stack, int maxSize, boolean hasSizeLimit){
+    private void assertStack(SingleStack stack, int runSize, boolean hasSizeLimit){
         assertTrue(stack.isEmpty());
 
-        for (int i = 1; i <= maxSize; i ++)
+        for (int i = 1; i <= runSize; i ++)
             stack.push(i);
 
         assertTrue(!hasSizeLimit ^ stack.isFull());
 
-        for (int i = maxSize; i >= 1; i --)
+        for (int i = runSize; i >= 1; i --)
             assertEquals(i, stack.pop());
     }
 
     @Test
     public void testMultipleStacks(){
         assertMultipleStack(adtFactory.createDoubleStack(1000), 500, 2);
-       // assertMultipleStack(adtFactory.createMultipleStack(1000), 500, 10);
+        assertMultipleStack(adtFactory.createMultipleStack(10, 1000), 500, 10);
     }
 
 
-    private void assertMultipleStack(MultipleStack stack, int stackSize, int stackCount){
+    private void assertMultipleStack(MultipleStack stack, int runEachStackSize, int stackCount){
         for (int n = 0; n < stackCount; n ++)
         {
             assertTrue(stack.isEmpty(n));
 
-            for (int i = 1; i <= stackSize; i ++)
+            for (int i = 1; i <= runEachStackSize; i ++)
                 stack.push(n, i);
         }
 
@@ -51,8 +48,28 @@ public class AdtTest {
 
         for (int n = 0; n < stackCount; n ++)
         {
-            for (int i = stackSize; i >= 1; i --)
+            for (int i = runEachStackSize; i >= 1; i --)
                 assertEquals(i, stack.pop(n));
         }
     }
+
+    @Test
+    public void testQueues(){
+        assertQueue(adtFactory.createCircularArrayQueue(1000), 1000, true);
+        assertQueue(adtFactory.createSingleLinkedListQueue(), -1, false);
+        assertQueue(adtFactory.createCircularLinkedListQueue(), -1, false);
+    }
+
+    private void assertQueue(Queue queue, int runSize, boolean hasSizeLimit){
+        assertTrue(queue.isEmpty());
+
+        for (int i = 1; i <= runSize; i ++)
+            queue.add(i);
+
+        assertTrue(!hasSizeLimit ^ queue.isFull());
+
+        for (int i = 1; i <= runSize; i ++)
+            assertEquals(i, queue.delete());
+    }
+
 }
