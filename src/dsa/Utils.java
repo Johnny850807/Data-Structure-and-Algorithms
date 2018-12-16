@@ -33,4 +33,18 @@ public class Utils {
             array[array.length -i -1] = temp;
         }
     }
+
+    public static String tableToString(int[][] table, int fieldSize){
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int[] aTable : table) {
+            for (int j = 0; j < table[0].length; j++)
+                stringBuilder.append(String.format("%" + fieldSize + "s", aTable[j]));
+            stringBuilder.append("\n");
+        }
+        return stringBuilder.toString();
+    }
+
+    public static String tableToString(int[][] table){
+        return tableToString(table, 4);
+    }
 }
