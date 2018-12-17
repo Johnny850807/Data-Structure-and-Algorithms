@@ -1,6 +1,6 @@
 import dsa.algorithms.Compiler;
 import org.junit.Test;
-import practices.waterball.WbCompiler;
+import practices.waterball.algorithms.WbCompiler;
 
 import static org.junit.Assert.assertEquals;
 

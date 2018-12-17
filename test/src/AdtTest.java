@@ -1,5 +1,6 @@
 import dsa.adt.*;
 import org.junit.Test;
+import practices.max.adt.MaxAdtFactory;
 import practices.waterball.adt.WbAdtFactory;
 
 import static org.junit.Assert.*;
@@ -10,8 +11,8 @@ public class AdtTest {
 
     @Test
     public void testStack(){
-        assertStack(adtFactory.createArrayStack(1000), 1000, true);
         assertStack(adtFactory.createLinkedListStack(), 1000, false);
+        assertStack(adtFactory.createArrayStack(1000), 1000, true);
     }
 
 
@@ -72,4 +73,40 @@ public class AdtTest {
             assertEquals(i, queue.delete());
     }
 
+    @Test
+    public void testLinkedList(){
+        assertAddingBothLinkedListEnds(adtFactory.createLinkedList());
+        assertInsertingLinkedList(adtFactory.createLinkedList());
+    }
+
+    private void assertAddingBothLinkedListEnds(LinkedList linkedList){
+        final int NUM = 10;
+
+        linkedList.addHead(0);  //root
+        for (int i = 1; i <= NUM; i ++)  // ... -3 -2 -1 0 1 2 3 ...
+        {
+            linkedList.addTail(i);
+            linkedList.addHead((-1)*i);
+        }
+
+        for (int i = NUM; i > 0; i --)
+        {
+            assertEquals((-1)*i, linkedList.deleteHead());
+            assertEquals(i, linkedList.deleteTail());
+        }
+        assertEquals(0, linkedList.deleteHead());
+    }
+
+    private void assertInsertingLinkedList(LinkedList linkedList){
+        final int NUM = 10;
+        for (int i = 1; i <= NUM; i += 2)  // 1, 3, 5, 7, 9 ... odds
+            linkedList.addHead(i);
+
+        //insert even nums 2, 4, 6, 8, 10...
+        for(int i = 2; i <= NUM; i+= 2)
+            linkedList.insert(i-2, i);
+
+        for (int i = 1; i <= NUM; i ++)  //assert 1, 2, 3, 4, 5, ..., NUM after inserted
+            assertEquals(i, linkedList.deleteHead());
+    }
 }

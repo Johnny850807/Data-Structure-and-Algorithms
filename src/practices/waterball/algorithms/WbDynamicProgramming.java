@@ -1,4 +1,4 @@
-package practices.waterball;
+package practices.waterball.algorithms;
 
 import dsa.Utils;
 import dsa.algorithms.DynamicProgramming;
@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class WbDynamicProgramming implements DynamicProgramming {
+
     @Override
     public int R_01knapsack(int n, int w) {
         return 0;

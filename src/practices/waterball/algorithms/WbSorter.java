@@ -1,4 +1,4 @@
-package practices.waterball;
+package practices.waterball.algorithms;
 
 import dsa.algorithms.Sorter;
 

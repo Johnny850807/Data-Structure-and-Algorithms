@@ -1,6 +1,7 @@
-package practices.waterball;
+package practices.waterball.algorithms;
 
 import dsa.algorithms.Compiler;
+import practices.waterball.Operator;
 
 import java.util.*;
 

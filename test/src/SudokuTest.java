@@ -1,6 +1,8 @@
+import dsa.Utils;
 import dsa.algorithms.Sudoku;
 import org.junit.Assert;
 import org.junit.Test;
+import practices.waterball.algorithms.WbSudoku;
 
 public class SudokuTest {
 
@@ -30,13 +32,9 @@ public class SudokuTest {
 
     @Test
     public void test(){
-        Sudoku sudoku = new Sudoku() {
-            @Override
-            public int[][] solve(int[][] grids) {
-                return answer;
-            }
-        };
-
-        Assert.assertArrayEquals(answer, sudoku.solve(puzzle));
+        Sudoku sudoku = new WbSudoku();
+        int[][] solved = sudoku.solve(puzzle);
+        System.out.println(Utils.tableToString(solved));
+        Assert.assertArrayEquals(answer, solved);
     }
 }

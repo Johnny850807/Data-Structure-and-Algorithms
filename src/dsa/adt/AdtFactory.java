@@ -8,4 +8,5 @@ public interface AdtFactory {
     Queue createCircularArrayQueue(int maxSize);
     Queue createSingleLinkedListQueue();
     Queue createCircularLinkedListQueue();
+    LinkedList createLinkedList();
 }

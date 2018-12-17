@@ -1,5 +1,5 @@
 import dsa.Utils;
-import practices.waterball.WbSorter;
+import practices.waterball.algorithms.WbSorter;
 import dsa.algorithms.Sorter;
 import org.junit.Assert;
 import org.junit.Before;

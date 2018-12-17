@@ -1,6 +1,6 @@
 import dsa.algorithms.BasicRecursive;
 import org.junit.Test;
-import practices.waterball.WbBasicRecursive;
+import practices.waterball.algorithms.WbBasicRecursive;
 
 import static org.junit.Assert.assertEquals;
 

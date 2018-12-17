@@ -1,46 +1,45 @@
-package practices.waterball.adt;
+package practices.max.adt;
 
 import dsa.adt.*;
 
-public class WbAdtFactory implements AdtFactory {
-
+public class MaxAdtFactory implements AdtFactory {
     @Override
     public ArrayStack createArrayStack(int maxSize) {
-        return new WbArrayStack(maxSize);
+        return null;
     }
 
     @Override
     public LinkedListStack createLinkedListStack() {
-        return new WbLinkedListStack();
+        return new MaxLinkedListStack();
     }
 
     @Override
     public MultipleStack createDoubleStack(int maxSize) {
-        return new WbDoubleStack(maxSize);
+        return null;
     }
 
     @Override
-    public MultipleStack createMultipleStack(int stackCount, int maxSize) {
-        return new WbMultipleStack(stackCount, maxSize);
+    public MultipleStack createMultipleStack(int n, int maxSize) {
+        return null;
     }
 
     @Override
     public Queue createCircularArrayQueue(int maxSize) {
-        return new WbCircularArrayQueue(maxSize);
+        return null;
     }
 
     @Override
     public Queue createSingleLinkedListQueue() {
-        return new WbSingleLinkedListQueue();
+        return null;
     }
 
     @Override
     public Queue createCircularLinkedListQueue() {
-        return new WbCircularLinkedListQueue();
+        return null;
     }
 
     @Override
     public LinkedList createLinkedList() {
-        return new WbDoubleLinkedList();
+        return null;
     }
 }
