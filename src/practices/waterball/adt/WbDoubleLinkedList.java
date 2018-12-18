@@ -16,9 +16,12 @@ public class WbDoubleLinkedList extends DoubleLinkedList {
         }
         else
         {
-            node.previous = head.previous;
+            WbDoubleLinkNode tail = head.previous;
+            tail.next = node;
+            node.previous = tail;
             node.next = head;
             head.previous = node;
+            head = node;
         }
         return this;
     }
@@ -35,6 +38,8 @@ public class WbDoubleLinkedList extends DoubleLinkedList {
         {
             WbDoubleLinkNode tail = head.previous;
             tail.next = node;
+            node.previous = tail;
+            head.previous = node;
             node.next = head;
         }
         return this;
@@ -45,7 +50,9 @@ public class WbDoubleLinkedList extends DoubleLinkedList {
         if (head == null)
             throw new RuntimeException("Empty");
         int item = head.data;
-        head.next.previous = head.previous;
+        WbDoubleLinkNode tail = head.previous;
+        head.next.previous = tail;
+        tail.next = head.next;
         head = head.next;
         return item;
     }
@@ -56,8 +63,8 @@ public class WbDoubleLinkedList extends DoubleLinkedList {
             throw new RuntimeException("Empty");
         WbDoubleLinkNode tail = head.previous;
         int item = tail.data;
-        tail.previous.next = tail.next;
-        tail = tail.previous;
+        tail.previous.next = head;
+        head.previous = tail.previous;
         return item;
     }
 
@@ -79,9 +86,12 @@ public class WbDoubleLinkedList extends DoubleLinkedList {
 
     @Override
     public String toString() {
+        if (head == null)
+            return "";
         StringBuilder stringBuilder = new StringBuilder();
-        for (WbDoubleLinkNode n = head; n != null; n = n.next)
-            stringBuilder.append(n.data);
+        for (WbDoubleLinkNode n = head; n.next != head; n = n.next)
+            stringBuilder.append(n.data).append(" ");
+        stringBuilder.append(head.previous.data);
         return stringBuilder.toString();
     }
 }
