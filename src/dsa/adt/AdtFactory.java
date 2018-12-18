@@ -9,4 +9,5 @@ public interface AdtFactory {
     Queue createSingleLinkedListQueue();
     Queue createCircularLinkedListQueue();
     LinkedList createLinkedList();
+    BSTree createBStree();
 }

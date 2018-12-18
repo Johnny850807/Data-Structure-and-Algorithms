@@ -3,6 +3,8 @@ import org.junit.Test;
 import practices.max.adt.MaxAdtFactory;
 import practices.waterball.adt.WbAdtFactory;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 @SuppressWarnings("ALL")
@@ -108,5 +110,72 @@ public class AdtTest {
 
         for (int i = 1; i <= NUM; i ++)  //assert 1, 2, 3, 4, 5, ..., NUM after inserted
             assertEquals(i, linkedList.deleteHead());
+    }
+
+    @Test
+    public void testBStrees(){
+        assertBstree(adtFactory.createBStree());
+    }
+
+    private void assertBstree(BSTree bStree) {
+        final int[] expectedInorder = {1, 2, 3, 4, 5, 7, 8, 13, 14, 15, 20, 21, 22, 23};
+        final int[] expectedPreorder = {5, 2, 1, 3, 4, 8, 7, 15, 14, 13, 20, 22, 21, 23};
+        final int[] expectedPostorder = {1, 4, 3, 2, 7, 13, 14, 21, 23, 22, 20, 15, 8, 5};
+
+        final Data[] insertedDatas = {
+                new Data(5, 'a')
+                , new Data(2, 'b')
+                , new Data(1, 'c')
+                , new Data(3, 'd')
+                , new Data(4, 'e')
+                , new Data(8, 'f')
+                , new Data(7, 'g')
+                , new Data(15, 'h')
+                , new Data(14, 'i')
+                , new Data(13, 'j')
+                , new Data(20, 'k')
+                , new Data(22, 'l')
+                , new Data(21, 'm')
+                , new Data(23, 'n')};
+
+        //inserting
+        for (Data d : insertedDatas)
+            bStree.insert(d);
+
+        Data minData = bStree.findMin();
+        assertEquals('c', minData.content);
+
+        List<Data> actualInorder = bStree.inorderTrversal();
+        List<Data> actualPostorder = bStree.postorderTrversal();
+        List<Data> actualPreorder = bStree.preorderTrversal();
+
+        //traversal
+        for (int i = 0; i < insertedDatas.length; i ++)
+        {
+            assertEquals(expectedInorder[i], actualInorder.get(i));
+            assertEquals(expectedPostorder[i], actualPostorder.get(i));
+            assertEquals(expectedPreorder[i], actualPreorder.get(i));
+        }
+
+        //searching
+        for (Data d : insertedDatas)
+            assertEquals(d.content, bStree.search(d.id).content);
+
+        bStree.delete(23);  //leaf
+        bStree.delete(20);  //one child node
+        bStree.delete(5);  //two children node
+
+        final int[] expectedInorderAfterDelete = {1, 2, 3, 4, 7, 8, 13, 14, 15, 21, 22};
+        final int[] expectedPreorderfterDelete = {7, 2, 1, 3, 4, 8, 15, 14, 13, 22, 21};
+        final int[] expectedPostorderfterDelete = {1, 4, 3, 2, 13, 14, 21, 22, 15, 8, 7};
+
+
+        //traversal after deleted
+        for (int i = 0; i < insertedDatas.length; i ++)
+        {
+            assertEquals(expectedInorder[i], actualInorder.get(i));
+            assertEquals(expectedPostorder[i], actualPostorder.get(i));
+            assertEquals(expectedPreorder[i], actualPreorder.get(i));
+        }
     }
 }

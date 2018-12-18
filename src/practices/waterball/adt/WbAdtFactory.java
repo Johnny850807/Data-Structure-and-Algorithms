@@ -2,6 +2,7 @@ package practices.waterball.adt;
 
 import dsa.adt.*;
 
+
 public class WbAdtFactory implements AdtFactory {
 
     @Override
@@ -42,5 +43,10 @@ public class WbAdtFactory implements AdtFactory {
     @Override
     public LinkedList createLinkedList() {
         return new WbDoubleLinkedList();
+    }
+
+    @Override
+    public BSTree createBStree() {
+        return new WbRecursiveBSTree();
     }
 }
