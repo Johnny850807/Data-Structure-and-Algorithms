@@ -15,7 +15,7 @@ public class WbOS implements OS {
             boolean[] finish = new boolean[n];
             boolean hasFoundNextSafeAllocation;
 
-            do {
+            do {  // this loop has [n + (n-1) + ... + 1] = n(n+1)/2 = O(n^2)
                 hasFoundNextSafeAllocation = false;
                 // found through process
                 for (int i = 0; i < n; i ++)
@@ -24,7 +24,7 @@ public class WbOS implements OS {
                     if (!finish[i] && arrayLessOrEqual(need[i], available))
                     {
                         // this process can finish its work and return those resources
-                        available = arrayPlus(available, allocation[i]);
+                        available = arrayPlus(available, allocation[i]);  //O(m)
                         finish[i] = true;
                         hasFoundNextSafeAllocation = true;
                         safeSequence[finishCount++] = i;
@@ -35,12 +35,12 @@ public class WbOS implements OS {
             for (int i = 0; i < finish.length; i ++)
                 if (!finish[i])
                     return null;
-            return safeSequence;
+            return safeSequence; // this algorithm has O(m*n^2)
         }
 
 
         @Override
-        public boolean resourceRequestAlgorithm(int n, int m, int[] available, int[][] max, int[][] allocation, int[][] need, int[][] request) {
+        public RequestGrantState resourceRequestAlgorithm(int n, int m, int[] available, int[][] max, int[][] allocation, int[][] need, int[][] request) {
             for(int i = 0; i < n; i ++)
             {
                 if (arrayLessOrEqual(request[i], need[i]))
@@ -55,14 +55,15 @@ public class WbOS implements OS {
                     else
                     {
                         System.out.println("The process " + i + " must wait, since the resources are not available.");
-                        return false;
+                        return RequestGrantState.mustWait(i);
                     }
                 }
                 else
-                    throw new RuntimeException("The process has exceeded its maximum need claim.");
+                    return RequestGrantState.nonAvailable();
             }
 
-            return true;
+            return safetyAlgorithm(n, m, available, max, allocation, need) == null ?
+                    RequestGrantState.unsafeNotGranted() : RequestGrantState.safeGranted();
         }
 
     }
