@@ -47,4 +47,25 @@ public class Utils {
     public static String tableToString(int[][] table){
         return tableToString(table, 4);
     }
+
+    public static boolean arrayLessOrEqual(int[] arr1, int[] arr2){
+        for (int i = 0; i < arr1.length; i ++)
+            if (arr1[i] > arr2[i])
+                return false;
+        return true;
+    }
+
+    public static int[] arrayPlus(int[] arr1, int[] arr2){
+        int[] s = new int[arr1.length];
+        for (int i = 0; i < arr1.length; i ++)
+            s[i] = arr1[i] + arr2[i];
+        return s;
+    }
+
+    public static int[] arraySub(int[] arr1, int[] arr2){
+        int[] s = new int[arr1.length];
+        for (int i = 0; i < arr1.length; i ++)
+            s[i] = arr1[i] - arr2[i];
+        return s;
+    }
 }

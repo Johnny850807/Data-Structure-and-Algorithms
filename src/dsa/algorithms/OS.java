@@ -10,9 +10,9 @@ public interface OS {
          * @param max n x m matrix defines maximum demand of each process
          * @param allocation n x m matrix defines the number of resources of each type currently allocated to each process
          * @param need n x m matrix indicates the remaining resource need of each process
-         * @return whether the system is in a safe state
+         * @return the safe sequence in the order of the process's index, return null if there does not exist any safe sequence
          */
-        boolean safetyAlgorithm(int n, int m, int[] available, int[][] max, int[][] allocation, int[][] need);
+        int[] safetyAlgorithm(int n, int m, int[] available, int[][] max, int[][] allocation, int[][] need);
 
 
         /**
