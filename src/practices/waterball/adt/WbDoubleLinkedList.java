@@ -70,19 +70,15 @@ public class WbDoubleLinkedList extends DoubleLinkedList {
 
     @Override
     public int delete(int index) {
-        return 0;
+        WbDoubleLinkNode target = get(index);
+        target.previous.next = target.next;
+        target.next.previous = target.previous;
+        return target.data;
     }
 
     @Override
     public LinkedList insert(int index, int item) {
-        WbDoubleLinkNode target = head;
-        for (int i = 1; i <= index; i ++)
-        {
-            target = target.next;
-            if (target == head)
-                throw new IndexOutOfBoundsException("Index out of bound.");
-        }
-
+        WbDoubleLinkNode target = get(index);
         WbDoubleLinkNode node = new WbDoubleLinkNode(item);
         node.next = target.next;
         target.next.previous = node;
@@ -91,6 +87,16 @@ public class WbDoubleLinkedList extends DoubleLinkedList {
         return this;
     }
 
+    private WbDoubleLinkNode get(int index){
+        WbDoubleLinkNode target = head;
+        for (int i = 1; i <= index; i ++)
+        {
+            target = target.next;
+            if (target == head)
+                throw new IndexOutOfBoundsException("Index out of bound.");
+        }
+        return target;
+    }
 
     @Override
     public boolean isEmpty() {

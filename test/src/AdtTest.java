@@ -112,8 +112,9 @@ public class AdtTest {
             fail();
         }catch (IndexOutOfBoundsException err){}
 
-        for (int i = 1; i <= NUM; i ++)  //assert 1, 2, 3, 4, 5, ..., NUM after inserted
-            assertEquals(i, linkedList.deleteHead());
+
+        for (int i = 0; i < NUM; i ++)  //assert 1, 2, 3, 4, 5, ..., NUM after inserted
+            assertEquals(i+1, linkedList.delete(i));
 
     }
 
