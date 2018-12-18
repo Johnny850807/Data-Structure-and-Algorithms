@@ -75,7 +75,20 @@ public class WbDoubleLinkedList extends DoubleLinkedList {
 
     @Override
     public LinkedList insert(int index, int item) {
-        return null;
+        WbDoubleLinkNode target = head;
+        for (int i = 1; i <= index; i ++)
+        {
+            target = target.next;
+            if (target == head)
+                throw new IndexOutOfBoundsException("Index out of bound.");
+        }
+
+        WbDoubleLinkNode node = new WbDoubleLinkNode(item);
+        node.next = target.next;
+        target.next.previous = node;
+        node.previous = target;
+        target.next = node;
+        return this;
     }
 
 

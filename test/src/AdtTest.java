@@ -77,7 +77,7 @@ public class AdtTest {
     @Test
     public void testLinkedList(){
         assertAddingBothLinkedListEnds(adtFactory.createLinkedList());
-        //assertInsertingLinkedList(adtFactory.createLinkedList());
+        assertInsertingLinkedList(adtFactory.createLinkedList());
     }
 
     private void assertAddingBothLinkedListEnds(LinkedList linkedList){
@@ -101,14 +101,20 @@ public class AdtTest {
     private void assertInsertingLinkedList(LinkedList linkedList){
         final int NUM = 10;
         for (int i = 1; i <= NUM; i += 2)  // 1, 3, 5, 7, 9 ... odds
-            linkedList.addHead(i);
+            linkedList.addTail(i);
 
         //insert even nums 2, 4, 6, 8, 10...
         for(int i = 2; i <= NUM; i+= 2)
             linkedList.insert(i-2, i);
 
+        try {
+            linkedList.insert(10, -999);  //index out of bound
+            fail();
+        }catch (IndexOutOfBoundsException err){}
+
         for (int i = 1; i <= NUM; i ++)  //assert 1, 2, 3, 4, 5, ..., NUM after inserted
             assertEquals(i, linkedList.deleteHead());
+
     }
 
     @Test
