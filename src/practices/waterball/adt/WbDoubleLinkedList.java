@@ -1,12 +1,11 @@
 package practices.waterball.adt;
 
-import dsa.adt.DoubleLinkedList;
 import dsa.adt.LinkedList;
 
-public class WbDoubleLinkedList extends DoubleLinkedList {
+public class WbDoubleLinkedList implements LinkedList {
     private WbDoubleLinkNode head;
 
-    @Override
+    @Override  // O(1)
     public LinkedList addHead(int item) {
         WbDoubleLinkNode node = new WbDoubleLinkNode(item);
         if (head == null)
@@ -26,7 +25,7 @@ public class WbDoubleLinkedList extends DoubleLinkedList {
         return this;
     }
 
-    @Override
+    @Override  // O(1)
     public LinkedList addTail(int item) {
         WbDoubleLinkNode node = new WbDoubleLinkNode(item);
         if (head == null)
@@ -45,7 +44,7 @@ public class WbDoubleLinkedList extends DoubleLinkedList {
         return this;
     }
 
-    @Override
+    @Override  // O(1)
     public int deleteHead() {
         if (head == null)
             throw new RuntimeException("Empty");
@@ -57,7 +56,7 @@ public class WbDoubleLinkedList extends DoubleLinkedList {
         return item;
     }
 
-    @Override
+    @Override  // O(1)
     public int deleteTail() {
         if (head == null)
             throw new RuntimeException("Empty");
@@ -68,17 +67,22 @@ public class WbDoubleLinkedList extends DoubleLinkedList {
         return item;
     }
 
-    @Override
+    @Override  // O(n)
     public int delete(int index) {
-        WbDoubleLinkNode target = get(index);
+        WbDoubleLinkNode target = findNode(index);
         target.previous.next = target.next;
         target.next.previous = target.previous;
         return target.data;
     }
 
-    @Override
+    @Override  // O(n)
+    public int get(int index) {
+        return findNode(index).data;
+    }
+
+    @Override  // O(n)
     public LinkedList insert(int index, int item) {
-        WbDoubleLinkNode target = get(index);
+        WbDoubleLinkNode target = findNode(index);
         WbDoubleLinkNode node = new WbDoubleLinkNode(item);
         node.next = target.next;
         target.next.previous = node;
@@ -87,7 +91,8 @@ public class WbDoubleLinkedList extends DoubleLinkedList {
         return this;
     }
 
-    private WbDoubleLinkNode get(int index){
+    // O(n)
+    private WbDoubleLinkNode findNode(int index){
         WbDoubleLinkNode target = head;
         for (int i = 1; i <= index; i ++)
         {
@@ -98,9 +103,43 @@ public class WbDoubleLinkedList extends DoubleLinkedList {
         return target;
     }
 
+    @Override  // O(n)
+    public int length(){
+        if (head == null)
+            return 0;
+
+        WbDoubleLinkNode pointer = head;
+        int length = 1;
+        while(pointer.next != head)
+        {
+            pointer = pointer.next;
+            length ++;
+        }
+        return length;
+    }
+
     @Override
     public boolean isEmpty() {
         return head == null;
+    }
+
+    @Override
+    public LinkedList concatenate(LinkedList linkedList) {
+        WbDoubleLinkNode head2 = (WbDoubleLinkNode) linkedList.head();
+
+        if (head == null)
+            this.head = head2;
+        else if (head2 != null)
+        {
+            head.previous.next = head2;
+            head2.previous = head.previous;
+        }
+        return this;
+    }
+
+    @Override
+    public WbDoubleLinkNode head() {
+        return head;
     }
 
     @Override
@@ -113,4 +152,5 @@ public class WbDoubleLinkedList extends DoubleLinkedList {
         stringBuilder.append(head.previous.data);
         return stringBuilder.toString();
     }
+
 }

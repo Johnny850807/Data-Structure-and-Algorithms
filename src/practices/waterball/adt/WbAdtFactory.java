@@ -41,7 +41,7 @@ public class WbAdtFactory implements AdtFactory {
     }
 
     @Override
-    public LinkedList createLinkedList() {
+    public LinkedList createCircularLinkedList() {
         return new WbDoubleLinkedList();
     }
 

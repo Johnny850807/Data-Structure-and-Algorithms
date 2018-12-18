@@ -76,8 +76,13 @@ public class AdtTest {
 
     @Test
     public void testLinkedList(){
-        assertAddingBothLinkedListEnds(adtFactory.createLinkedList());
-        assertInsertingLinkedList(adtFactory.createLinkedList());
+        assertAddingBothLinkedListEnds(adtFactory.createDoubleLinkedList());
+        assertInsertingLinkedList(adtFactory.createDoubleLinkedList());
+        assertAddingBothLinkedListEnds(adtFactory.createCircularLinkedList());
+        assertInsertingLinkedList(adtFactory.createCircularLinkedList());
+        assertAddingBothLinkedListEnds(adtFactory.createSingleLinkedList());
+        assertInsertingLinkedList(adtFactory.createSingleLinkedList());
+        assertSingleLinkedListInversion(adtFactory.createSingleLinkedList());
     }
 
     private void assertAddingBothLinkedListEnds(LinkedList linkedList){
@@ -107,6 +112,8 @@ public class AdtTest {
         for(int i = 2; i <= NUM; i+= 2)
             linkedList.insert(i-2, i);
 
+        assertEquals(10, linkedList.length());
+
         try {
             linkedList.insert(10, -999);  //index out of bound
             fail();
@@ -118,9 +125,18 @@ public class AdtTest {
 
     }
 
+    private void assertSingleLinkedListInversion(SingleLinkedList linkedList) {
+        final int NUM = 10;
+        for (int i = 1; i <= NUM; i ++)  // 1, 2, 3, 4, ..., NUM
+            linkedList.addTail(i);
+        linkedList.invert();
+        for (int i = NUM; i >= 1; i --)  // NUM, NUM-1, ..., 3, 2, 1
+            assertEquals(i, linkedList.deleteHead());
+    }
+
     @Test
     public void testBStrees(){
-        assertBstree(adtFactory.createBStree());
+//        assertBstree(adtFactory.createBStree());
     }
 
     private void assertBstree(BSTree bStree) {

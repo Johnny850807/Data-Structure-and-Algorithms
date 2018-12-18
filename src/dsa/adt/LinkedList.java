@@ -8,5 +8,9 @@ public interface LinkedList extends ADT{
     int deleteHead();
     int deleteTail();
     int delete(int index);
+    int get(int index);
+    int length();
     boolean isEmpty();
+    LinkedList concatenate(LinkedList linkedList);
+    Object head();
 }
