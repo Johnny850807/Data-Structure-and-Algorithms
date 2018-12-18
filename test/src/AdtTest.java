@@ -1,6 +1,5 @@
 import dsa.adt.*;
 import org.junit.Test;
-import practices.max.adt.MaxAdtFactory;
 import practices.waterball.adt.WbAdtFactory;
 
 import java.util.List;
@@ -145,9 +144,9 @@ public class AdtTest {
         Data minData = bStree.findMin();
         assertEquals('c', minData.content);
 
-        List<Data> actualInorder = bStree.inorderTrversal();
-        List<Data> actualPostorder = bStree.postorderTrversal();
-        List<Data> actualPreorder = bStree.preorderTrversal();
+        List<Data> actualInorder = bStree.inorderTraversal();
+        List<Data> actualPostorder = bStree.postorderTraversal();
+        List<Data> actualPreorder = bStree.preorderTraversal();
 
         //traversal
         for (int i = 0; i < insertedDatas.length; i ++)

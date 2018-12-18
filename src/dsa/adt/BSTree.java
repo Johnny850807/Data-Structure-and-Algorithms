@@ -7,8 +7,8 @@ public interface BSTree {
     BSTree delete(int id);
     Data search(int id);
     Data findMin();
-    List<Data>  postorderTrversal();
-    List<Data>  preorderTrversal();
-    List<Data>  inorderTrversal();
+    List<Data> postorderTraversal();
+    List<Data> preorderTraversal();
+    List<Data> inorderTraversal();
     boolean isEmpty();
 }
