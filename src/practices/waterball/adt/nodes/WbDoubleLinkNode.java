@@ -1,4 +1,4 @@
-package practices.waterball.adt;
+package practices.waterball.adt.nodes;
 
 public class WbDoubleLinkNode {
     public int data;

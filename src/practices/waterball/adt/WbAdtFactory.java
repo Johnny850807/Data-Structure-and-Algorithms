@@ -41,12 +41,32 @@ public class WbAdtFactory implements AdtFactory {
     }
 
     @Override
+    public SingleLinkedList createSingleLinkedList() {
+        return new WbSingleLinkedList();
+    }
+
+    @Override
     public LinkedList createCircularLinkedList() {
+        return new WbCircularLinkedList();
+    }
+
+    @Override
+    public LinkedList createDoubleLinkedList() {
         return new WbDoubleLinkedList();
     }
 
     @Override
     public BSTree createBStree() {
-        return new WbRecursiveBSTree();
+        return new WbThreadBSTree();
+    }
+
+    @Override
+    public MinHeap createMinHeap() {
+        return new WbMinHeap();
+    }
+
+    @Override
+    public DisjointSet createDisjointSet() {
+        return new WbArrayDisjointSet();
     }
 }

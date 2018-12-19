@@ -12,4 +12,6 @@ public interface AdtFactory {
     LinkedList createCircularLinkedList();
     LinkedList createDoubleLinkedList();
     BSTree createBStree();
+    MinHeap createMinHeap();
+    DisjointSet createDisjointSet();
 }

@@ -1,5 +1,6 @@
 package dsa;
 
+import java.util.List;
 import java.util.Random;
 
 public class Utils {
@@ -48,6 +49,13 @@ public class Utils {
         return tableToString(table, 4);
     }
 
+    public static String listToString(List list){
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Object o : list) {
+            stringBuilder.append(o).append(" ");
+        }
+        return stringBuilder.toString().trim();
+    }
     public static boolean arrayLessOrEqual(int[] arr1, int[] arr2){
         for (int i = 0; i < arr1.length; i ++)
             if (arr1[i] > arr2[i])

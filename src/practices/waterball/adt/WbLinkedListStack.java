@@ -1,6 +1,7 @@
 package practices.waterball.adt;
 
 import dsa.adt.LinkedListStack;
+import practices.waterball.adt.nodes.WbLinkNode;
 
 public class WbLinkedListStack extends LinkedListStack {
     private WbLinkNode top = null;

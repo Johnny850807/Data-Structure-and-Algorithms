@@ -1,6 +1,7 @@
 package practices.waterball.adt;
 
 import dsa.adt.LinkedList;
+import practices.waterball.adt.nodes.WbDoubleLinkNode;
 
 public class WbDoubleLinkedList implements LinkedList {
     private WbDoubleLinkNode head;

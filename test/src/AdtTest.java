@@ -1,7 +1,9 @@
+import dsa.Utils;
 import dsa.adt.*;
 import org.junit.Test;
 import practices.waterball.adt.WbAdtFactory;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -136,7 +138,7 @@ public class AdtTest {
 
     @Test
     public void testBStrees(){
-//        assertBstree(adtFactory.createBStree());
+        assertBstree(adtFactory.createBStree());
     }
 
     private void assertBstree(BSTree bStree) {
@@ -171,6 +173,10 @@ public class AdtTest {
         List<Data> actualPostorder = bStree.postorderTraversal();
         List<Data> actualPreorder = bStree.preorderTraversal();
 
+        System.out.println("Inorder traversal: " + Utils.listToString(actualInorder));
+        System.out.println("Postorder traversal: " + Utils.listToString(actualPostorder));
+        System.out.println("Preorder traversal: " + Utils.listToString(actualPreorder));
+
         //traversal
         for (int i = 0; i < insertedDatas.length; i ++)
         {
@@ -198,6 +204,32 @@ public class AdtTest {
             assertEquals(expectedInorder[i], actualInorder.get(i));
             assertEquals(expectedPostorder[i], actualPostorder.get(i));
             assertEquals(expectedPreorder[i], actualPreorder.get(i));
+        }
+    }
+
+    @Test
+    public void testDisjointSet(){
+        DisjointSet disjointSet = adtFactory.createDisjointSet();
+        int[][] nums = {{1,2,3},{4,5,6},{7,8,9}};
+        for (int i = 0; i < nums.length; i++) {
+            for (int num : nums[i]) {
+                disjointSet.put(num, i);
+            }
+        }
+
+        for (int i = 0; i < nums.length; i++) {
+            for (int num : nums[i]) {
+                assertEquals(i, disjointSet.find(num));
+            }
+        }
+
+        disjointSet.union(1, 0);
+        disjointSet.union(2, 0);
+
+        for (int i = 0; i < nums.length; i++) {
+            for (int num : nums[i]) {
+                assertEquals(0, disjointSet.find(num));
+            }
         }
     }
 }

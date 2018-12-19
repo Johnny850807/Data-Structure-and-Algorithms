@@ -2,6 +2,7 @@ package practices.waterball.adt;
 
 import dsa.adt.LinkedListQueue;
 import dsa.adt.Queue;
+import practices.waterball.adt.nodes.WbLinkNode;
 
 public class WbSingleLinkedListQueue extends LinkedListQueue{
     private WbLinkNode front;
