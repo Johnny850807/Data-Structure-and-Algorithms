@@ -5,6 +5,7 @@ import practices.waterball.adt.WbAdtFactory;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.Assert.*;
 
@@ -232,4 +233,29 @@ public class AdtTest {
             }
         }
     }
+
+    @Test
+    public void testPriorityQueues(){
+        assertPriorityQueue(adtFactory.createMinHeap());
+    }
+
+    private void assertPriorityQueue(PriorityQueue priorityQueue) {
+        Random random = new Random();
+        for (int i = 0; i < 50; i++) {
+            priorityQueue.insert(random.nextInt(100));
+        }
+
+        int previous = priorityQueue.delete();
+        System.out.print("Sorted: " + previous + " ");
+
+        while (!priorityQueue.isEmpty())
+        {
+            int next = priorityQueue.delete();
+            System.out.print(next + " ");
+            assertTrue(previous <= next);
+            previous = next;
+        }
+        System.out.println();
+    }
+
 }

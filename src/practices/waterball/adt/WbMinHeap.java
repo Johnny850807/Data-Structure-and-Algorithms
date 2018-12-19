@@ -5,6 +5,8 @@ import dsa.adt.MinHeap;
 
 import java.util.List;
 
+import static dsa.Utils.swap;
+
 public class WbMinHeap implements MinHeap{
     private int FULL_SIZE = 100;
     private int[] elements = new int[FULL_SIZE]; //index starts from 1
@@ -13,47 +15,50 @@ public class WbMinHeap implements MinHeap{
     @Override
     public MinHeap insert(int item) {
         elements[++count] = item;
-        adjustBottomUp();
-        return null;
+        adjustBottomUp(count);
+        return this;
     }
 
     @Override
     public int delete() {
         int min = elements[1];
-        adjustBottomUp();
+        elements[1] = elements[count--];
+        adjustTopDown(1);
         return min;
     }
 
-    private void adjustBottomUp(){
-
+    private void adjustBottomUp(int i){
+        while (i != 1 && elements[i] < elements[i/2])
+        {
+            swap(elements, i, i/2);
+            i = i/2;
+        }
     }
 
-    private void adjustTopDown(){
-
-    }
-
-    @Override
-    public int findMin() {
-        return elements[1];
-    }
-
-    @Override
-    public List<Data> postorderTraversal() {
-        return null;
-    }
-
-    @Override
-    public List<Data> preorderTraversal() {
-        return null;
-    }
-
-    @Override
-    public List<Data> inorderTraversal() {
-        return null;
+    private void adjustTopDown(int i){
+        // i: parent, j: child
+        int j = i*2;
+        boolean done = false;
+        while(j <= count && !done)
+        {
+            if (j < count &&
+                    elements[j+1] < elements[j])
+            {
+                j = j+1;
+            }
+            if (elements[i] > elements[j])
+            {
+                swap(elements, i ,j);
+                i = j;
+            }
+            else
+                done = true;
+            j *= 2;
+        }
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return count == 0;
     }
 }
