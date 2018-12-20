@@ -301,4 +301,20 @@ public class AdtTest {
         System.out.println();
     }
 
+    @Test
+    public void testHashingMap() {
+        HashMap hashMap = adtFactory.createHashMap();
+        java.util.HashMap<Data, Integer> answerHashMap = new java.util.HashMap<>();
+
+        Random random = new Random();
+        for (int i = 0; i <20; i ++)
+        {
+            Data data = new Data(random.nextInt(), (char) (random.nextInt()%26+65));
+            hashMap.put(data, i);
+            answerHashMap.put(data, i);
+        }
+
+        for (Data data : answerHashMap.keySet())
+            assertEquals(new Integer(hashMap.get(data)), answerHashMap.get(data));
+    }
 }

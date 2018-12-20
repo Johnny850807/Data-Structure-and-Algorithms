@@ -69,4 +69,9 @@ public class WbAdtFactory implements AdtFactory {
     public MinMaxHeap createMinMaxHeap() {
         return new WbMinMaxHeap();
     }
+
+    @Override
+    public HashMap createHashMap() {
+        return new WbHashMap();
+    }
 }

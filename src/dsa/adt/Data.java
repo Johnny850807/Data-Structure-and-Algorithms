@@ -8,7 +8,7 @@ import java.util.Objects;
  * binary search tree's searching is correct.
  * Use the id field to test two datas' identities
  */
-public class Data implements Comparable<Data>{
+public class Data implements Comparable<Data> {
     public int id;
     public char content;
 
@@ -33,7 +33,7 @@ public class Data implements Comparable<Data>{
 
     @Override
     public String toString() {
-        return String.valueOf(id);
+        return "(" + String.valueOf(id) + "," + content + ")";
     }
 
     @Override

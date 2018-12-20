@@ -147,4 +147,9 @@ public class WbMinMaxHeap extends MinMaxHeap {
     public int max() {
         return 0;
     }
+
+    @Override
+    public boolean isEmpty() {
+        return n == 0;
+    }
 }

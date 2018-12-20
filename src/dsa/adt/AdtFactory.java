@@ -16,4 +16,5 @@ public interface AdtFactory {
     MinBinaryHeap createMinBinaryHeap();
     DisjointSet createDisjointSet();
     MinMaxHeap createMinMaxHeap();
+    HashMap createHashMap();
 }
