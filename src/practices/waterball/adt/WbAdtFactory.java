@@ -42,12 +42,7 @@ public class WbAdtFactory implements AdtFactory {
 
     @Override
     public SingleLinkedList createSingleLinkedList() {
-        return new WbSingleLinkedList();
-    }
-
-    @Override
-    public LinkedList createCircularLinkedList() {
-        return new WbCircularLinkedList();
+        return new WbSingleLinkList();
     }
 
     @Override

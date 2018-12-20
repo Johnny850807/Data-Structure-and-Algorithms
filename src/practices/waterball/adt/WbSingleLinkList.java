@@ -1,9 +1,12 @@
 package practices.waterball.adt;
 
 import dsa.adt.LinkedList;
-import dsa.adt.SingleLinkedList;
 
-public class WbCircularLinkedList implements LinkedList{
+public class WbSingleLinkList extends SingleLinkedList {
+    @Override
+    public SingleLinkedList invert() {
+        return null;
+    }
 
     @Override
     public LinkedList addHead(int item) {

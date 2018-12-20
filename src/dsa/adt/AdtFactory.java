@@ -1,5 +1,7 @@
 package dsa.adt;
 
+import practices.waterball.adt.SingleLinkedList;
+
 public interface AdtFactory {
     ArrayStack createArrayStack(int maxSize);
     LinkedListStack createLinkedListStack();
@@ -9,7 +11,6 @@ public interface AdtFactory {
     Queue createSingleLinkedListQueue();
     Queue createCircularLinkedListQueue();
     SingleLinkedList createSingleLinkedList();
-    LinkedList createCircularLinkedList();
     LinkedList createDoubleLinkedList();
     BSTree createBStree();
     MinHeap createMinHeap();
