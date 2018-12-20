@@ -56,12 +56,17 @@ public class WbAdtFactory implements AdtFactory {
     }
 
     @Override
-    public MinBinaryHeap createMinHeap() {
+    public MinBinaryHeap createMinBinaryHeap() {
         return new WbMinBinaryHeap();
     }
 
     @Override
     public DisjointSet createDisjointSet() {
         return new WbArrayDisjointSet();
+    }
+
+    @Override
+    public MinMaxHeap createMinMaxHeap() {
+        return new WbMinMaxHeap();
     }
 }

@@ -6,4 +6,5 @@ public interface DoubleEndedPriorityQueue {
     int deleteMax();
     int min();
     int max();
+    boolean isEmpty();
 }

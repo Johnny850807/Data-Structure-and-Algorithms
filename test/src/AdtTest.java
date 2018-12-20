@@ -3,9 +3,7 @@ import dsa.adt.*;
 import org.junit.Test;
 import practices.waterball.adt.SingleLinkedList;
 import practices.waterball.adt.WbAdtFactory;
-import sun.security.krb5.internal.rcache.DflCache;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -239,7 +237,7 @@ public class AdtTest {
 
     @Test
     public void testPriorityQueues(){
-        assertPriorityQueue(adtFactory.createMinHeap());
+        assertPriorityQueue(adtFactory.createMinBinaryHeap());
     }
 
     private void assertPriorityQueue(PriorityQueue priorityQueue) {
@@ -256,6 +254,48 @@ public class AdtTest {
             int next = priorityQueue.delete();
             System.out.print(next + " ");
             assertTrue(previous <= next);
+            previous = next;
+        }
+        System.out.println();
+    }
+
+    @Test
+    public void testDoubleEndedPriorityQueue(){
+        assertDoubleEndedPriorityQueue(adtFactory.createMinMaxHeap());
+    }
+
+    private void assertDoubleEndedPriorityQueue(DoubleEndedPriorityQueue doubleEndedPriorityQueue){
+        //test ascending
+        Random random = new Random();
+        for (int i = 0; i < 50; i++) {
+            doubleEndedPriorityQueue.insert(random.nextInt(100));
+        }
+
+        int previous = doubleEndedPriorityQueue.deleteMin();
+        System.out.print("Sorted (ascending): " + previous + " ");
+
+        while (!doubleEndedPriorityQueue.isEmpty())
+        {
+            int next = doubleEndedPriorityQueue.deleteMin();
+            System.out.print(next + " ");
+            assertTrue(previous <= next);
+            previous = next;
+        }
+        System.out.println();
+
+        //test descending
+        for (int i = 0; i < 50; i++) {
+            doubleEndedPriorityQueue.insert(random.nextInt(100));
+        }
+
+        previous = doubleEndedPriorityQueue.deleteMax();
+        System.out.print("Sorted (descending): " + previous + " ");
+
+        while (!doubleEndedPriorityQueue.isEmpty())
+        {
+            int next = doubleEndedPriorityQueue.deleteMax();
+            System.out.print(next + " ");
+            assertTrue(previous >= next);
             previous = next;
         }
         System.out.println();
