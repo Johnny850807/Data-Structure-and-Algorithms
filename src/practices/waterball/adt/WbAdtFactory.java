@@ -56,8 +56,8 @@ public class WbAdtFactory implements AdtFactory {
     }
 
     @Override
-    public MinHeap createMinHeap() {
-        return new WbMinHeap();
+    public MinBinaryHeap createMinHeap() {
+        return new WbMinBinaryHeap();
     }
 
     @Override

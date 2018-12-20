@@ -13,6 +13,6 @@ public interface AdtFactory {
     SingleLinkedList createSingleLinkedList();
     LinkedList createDoubleLinkedList();
     BSTree createBStree();
-    MinHeap createMinHeap();
+    MinBinaryHeap createMinHeap();
     DisjointSet createDisjointSet();
 }

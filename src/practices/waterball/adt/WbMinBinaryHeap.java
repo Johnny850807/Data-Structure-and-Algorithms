@@ -1,19 +1,16 @@
 package practices.waterball.adt;
 
-import dsa.adt.Data;
-import dsa.adt.MinHeap;
-
-import java.util.List;
+import dsa.adt.MinBinaryHeap;
 
 import static dsa.Utils.swap;
 
-public class WbMinHeap implements MinHeap{
+public class WbMinBinaryHeap implements MinBinaryHeap {
     private int FULL_SIZE = 100;
     private int[] elements = new int[FULL_SIZE]; //index starts from 1
     private int count = 0;
 
     @Override
-    public MinHeap insert(int item) {
+    public MinBinaryHeap insert(int item) {
         elements[++count] = item;
         adjustBottomUp(count);
         return this;
