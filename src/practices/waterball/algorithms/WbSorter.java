@@ -1,17 +1,24 @@
 package practices.waterball.algorithms;
 
+import dsa.Utils;
 import dsa.algorithms.Sorter;
 
 public class WbSorter implements Sorter {
 
     @Override
     public void bubbleSort(int[] nums) {
-        int size = nums.length;
-
-        for (int i = 0; i < size - 1; i ++)
-            for (int j = i + 1; j < size; j ++)
-                if (nums[i] > nums[j])
-                    swap(nums, i, j);
+        for (int i = nums.length-1; i >= 0 ; i --)
+        {
+            boolean swapped = false;
+            for (int j = 0; j < i ; j ++)
+                if (nums[j] > nums[j+1])
+                {
+                    swap(nums, j, j+1);
+                    swapped = true;
+                }
+            if (!swapped)
+                break;
+        }
     }
 
     @Override
@@ -34,17 +41,67 @@ public class WbSorter implements Sorter {
     }
 
     @Override
+    public void selectionSort(int[] nums) {
+        for (int i = 0; i < nums.length-1; i ++)
+        {
+            int minIndex = i;
+            for (int j = i+1; j < nums.length; j ++)
+                if (nums[j] < nums[minIndex])
+                    minIndex = j;
+
+            if (i != minIndex)
+                swap(nums, i, minIndex);
+        }
+    }
+
+    @Override
+    public void shellSort(int[] nums) {
+
+    }
+
+    @Override
     public void heapSort(int[] nums) {
 
     }
 
     @Override
-    public void mergeSort(int[] nums) {
+    public void R_mergeSort(int[] nums, int l, int u) {
 
     }
 
     @Override
-    public void quickSort(int[] nums) {
+    public void R_quickSort(int[] nums, int l, int u) {
+        int i,j;
+        int p;
+        if (l < u)
+        {
+            i = l + 1;
+            j = u;
+            p = nums[l];
+            do
+            {
+                while (nums[i] < p && i <= j)
+                    i ++;
+                while (nums[j] > p && i <= j)
+                    j --;
+                if (i < j)
+                    swap(nums, i, j);
+            } while (i < j);
+            if (l < j)
+                swap (nums, l, j);
+            R_quickSort( nums , l , j-1);
+            R_quickSort( nums , j+1 , u);
+        }
+    }
+
+
+    @Override
+    public void NR_mergeSort(int[] nums) {
+
+    }
+
+    @Override
+    public void NR_quickSort(int[] nums) {
 
     }
 

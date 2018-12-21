@@ -9,8 +9,8 @@ import org.junit.Test;
 import java.util.Arrays;
 
 public class SortersTest {
-    private static final int NUMBER_FROM = -50;
-    private static final int NUMBER_TO = 50;
+    private static final int NUMBER_FROM = -2;
+    private static final int NUMBER_TO = 2;
     private static final int NUMBER_SIZE = NUMBER_TO - NUMBER_FROM;
 
     private static final int[] massiveSortedNums = new int[NUMBER_SIZE];
@@ -45,16 +45,37 @@ public class SortersTest {
     }
 
     @Test
-    public void testMergeSort(){
-        sorter.mergeSort(randomNumbers);
-        System.out.println("After mergeSort sort: " +  Arrays.toString(randomNumbers));
+    public void testSelectionSort(){
+        sorter.selectionSort(randomNumbers);
+        System.out.println("After SelectionSort sort: " +  Arrays.toString(randomNumbers));
         Assert.assertArrayEquals(massiveSortedNums, randomNumbers);
     }
 
     @Test
-    public void testQuickSort(){
-        sorter.quickSort(randomNumbers);
-        System.out.println("After quickSort sort: " +  Arrays.toString(randomNumbers));
+    public void testR_MergeSort(){
+        sorter.R_mergeSort(randomNumbers, 0, randomNumbers.length-1);
+        System.out.println("After R_mergeSort sort: " +  Arrays.toString(randomNumbers));
+        Assert.assertArrayEquals(massiveSortedNums, randomNumbers);
+    }
+
+    @Test
+    public void testNR_MergeSort(){
+        sorter.NR_mergeSort(randomNumbers);
+        System.out.println("After NR_mergeSort sort: " +  Arrays.toString(randomNumbers));
+        Assert.assertArrayEquals(massiveSortedNums, randomNumbers);
+    }
+
+    @Test
+    public void testR_QuickSort(){
+        sorter.R_quickSort(randomNumbers, 0, randomNumbers.length-1);
+        System.out.println("After R_quickSort sort: " +  Arrays.toString(randomNumbers));
+        Assert.assertArrayEquals(massiveSortedNums, randomNumbers);
+    }
+
+    @Test
+    public void testNR_QuickSort(){
+        sorter.NR_quickSort(randomNumbers);
+        System.out.println("After NR_quickSort sort: " +  Arrays.toString(randomNumbers));
         Assert.assertArrayEquals(massiveSortedNums, randomNumbers);
     }
 

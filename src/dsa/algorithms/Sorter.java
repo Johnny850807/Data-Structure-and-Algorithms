@@ -9,17 +9,25 @@ public interface Sorter {
 
     void insertionSort(int[] nums);
 
+    void selectionSort(int[] nums);
+
+    void shellSort(int[] nums);
+
     void heapSort(int[] nums);
 
-    void mergeSort(int[] nums);
+    void R_mergeSort(int[] nums, int l, int u);
 
-    void quickSort(int[] nums);
+    void R_quickSort(int[] nums, int l, int u);
+
+    void NR_mergeSort(int[] nums);
+
+    void NR_quickSort(int[] nums);
 
     void radixSort(int[] nums);
 
     default void swap(int[] nums, int i, int j){
-        nums[i] = nums[i] ^ nums[j];
-        nums[j] = nums[i] ^ nums[j];
-        nums[i] = nums[i] ^ nums[j];
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
     }
 }
