@@ -1,7 +1,9 @@
 package dsa;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 public class Utils {
 
@@ -45,6 +47,29 @@ public class Utils {
         return stringBuilder.toString();
     }
 
+    public static String tableToString(HashSet<Integer>[][] table, int fieldSize){
+        StringBuilder stringBuilder = new StringBuilder();
+        for (HashSet<Integer>[] aTable : table) {
+            for (int j = 0; j < table[0].length; j++)
+                stringBuilder.append(String.format("%" + fieldSize + "s", setToString(aTable[j])));
+            stringBuilder.append("\n");
+        }
+        return stringBuilder.toString();
+    }
+
+    public static String setToString(Set<Integer> set){
+        StringBuilder stringBuilder = new StringBuilder();
+        if (set.isEmpty())
+            return "∅";
+        stringBuilder.append("{");
+        for (int num : set) {
+            stringBuilder.append(num).append(",");
+        }
+        stringBuilder.deleteCharAt(stringBuilder.length()-1);
+        stringBuilder.append("}");
+        return stringBuilder.toString();
+
+    }
     public static String tableToString(int[][] table){
         return tableToString(table, 4);
     }

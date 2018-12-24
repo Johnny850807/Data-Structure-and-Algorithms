@@ -4,26 +4,71 @@ import dsa.Utils;
 import dsa.algorithms.DynamicProgramming;
 
 import java.sql.Array;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
+@SuppressWarnings("ALL")
 public class WbDynamicProgramming implements DynamicProgramming {
 
     @Override
-    public int R_01knapsack(int n, int w) {
-        return 0;
+    public KnapSackAnswer R_01knapsack(int w, int[] vs, int[] ws){
+        int n = vs.length;
+        int[][] kp = new int[n+1][w+1];
+        HashSet<Integer>[][] takenRecords = new HashSet[n+1][w+1];
+        vs = padddingZero(vs, 0, 1);  // e.g. [1, 2, 2] => [0, 1, 2, 2]
+        ws = padddingZero(ws, 0, 1);
+
+        for (int k = 0; k <= w; k ++)
+        {
+            kp[0][k] = 0;
+            takenRecords[0][k] = new HashSet<>();
+        }
+
+        for (int i = 1; i <= n; i ++)
+        {
+            kp[i][0] = 0;
+            takenRecords[i][0] = new HashSet<>();
+            for (int k = 1; k <= w; k ++)
+            {
+                if (k < ws[i]) //cannot take
+                {
+                    kp[i][k] = kp[i-1][k];
+                    takenRecords[i][k] = cloneSet(takenRecords[i-1][k]);
+                }
+                else  //can take
+                {
+                    if(kp[i-1][k] >= vs[i]+kp[i-1][k-ws[i]])  //not taken is greater
+                    {
+                        kp[i][k] = kp[i-1][k];
+                        takenRecords[i][k] = cloneSet(takenRecords[i-1][k]);
+                    }
+                    else  //taken is greater
+                    {
+                        kp[i][k] = vs[i]+kp[i-1][k-ws[i]];
+                        takenRecords[i][k] = cloneSet(takenRecords[i-1][k-ws[i]]);
+                        takenRecords[i][k].add(i);  //put it into the knapsack
+                    }
+                }
+            }
+        }
+        System.out.println("Knapsack: ");
+        System.out.println(Utils.tableToString(kp, 4));
+        System.out.println("===================");
+        System.out.println(Utils.tableToString(takenRecords, 5));
+        System.out.println("===================");
+        return new KnapSackAnswer(kp[n][w], takenRecords[n][w]);
     }
 
     @Override
     public int[] longestCommonSequence(int[] s1, int[] s2) {
         int[][] lcsTable = new int[s1.length+1][s2.length+1];
         int[][] previousTable = new int[s1.length+1][s2.length+1];  // record previous node
+        s1 = padddingZero(s1, 0, 1);
+        s2 = padddingZero(s2, 0, 1);
 
-
-        for (int i = 1; i < s1.length+1; i ++)
-            for (int j = 1; j < s2.length+1; j ++)
+        for (int i = 1; i < s1.length; i ++)
+            for (int j = 1; j < s2.length; j ++)
             {
-                if (s1[i-1] == s2[j-1])
+                if (s1[i] == s2[j])
                 {
                     lcsTable[i][j] = lcsTable[i-1][j-1] + 1;
                     previousTable[i][j] = 0;  //from the top left corner
@@ -56,7 +101,7 @@ public class WbDynamicProgramming implements DynamicProgramming {
         {
             if (previousTable[i][j] == 0) // top left corner
             {
-                lcs[--lcsLength] = s1[i-1];
+                lcs[--lcsLength] = s1[i];
                 i--;
                 j--;
             }
@@ -73,5 +118,18 @@ public class WbDynamicProgramming implements DynamicProgramming {
     @Override
     public List<Integer> dijkstraShortestPath(int[][] adjacency) {
         return null;
+    }
+
+    private HashSet<Integer> cloneSet(HashSet<Integer> set){
+        return (HashSet<Integer>) set.clone();
+    }
+
+    private int[] padddingZero(int[] array, int index, int length){
+        int[] p = new int[array.length+length];
+        for (int i = 0; i < length; i ++)
+            p[i] = 0;
+        for (int i = length; i < p.length; i ++)
+            p[i] = array[i-length];
+        return p;
     }
 }

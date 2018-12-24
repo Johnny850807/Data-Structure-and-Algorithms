@@ -1,15 +1,25 @@
 package dsa.algorithms;
 
+import java.util.HashSet;
 import java.util.List;
 
 public interface DynamicProgramming {
 
     /**
-     * @param n select from 1 ~ n th items
-     * @param w the remaining space size of the knapsack
-     * @return
+     * @param w total weight
+     * @param vs each item's value
+     * @param ws each item's weight
      */
-    int R_01knapsack(int n, int w);
+    KnapSackAnswer R_01knapsack(int w, int[] vs, int[] ws);
+
+    public static class KnapSackAnswer{
+        public int maximalValue;
+        public HashSet<Integer> takenItems;
+        public KnapSackAnswer(int maximalValue, HashSet<Integer> takenItems) {
+            this.maximalValue = maximalValue;
+            this.takenItems = takenItems;
+        }
+    }
 
     /**
      * @return lsc(s1, s2)
