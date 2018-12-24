@@ -4,6 +4,8 @@ import org.junit.Test;
 import practices.waterball.algorithms.WbDynamicProgramming;
 
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Random;
 import java.util.stream.IntStream;
 
 import static org.junit.Assert.assertArrayEquals;
@@ -19,7 +21,30 @@ public class DynamicProgrammingTest {
 
         // the lcs would be all multiple numbers of 2 and 3, which can be divided by 6
         int[] lcs = IntStream.range(1, 50).filter(n -> n % 6 == 0).toArray();
-        assertArrayEquals(lcs, dynamicProgramming.longestCommonSequence(s1, s2));
+        assertArrayEquals(lcs, dynamicProgramming.longestCommonSubsequence(s1, s2));
+    }
+
+    @Test
+    public void testLIS(){
+        Random random = new Random();
+        LinkedList<Integer> nums = new LinkedList<>();
+        int[] s1 = new int[200];
+        int[] lis = new int[100];
+        for (int i = 0; i < 100; i++) {
+            nums.add(i);
+            lis[i] = i;
+        }
+        for (int i = 0; i < 100; i++) {
+            nums.add(random.nextInt(100), random.nextInt(100));
+        }
+        for (int i = 0; i < nums.size(); i++) {
+            s1[i] = nums.get(i);
+        }
+        assertArrayEquals(lis, dynamicProgramming.longestIncreasingSequence(s1));
+    }
+
+    @Test
+    public void testLcString(){
     }
 
     @Test

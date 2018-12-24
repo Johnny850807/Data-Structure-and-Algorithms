@@ -3,7 +3,6 @@ package practices.waterball.algorithms;
 import dsa.Utils;
 import dsa.algorithms.DynamicProgramming;
 
-import java.sql.Array;
 import java.util.*;
 
 @SuppressWarnings("ALL")
@@ -59,7 +58,7 @@ public class WbDynamicProgramming implements DynamicProgramming {
     }
 
     @Override
-    public int[] longestCommonSequence(int[] s1, int[] s2) {
+    public int[] longestCommonSubsequence(int[] s1, int[] s2) {
         int[][] lcsTable = new int[s1.length+1][s2.length+1];
         int[][] previousTable = new int[s1.length+1][s2.length+1];  // record previous node
         s1 = padddingZero(s1, 0, 1);
@@ -89,6 +88,18 @@ public class WbDynamicProgramming implements DynamicProgramming {
             }
 
         return produceLongestCommonSequence(lcsTable, previousTable, s1);
+    }
+
+    @Override
+    public int[] longestCommonString(int[] s1) {
+        return null;
+    }
+
+    @Override
+    public int[] longestIncreasingSequence(int[] s1) {
+        int[] y = Arrays.copyOf(s1, s1.length);
+        new WbSorter().R_quickSort(y, 0, y.length-1);
+        return longestCommonSubsequence(s1, y);
     }
 
     private int[] produceLongestCommonSequence(int[][] lcsTable, int[][] previousTable, int[] s1){

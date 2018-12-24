@@ -21,10 +21,14 @@ public interface DynamicProgramming {
         }
     }
 
-    /**
-     * @return lsc(s1, s2)
-     */
-    int[] longestCommonSequence(int[] s1, int[] s2);
+    int[] longestCommonSubsequence(int[] s1, int[] s2);
+
+    int[] longestCommonString(int[] s1);
+
+    int[] longestIncreasingSequence(int[] s1);
+
+    int matrixChainMultiplication(int[] p);
+
 
 
     /**
