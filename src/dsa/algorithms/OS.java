@@ -52,4 +52,9 @@ public interface OS {
             }
         }
     }
+
+    public interface DiningMonitor {
+        void pick(int i) throws InterruptedException;
+        void putDown(int i) throws InterruptedException;
+    }
 }

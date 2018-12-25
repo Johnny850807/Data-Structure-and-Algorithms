@@ -2,13 +2,18 @@ import dsa.algorithms.OS;
 import org.junit.Test;
 import practices.waterball.algorithms.WbOS;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static dsa.Utils.*;
+import static java.lang.Thread.sleep;
 import static org.junit.Assert.*;
 
 public class OSTest {
     OS.Banker banker = new WbOS.Banker();
+    public static final int PHILOSOPHER_COUNT = 20;
+    OS.DiningMonitor diningMonitor = new WbOS.DiningMonitor(PHILOSOPHER_COUNT);
 
     @Test
     public void testBanker(){
@@ -95,5 +100,41 @@ public class OSTest {
             assertTrue(arrayLessOrEqual(need[process], available));
             available = arrayPlus(available, allocation[process]);
         }
+    }
+
+    @Test
+    public void testDiningPhilosophers() throws InterruptedException {
+        AtomicBoolean finished = new AtomicBoolean(false);
+
+        ArrayList<Thread> philosophers = new ArrayList<>();
+        for (int i = 0; i < PHILOSOPHER_COUNT; i++) {
+            final int id = i;
+            philosophers.add(new Thread(()->{
+                try {
+                    diningMonitor.pick(id);
+                    sleep(500);
+                    diningMonitor.putDown(id);
+                } catch (InterruptedException e) { }
+            }));
+        }
+
+        for (Thread philosopher : philosophers) {
+            philosopher.start();
+        }
+
+        //This threads waiting for philosophers completion
+        new Thread(()->{
+                for (Thread philosopher : philosophers) {
+                    try {
+                        philosopher.join();
+                    } catch (InterruptedException ignored) { }
+                }
+                finished.set(true);
+        }).start();
+
+        // if the philosophers cannot finish their dining in 5 seconds, deadlock occurs => fail
+        sleep(5000);
+        if (!finished.get())
+            fail("Your philosophers cannot finish their dinings in 5 seconds, is there a deadlock?");
     }
 }

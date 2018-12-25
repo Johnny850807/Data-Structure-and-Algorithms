@@ -1,8 +1,10 @@
 package practices.waterball.algorithms;
 
 import dsa.algorithms.OS;
+
+import javax.swing.event.TreeWillExpandListener;
+
 import static dsa.Utils.*;
-import java.util.Arrays;
 
 public class WbOS implements OS {
 
@@ -66,5 +68,40 @@ public class WbOS implements OS {
                     RequestGrantState.unsafeNotGranted() : RequestGrantState.safeGranted();
         }
 
+    }
+
+    public static class DiningMonitor implements OS.DiningMonitor {
+        public  enum State{ EATING, HUNGRY, THINKING}
+        private final int n;
+        private State[] states;
+
+        public DiningMonitor(int n) {
+            this.n = n;
+            states = new State[n];
+        }
+
+        @Override
+        public synchronized void pick(int i) throws InterruptedException {
+            states[i] = State.HUNGRY;
+            while(!test(i)){
+                wait();
+            }
+
+            states[i] = State.EATING;
+            System.out.println("Philosopher " + i + " is eating.");
+        }
+
+        @Override
+        public synchronized void putDown(int i) throws InterruptedException{
+            System.out.println("Philosopher " + i + " is putting down.");
+            states[i] = State.THINKING;
+            notifyAll();
+        }
+
+        private synchronized boolean test(int i){  //test right and left and see if he's hungry
+            return states[(i+n-1) % n] != State.EATING &&
+                    states[(i+1) % n] != State.EATING &&
+                    states[i] == State.HUNGRY;
+        }
     }
 }

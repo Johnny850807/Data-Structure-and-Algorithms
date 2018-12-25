@@ -102,6 +102,11 @@ public class WbDynamicProgramming implements DynamicProgramming {
         return longestCommonSubsequence(s1, y);
     }
 
+    @Override
+    public int matrixChainMultiplication(int[] p) {
+        return 0;
+    }
+
     private int[] produceLongestCommonSequence(int[][] lcsTable, int[][] previousTable, int[] s1){
         int i = previousTable.length - 1;
         int j = previousTable[0].length - 1;
