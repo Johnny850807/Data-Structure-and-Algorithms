@@ -2,7 +2,7 @@ package practices.waterball.algorithms;
 
 import dsa.algorithms.OS;
 
-import javax.swing.event.TreeWillExpandListener;
+import java.util.LinkedList;
 
 import static dsa.Utils.*;
 
@@ -70,35 +70,113 @@ public class WbOS implements OS {
 
     }
 
-    public static class DiningMonitor implements OS.DiningMonitor {
+    public static class Semaphore{
+        private int value;
+
+        public Semaphore(int value) {
+            this.value = value;
+        }
+
+        public synchronized void sWait(){
+            value --;
+            if (value < 0) {
+                try {
+                    this.wait();
+                } catch (InterruptedException ignored) { }
+            }
+        }
+
+        public synchronized void sSignal(){
+            value ++;
+            if (value <= 0)
+                this.notify();
+        }
+    }
+
+    /**
+     * Call P as signaling processes, Q as waiting processes.
+     * The monitor conforms the Hoare's monitor property:
+     * Any signaling process P waits Q until Q's completion or Q is blocked again
+     */
+    public static class Monitor {
+        private Semaphore mutex = new Semaphore(1);  // monitor's mutual exclusion
+        private Semaphore next = new Semaphore(0); // Used to block P
+        private int nextCount = 0;  // number of P
+
+        public void doProcedure(Runnable runnable){
+            mutex.sWait();
+            runnable.run();
+            if (nextCount > 0)
+                next.sSignal();  // Q finished, wake P up
+            else
+                mutex.sSignal();  // No P waiting, return mutex
+        }
+
+        public class Condition {
+            private int value;  // number of Q
+            private Semaphore sem = new Semaphore(0); // Used to block Q
+
+            void cWait(){
+                value ++;
+                if (nextCount > 0)
+                    next.sSignal();  // Q is blocked again, wake P up to exit
+                else
+                    mutex.sSignal();  // Q is blocked again while no P waiting, return mutex
+                sem.sWait();
+                value --;
+            }
+
+            void cSignal(){
+                if (value > 0) // there exists Q, do signaling process
+                {
+                    nextCount ++;
+                    sem.sSignal();  // wake one Q up
+                    next.sWait();  // wait the waked Q until Q's completion or Q's blocked again
+                    nextCount --;
+                }
+            }
+        }
+    }
+
+    public static class DiningMonitor extends Monitor implements OS.DiningMonitor {
         public  enum State{ EATING, HUNGRY, THINKING}
         private final int n;
+        private Monitor.Condition[] philosophers;
         private State[] states;
 
         public DiningMonitor(int n) {
             this.n = n;
             states = new State[n];
-        }
-
-        @Override
-        public synchronized void pick(int i) throws InterruptedException {
-            states[i] = State.HUNGRY;
-            while(!test(i)){
-                wait();
+            philosophers = new Monitor.Condition[n];
+            for (int i = 0; i < n; i++) {
+                philosophers[i] = this.new Condition();
             }
-
-            states[i] = State.EATING;
-            System.out.println("Philosopher " + i + " is eating.");
         }
 
         @Override
-        public synchronized void putDown(int i) throws InterruptedException{
-            System.out.println("Philosopher " + i + " is putting down.");
-            states[i] = State.THINKING;
-            notifyAll();
+        public void pick(int i) throws InterruptedException {
+            doProcedure(()->{
+                states[i] = State.HUNGRY;
+                if (!test(i))
+                    philosophers[i].cWait();
+                System.out.println("Philosopher " + i + " is eating.");
+                states[i] = State.EATING;
+            });
         }
 
-        private synchronized boolean test(int i){  //test right and left and see if he's hungry
+        @Override
+        public void putDown(int i) throws InterruptedException{
+            doProcedure(()->{
+                System.out.println("Philosopher " + i + " is putting down.");
+                states[i] = State.THINKING;
+                if (test((i+1) % n))
+                    philosophers[(i+1) % n].cSignal();
+                if (test((i+n-1) % n))
+                    philosophers[(i+n-1) % n].cSignal();
+            });
+        }
+
+        private boolean test(int i){  //test right and left and see if he's hungry
             return states[(i+n-1) % n] != State.EATING &&
                     states[(i+1) % n] != State.EATING &&
                     states[i] == State.HUNGRY;
