@@ -53,8 +53,32 @@ public interface OS {
         }
     }
 
+    public interface Monitor {
+        void doProcedure(Runnable runnable);
+
+        public interface Condition {
+            void cWait();
+            void cWait(int priority);
+            void cSignal();
+        }
+    }
+
+    public interface Semaphore {
+        void sWait();
+        void sSignal();
+    }
+
     public interface DiningMonitor {
         void pick(int i) throws InterruptedException;
         void putDown(int i) throws InterruptedException;
+    }
+
+    /**
+     * Please design a resource allocator using Monitor,
+     * it allocates resources to the shortest execution time thread first
+     */
+    public interface ResourceAllocator{
+        void acquire(int time);
+        void release();
     }
 }

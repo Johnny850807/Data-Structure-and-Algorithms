@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 
 public class OSTest {
     OS.Banker banker = new WbOS.Banker();
-    public static final int PHILOSOPHER_COUNT = 400;
+    public static final int PHILOSOPHER_COUNT = 50;
     OS.DiningMonitor diningMonitor = new WbOS.DiningMonitor(PHILOSOPHER_COUNT);
 
     @Test
@@ -136,9 +136,9 @@ public class OSTest {
                 finished.set(true);
         }).start();
 
-        // if the philosophers cannot finish their dining in 5 seconds, deadlock occurs => fail
-        sleep(10000);
+        // if the philosophers cannot finish their dining in 3 seconds, deadlock occurs => fail
+        sleep(3000);
         if (!finished.get())
-            fail("Your philosophers cannot finish their dinings in 5 seconds, is there a deadlock?");
+            fail("Your philosophers cannot finish their dinings in 3 seconds, is there a deadlock?");
     }
 }

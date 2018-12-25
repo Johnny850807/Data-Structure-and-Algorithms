@@ -97,8 +97,9 @@ public class WbDynamicProgramming implements DynamicProgramming {
 
     @Override
     public int[] longestIncreasingSequence(int[] s1) {
+        WbSorter wbSorter = new WbSorter();
         int[] y = Arrays.copyOf(s1, s1.length);
-        new WbSorter().R_quickSort(y, 0, y.length-1);
+        wbSorter.R_quickSort(y, 0, y.length-1);
         return longestCommonSubsequence(s1, y);
     }
 
