@@ -27,9 +27,16 @@ public interface DynamicProgramming {
 
     int[] longestIncreasingSequence(int[] s1);
 
-    int matrixChainMultiplication(int[] p);
+    /**
+     * @param matrices matrix's representation e.g. A x B would give you {"A", "B"}
+     * @param p length of matrices, if A is a mxn matrix, and its the first matrix whose index is 0, then p[0] = m, p[1] = n
+     */
+    MatrixChainAnswer matrixChainMultiplication(String[] matrices, int[] p);
 
-
+    public static class MatrixChainAnswer{
+        public int numberOfMultiplications;
+        public String matrixChain; // e.g. (A((B(CD))E))
+    }
 
     /**
      * Dijkstra shortest path

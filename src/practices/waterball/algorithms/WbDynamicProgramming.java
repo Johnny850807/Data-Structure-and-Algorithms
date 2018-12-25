@@ -104,8 +104,30 @@ public class WbDynamicProgramming implements DynamicProgramming {
     }
 
     @Override
-    public int matrixChainMultiplication(int[] p) {
-        return 0;
+    public MatrixChainAnswer matrixChainMultiplication(String[] matrices, int[] p) {
+        int n = p.length - 1;
+        int[][] m = new int[n][n];
+
+        for (int i = 0; i < n; i++) {
+            m[i][i] = 0;
+        }
+
+        for (int l = 2; l <= n; l++) {
+            for (int i = 0; i < n - l + 1; i++) {
+                int j = i + l - 1;
+
+            }
+        }
+
+        return null;
+    }
+
+    private String optimalParensToString(int[] s){
+        return optimalParensToString(s, 0, s.length-1).toString();
+    }
+
+    private StringBuilder optimalParensToString(int[] s, int i, int j){
+        return null;
     }
 
     private int[] produceLongestCommonSequence(int[][] lcsTable, int[][] previousTable, int[] s1){

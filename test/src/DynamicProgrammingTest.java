@@ -1,11 +1,11 @@
 import dsa.algorithms.DynamicProgramming;
 import dsa.algorithms.DynamicProgramming.KnapSackAnswer;
+import dsa.algorithms.DynamicProgramming.MatrixChainAnswer;
 import org.junit.Test;
 import practices.waterball.algorithms.WbDynamicProgramming;
 
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Random;
 import java.util.stream.IntStream;
 
 import static org.junit.Assert.assertArrayEquals;
@@ -58,5 +58,14 @@ public class DynamicProgrammingTest {
         KnapSackAnswer answer = dynamicProgramming.R_01knapsack(w, vs, ws);
         assertEquals(22, answer.maximalValue);
         assertEquals(takenItems, answer.takenItems);
+    }
+
+    @Test
+    public void testMatrixChainMultiplication(){
+        String[] matrices = {"A", "B", "C", "D", "E"};
+        int[] p = {2, 4, 3, 2, 5, 1};
+        MatrixChainAnswer answer = dynamicProgramming.matrixChainMultiplication(matrices, p);
+        assertEquals(36, answer.numberOfMultiplications);
+        assertEquals("(A(B(C(DE))))", answer.matrixChain);
     }
 }
