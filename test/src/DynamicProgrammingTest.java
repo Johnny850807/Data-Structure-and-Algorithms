@@ -26,7 +26,6 @@ public class DynamicProgrammingTest {
 
     @Test
     public void testLIS(){
-        Random random = new Random();
         LinkedList<Integer> nums = new LinkedList<>();
         int[] s1 = new int[200];
         int[] lis = new int[100];
@@ -35,7 +34,7 @@ public class DynamicProgrammingTest {
             lis[i] = i;
         }
         for (int i = 0; i < 100; i++) {
-            nums.add(random.nextInt(100), random.nextInt(100));
+            nums.add(-1);  //make fragments
         }
         for (int i = 0; i < nums.size(); i++) {
             s1[i] = nums.get(i);
