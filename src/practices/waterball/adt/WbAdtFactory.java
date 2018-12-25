@@ -56,6 +56,11 @@ public class WbAdtFactory implements AdtFactory {
     }
 
     @Override
+    public BSTree createAVLBStree() {
+        return new WbAvlBSTree();
+    }
+
+    @Override
     public MinBinaryHeap createMinBinaryHeap() {
         return new WbMinBinaryHeap();
     }
