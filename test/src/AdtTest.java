@@ -177,14 +177,14 @@ public class AdtTest {
         //traversal
         for (int i = 0; i < insertedDatas.length; i ++)
         {
-            assertEquals(expectedInorder[i], actualInorder.get(i).id);
-            assertEquals(expectedPostorder[i], actualPostorder.get(i).id);
-            assertEquals(expectedPreorder[i], actualPreorder.get(i).id);
+            assertEquals(expectedInorder[i], actualInorder.get(i).key);
+            assertEquals(expectedPostorder[i], actualPostorder.get(i).key);
+            assertEquals(expectedPreorder[i], actualPreorder.get(i).key);
         }
 
         //searching
         for (Data d : insertedDatas)
-            assertEquals(d.content, bStree.search(d.id).content);
+            assertEquals(d.content, bStree.search(d.key).content);
 
         Data minData = bStree.findMin();
         assertEquals('c', minData.content);

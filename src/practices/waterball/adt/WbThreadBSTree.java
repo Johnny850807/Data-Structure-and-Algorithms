@@ -30,14 +30,14 @@ public class WbThreadBSTree implements BSTree {
 
     public WbBTreeThreadNode insert(WbBTreeThreadNode parent, Data item){
         WbBTreeThreadNode node = new WbBTreeThreadNode(item);
-        if (item.id < parent.data.id)
+        if (item.key < parent.data.key)
         {
             if (parent.leftThread)
                 insertLeft(parent, node);
             else
                 parent.left = insert(parent.left, item);
         }
-        else if (item.id > parent.data.id)
+        else if (item.key > parent.data.key)
         {
             if (parent.rightThread)
                 insertRight(parent, node);
@@ -45,7 +45,7 @@ public class WbThreadBSTree implements BSTree {
                 parent.right = insert(parent.right, item);
         }
         else
-            throw new RuntimeException("Item's id " + item.id + " duplicated.");
+            throw new RuntimeException("Item's key " + item.key + " duplicated.");
 
         return parent;
     }
@@ -57,19 +57,19 @@ public class WbThreadBSTree implements BSTree {
     }
 
     public WbBTreeThreadNode searchNode(WbBTreeThreadNode node, int id) {
-        if (node.data.id == id)
+        if (node.data.key == id)
             return node;
-        if (id < node.data.id)
+        if (id < node.data.key)
         {
             if (node.leftThread)
-                throw new RuntimeException("Not found id: " + id);
+                throw new RuntimeException("Not found key: " + id);
             else
                 return searchNode(node.left, id);
         }
         else
         {
             if (node.rightThread)
-                throw new RuntimeException("Not found id: " + id);
+                throw new RuntimeException("Not found key: " + id);
             else
                 return searchNode(node.right, id);
         }

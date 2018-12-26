@@ -6,14 +6,14 @@ import java.util.Objects;
  * This data class is used as the element
  * of adt's, so that we can test if your
  * binary search tree's searching is correct.
- * Use the id field to test two datas' identities
+ * Use the key field to test two datas' identities
  */
 public class Data implements Comparable<Data> {
-    public int id;
+    public int key;
     public char content;
 
-    public Data(int id, char content) {
-        this.id = id;
+    public Data(int key, char content) {
+        this.key = key;
         this.content = content;
     }
 
@@ -22,22 +22,22 @@ public class Data implements Comparable<Data> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Data data = (Data) o;
-        return id == data.id &&
+        return key == data.key &&
                 content == data.content;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, content);
+        return Objects.hash(key, content);
     }
 
     @Override
     public String toString() {
-        return "(" + String.valueOf(id) + "," + content + ")";
+        return "(" + String.valueOf(key) + "," + content + ")";
     }
 
     @Override
     public int compareTo(Data o) {
-        return this.id - o.id;
+        return this.key - o.key;
     }
 }

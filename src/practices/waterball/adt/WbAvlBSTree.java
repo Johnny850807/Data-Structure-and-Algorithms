@@ -21,9 +21,9 @@ public class WbAvlBSTree implements BSTree{
         if (node == null)
             return new WbAVLNode(item);
 
-        if (item.id < node.data.id)
+        if (item.key < node.data.key)
             node.left = insert(node.left, item);
-        else if (item.id > node.data.id)
+        else if (item.key > node.data.key)
             node.right = insert(node.right, item);
         else
             throw new RuntimeException("Duplicated item value is not allowed.");
@@ -34,21 +34,21 @@ public class WbAvlBSTree implements BSTree{
         int balance = getBalance(node);
 
         // LL
-        if (balance > 1 && item.id < node.left.data.id)
+        if (balance > 1 && item.key < node.left.data.key)
             return rightRotate(node);
 
         // RR
-        if (balance < -1 && item.id > node.right.data.id)
+        if (balance < -1 && item.key > node.right.data.key)
             return leftRotate(node);
 
         // LR
-        if (balance > 1 && item.id > node.left.data.id) {
+        if (balance > 1 && item.key > node.left.data.key) {
             node.left = leftRotate(node.left);
             return rightRotate(node);
         }
 
         // RL
-        if (balance < -1 && item.id < node.right.data.id) {
+        if (balance < -1 && item.key < node.right.data.key) {
             node.right = rightRotate(node.right);
             return leftRotate(node);
         }
@@ -100,9 +100,9 @@ public class WbAvlBSTree implements BSTree{
     }
 
     private WbAVLNode searchNode(WbAVLNode node, int id) {
-        if (id < node.data.id)
+        if (id < node.data.key)
             return searchNode(node.left, id);
-        else if (id > node.data.id)
+        else if (id > node.data.key)
             return searchNode(node.right, id);
         else
             return node;
