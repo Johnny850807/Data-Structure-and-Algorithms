@@ -79,4 +79,9 @@ public class WbAdtFactory implements AdtFactory {
     public HashMap createHashMap() {
         return new WbHashMap();
     }
+
+    @Override
+    public Graph createGraph() {
+        return null;
+    }
 }
