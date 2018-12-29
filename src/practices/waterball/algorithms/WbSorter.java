@@ -3,6 +3,11 @@ package practices.waterball.algorithms;
 import dsa.Utils;
 import dsa.algorithms.Sorter;
 
+import java.util.LinkedList;
+
+import static java.lang.Math.*;
+
+@SuppressWarnings("ForLoopReplaceableByForEach")
 public class WbSorter implements Sorter {
 
     @Override
@@ -161,7 +166,36 @@ public class WbSorter implements Sorter {
     }
 
     @Override
-    public void radixSort(int[] nums) {
+    @SuppressWarnings("unchecked")
+    public void radixSort(int[] nums, final int r) {
+        int d = 0;
+        LinkedList<Integer>[] buckets = new LinkedList[r];
 
+
+        for (int i = 0; i < nums.length; i++)
+            d = max(ceil(log(r, nums[i])), d);
+
+        for (int i = 0; i < d; i ++)
+        {
+            for (int k = 0; k < buckets.length; k++)   //refresh buckets
+                buckets[k] = new LinkedList<>();
+
+            for (int k = 0; k < nums.length; k ++)
+            {
+                int digit = (int) ((nums[k] / pow(r, i)) % r);
+                buckets[digit].addLast(nums[k]);
+            }
+            int p = 0;
+            for (LinkedList<Integer> bucket : buckets)
+                while (!bucket.isEmpty())
+                    nums[p++] = bucket.pollFirst();
+        }
+    }
+
+    private int ceil(double num){
+        return (int) Math.ceil(num);
+    }
+    private double log(int base, int number){
+        return Math.log(number) / Math.log(base);
     }
 }

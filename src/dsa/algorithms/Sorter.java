@@ -23,7 +23,10 @@ public interface Sorter {
 
     void NR_quickSort(int[] nums);
 
-    void radixSort(int[] nums);
+    /**
+     * @param r digital base
+     */
+    void radixSort(int[] nums, final int r);
 
     default void swap(int[] nums, int i, int j){
         int temp = nums[i];

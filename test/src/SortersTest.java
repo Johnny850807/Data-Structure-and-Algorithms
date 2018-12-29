@@ -10,7 +10,7 @@ import java.util.Arrays;
 
 public class SortersTest {
     private static final int NUMBER_FROM = 0;
-    private static final int NUMBER_TO = 20;
+    private static final int NUMBER_TO = 50000;
     private static final int NUMBER_SIZE = NUMBER_TO - NUMBER_FROM;
 
     private static final int[] massiveSortedNums = new int[NUMBER_SIZE];
@@ -88,7 +88,7 @@ public class SortersTest {
 
     @Test
     public void testRadixSort(){
-        sorter.radixSort(randomNumbers);
+        sorter.radixSort(randomNumbers, 10);
         System.out.println("After radixSort sort: " +  Arrays.toString(randomNumbers));
         Assert.assertArrayEquals(massiveSortedNums, randomNumbers);
     }
