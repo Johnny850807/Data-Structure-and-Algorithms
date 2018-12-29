@@ -36,6 +36,11 @@ public interface DynamicProgramming {
     public static class MatrixChainAnswer{
         public int numberOfMultiplications;
         public String matrixChain; // e.g. (A((B(CD))E))
+
+        public MatrixChainAnswer(int numberOfMultiplications, String matrixChain) {
+            this.numberOfMultiplications = numberOfMultiplications;
+            this.matrixChain = matrixChain;
+        }
     }
 
     /**

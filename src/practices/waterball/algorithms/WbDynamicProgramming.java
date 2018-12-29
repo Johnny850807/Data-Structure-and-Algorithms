@@ -5,6 +5,8 @@ import dsa.algorithms.DynamicProgramming;
 
 import java.util.*;
 
+import static java.lang.Math.min;
+
 @SuppressWarnings("ALL")
 public class WbDynamicProgramming implements DynamicProgramming {
 
@@ -49,10 +51,10 @@ public class WbDynamicProgramming implements DynamicProgramming {
                 }
             }
         }
-        System.out.println("Knapsack: ");
-        System.out.println(Utils.tableToString(kp, 4));
+        System.out.println("\nKnapsack: ");
+        System.out.print(Utils.tableToString(kp, 4));
         System.out.println("===================");
-        System.out.println(Utils.tableToString(takenRecords, 5));
+        System.out.print(Utils.tableToString(takenRecords, 5));
         System.out.println("===================");
         return new KnapSackAnswer(kp[n][w], takenRecords[n][w]);
     }
@@ -103,31 +105,56 @@ public class WbDynamicProgramming implements DynamicProgramming {
         return longestCommonSubsequence(s1, y);
     }
 
+    /**
+     * In this implementation, the size of the matrix A[i] is p[i] x p[i+1]
+     */
     @Override
     public MatrixChainAnswer matrixChainMultiplication(String[] matrices, int[] p) {
-        int n = p.length - 1;
-        int[][] m = new int[n][n];
+        int n = p.length - 1; //num of matrix
+        int[][] m = new int[n][n]; //minimum multiplication records array
+        int[][] s = new int[n][n]; //partition position records array
 
+        // length = 1
         for (int i = 0; i < n; i++) {
             m[i][i] = 0;
         }
 
+        // bottom up from length >= 2
         for (int l = 2; l <= n; l++) {
+            //select the start index i and the end index j index for each matrix with length l
             for (int i = 0; i < n - l + 1; i++) {
                 int j = i + l - 1;
-
+                m[i][j] = Integer.MAX_VALUE;  //save the min val into m[i][j]
+                for (int k = i; k <= j-1; k ++) //select the partition point index k
+                {
+                    int val = m[i][k] + m[k+1][j] + p[i] * p[k+1] * p[j+1];
+                    if (val < m[i][j])
+                    {
+                        m[i][j] = val;
+                        s[i][j] = k;
+                    }
+                }
             }
         }
 
-        return null;
+        System.out.println("Matri chain table: \n" + Utils.tableToString(m, 4));
+        return new MatrixChainAnswer(m[0][n-1], produceMinimumMatrixChainFormula(matrices, s, 0, n-1));
     }
 
-    private String optimalParensToString(int[] s){
-        return optimalParensToString(s, 0, s.length-1).toString();
-    }
-
-    private StringBuilder optimalParensToString(int[] s, int i, int j){
-        return null;
+    private String produceMinimumMatrixChainFormula(String[] matrices, int[][] s, int i, int j){
+        if (i == j)
+        {
+            return matrices[i];
+        }
+        else
+        {
+            StringBuilder strb = new StringBuilder("(");
+            int k = s[i][j];
+            strb.append(produceMinimumMatrixChainFormula(matrices, s, i, k));
+            strb.append(produceMinimumMatrixChainFormula(matrices, s, k+1, j));
+            strb.append(")");
+            return strb.toString();
+        }
     }
 
     private int[] produceLongestCommonSequence(int[][] lcsTable, int[][] previousTable, int[] s1){

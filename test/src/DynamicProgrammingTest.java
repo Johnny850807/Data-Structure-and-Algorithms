@@ -67,5 +67,6 @@ public class DynamicProgrammingTest {
         MatrixChainAnswer answer = dynamicProgramming.matrixChainMultiplication(matrices, p);
         assertEquals(36, answer.numberOfMultiplications);
         assertEquals("(A(B(C(DE))))", answer.matrixChain);
+        System.out.printf("Matrix Chain: %s, min multiplication: %d\n", answer.matrixChain, answer.numberOfMultiplications);
     }
 }
