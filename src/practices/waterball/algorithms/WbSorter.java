@@ -1,5 +1,6 @@
 package practices.waterball.algorithms;
 
+import dsa.Utils;
 import dsa.algorithms.Sorter;
 
 public class WbSorter implements Sorter {
@@ -55,12 +56,74 @@ public class WbSorter implements Sorter {
 
     @Override
     public void heapSort(int[] nums) {
+        int n = nums.length;
+        int[] temp = Utils.padddingZero(nums, 0, 1); //padding zero so the index starts from 1 to n
+        for (int i = n/2; i >= 1; i --) //max-heapify (If you want to sort in ascending, you have to max-heapify it instead of min-heapify)
+            adjustMaxHeap(temp, i, n);
 
+        for (int i = n-1; i >= 1; i --)  //swap & delete last node until (n-1) times
+        {
+            swap(temp, 1, i+1);  //swap with the last node
+            adjustMaxHeap(temp, 1, i);  //delete the last node then adjust
+        }
+
+
+        System.arraycopy(temp, 1, nums, 0, n); //copy the max-heap sorted result back
+    }
+
+    private void adjustMaxHeap(int[] nums, int i, int n){
+        int j = i * 2;
+        boolean done = false;
+        while (j <= n && !done)
+        {
+            if (j < n && nums[j] < nums[j+1])
+                j ++;
+            if (nums[i] < nums[j])
+            {
+                swap(nums, i, j);
+                i = j;
+                j = i * 2;
+            }
+            else
+                done = true;
+        }
+    }
+
+    @SuppressWarnings("ManualArrayCopy")
+    private void R_merge(int[] nums, final int lStart, final int lEnd, final int rStart, final int rEnd){
+        int length = rEnd - lStart + 1;
+        int[] temp = new int[length];  //extra space costs : space complexity O(n)
+        int p = 0;
+        int i = lStart;
+        int j = rStart;
+
+        while(i <= lEnd && j <= rEnd)
+        {
+            if (nums[i] < nums[j])
+                temp[p++] = nums[i++];
+            else
+                temp[p++] = nums[j++];
+        }
+
+        while (i <= lEnd)
+            temp[p++] = nums[i++];
+        while (j <= rEnd)
+            temp[p++] = nums[j++];
+
+        for (int k = 0; k < length; k++) {
+            nums[k+lStart] = temp[k];
+        }
     }
 
     @Override
-    public void R_mergeSort(int[] nums, int l, int u) {
-
+    public void R_mergeSort(int[] nums, int l, int r) {
+        if (l < r)
+        {
+            int m = (l+r)/2;
+            R_mergeSort(nums, l, m);
+            R_mergeSort(nums, m+1, r);
+            R_merge(nums, l, m, m+1, r);
+        }
     }
 
     @Override

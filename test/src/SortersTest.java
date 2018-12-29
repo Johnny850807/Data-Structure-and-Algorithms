@@ -9,8 +9,8 @@ import org.junit.Test;
 import java.util.Arrays;
 
 public class SortersTest {
-    private static final int NUMBER_FROM = -5000;
-    private static final int NUMBER_TO = 5000;
+    private static final int NUMBER_FROM = 0;
+    private static final int NUMBER_TO = 20;
     private static final int NUMBER_SIZE = NUMBER_TO - NUMBER_FROM;
 
     private static final int[] massiveSortedNums = new int[NUMBER_SIZE];
@@ -69,6 +69,13 @@ public class SortersTest {
     public void testR_QuickSort(){
         sorter.R_quickSort(randomNumbers, 0, randomNumbers.length-1);
         System.out.println("After R_quickSort sort: " +  Arrays.toString(randomNumbers));
+        Assert.assertArrayEquals(massiveSortedNums, randomNumbers);
+    }
+
+    @Test
+    public void testHeapSort(){
+        sorter.heapSort(randomNumbers);
+        System.out.println("After heapSort sort: " +  Arrays.toString(randomNumbers));
         Assert.assertArrayEquals(massiveSortedNums, randomNumbers);
     }
 

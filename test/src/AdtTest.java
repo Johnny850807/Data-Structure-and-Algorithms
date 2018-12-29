@@ -242,7 +242,7 @@ public class AdtTest {
 
     private void assertPriorityQueue(PriorityQueue priorityQueue) {
         Random random = new Random();
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 500; i++) {
             priorityQueue.insert(random.nextInt(100));
         }
 

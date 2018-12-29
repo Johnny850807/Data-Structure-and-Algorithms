@@ -110,4 +110,14 @@ public class Utils {
         array[j] = array[i] ^ array[j];
         array[i] = array[i] ^ array[j];*/
     }
+
+
+    public static int[] padddingZero(int[] array, int index, int length){
+        int[] p = new int[array.length+length];
+        for (int i = 0; i < length; i ++)
+            p[i] = 0;
+        for (int i = length; i < p.length; i ++)
+            p[i] = array[i-length];
+        return p;
+    }
 }

@@ -5,7 +5,7 @@ import dsa.adt.MinBinaryHeap;
 import static dsa.Utils.swap;
 
 public class WbMinBinaryHeap implements MinBinaryHeap {
-    private int FULL_SIZE = 100;
+    private int FULL_SIZE = 1000;
     private int[] elements = new int[FULL_SIZE]; //index starts from 1
     private int count = 0;
 
@@ -38,19 +38,17 @@ public class WbMinBinaryHeap implements MinBinaryHeap {
         boolean done = false;
         while(j <= count && !done)
         {
-            if (j < count &&
+            if (j < count && //assume the node i has right child
                     elements[j+1] < elements[j])
-            {
-                j = j+1;
-            }
+                j ++;
             if (elements[i] > elements[j])
             {
                 swap(elements, i ,j);
                 i = j;
+                j *= 2;
             }
             else
                 done = true;
-            j *= 2;
         }
     }
 
