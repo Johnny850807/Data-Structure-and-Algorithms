@@ -182,11 +182,6 @@ public class WbDynamicProgramming implements DynamicProgramming {
         return lcs;
     }
 
-    @Override
-    public List<Integer> dijkstraShortestPath(int[][] adjacency) {
-        return null;
-    }
-
     private HashSet<Integer> cloneSet(HashSet<Integer> set){
         return (HashSet<Integer>) set.clone();
     }

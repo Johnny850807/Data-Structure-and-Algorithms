@@ -43,10 +43,4 @@ public interface DynamicProgramming {
         }
     }
 
-    /**
-     * Dijkstra shortest path
-     * @param adjacency the adjacency matrix of the graph
-     * @return the node numbers in order in the shortest path
-     */
-    List<Integer> dijkstraShortestPath(int[][] adjacency);
 }

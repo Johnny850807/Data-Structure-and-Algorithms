@@ -4,6 +4,7 @@ import dsa.Utils;
 import dsa.algorithms.Sorter;
 
 import java.util.LinkedList;
+import java.util.Stack;
 
 import static java.lang.Math.*;
 
@@ -95,7 +96,18 @@ public class WbSorter implements Sorter {
     }
 
     @SuppressWarnings("ManualArrayCopy")
-    private void R_merge(int[] nums, final int lStart, final int lEnd, final int rStart, final int rEnd){
+    @Override
+    public void R_mergeSort(int[] nums, int l, int r) {
+        if (l < r)
+        {
+            int m = (l+r)/2;
+            R_mergeSort(nums, l, m);
+            R_mergeSort(nums, m+1, r);
+            merge(nums, l, m, m+1, r);
+        }
+    }
+
+    private void merge(int[] nums, final int lStart, final int lEnd, final int rStart, final int rEnd){
         int length = rEnd - lStart + 1;
         int[] temp = new int[length];  //extra space costs : space complexity O(n)
         int p = 0;
@@ -121,23 +133,34 @@ public class WbSorter implements Sorter {
     }
 
     @Override
-    public void R_mergeSort(int[] nums, int l, int r) {
-        if (l < r)
-        {
-            int m = (l+r)/2;
-            R_mergeSort(nums, l, m);
-            R_mergeSort(nums, m+1, r);
-            R_merge(nums, l, m, m+1, r);
-        }
+    public void NR_mergeSort(int[] nums) {
+        int n = nums.length;
+        for (int l = 1; l < n; l *= 2)
+            for (int i = 0; i < n-l; i = i+2*l)
+                merge(nums, i, i+l-1, i+l, min(i+2*l-1, n-1));
     }
 
+    /*int i;
+        int n = nums.length;
+        int len = 1;
+        while (len < n)
+        {
+            i = 0 ;
+            while (i < n-len)
+            {
+                merge(nums, i, i+len-1, i+len, min(i+2*len-1,n-1));
+                i = i+2*len ;
+            }
+            len *= 2 ;
+        }*/
+
     @Override
-    public void R_quickSort(int[] nums, int l, int u) {
+    public void R_quickSort(int[] nums, int l, int r) {
         int i, j;
         int p;
-        if (l < u) {
+        if (l < r) {
             i = l + 1;
-            j = u;
+            j = r;
             p = nums[l];
             do {
                 while (i <= j && nums[i] <= p)
@@ -150,19 +173,43 @@ public class WbSorter implements Sorter {
             if (l < j)
                 swap(nums, l, j);
             R_quickSort(nums, l, j - 1);
-            R_quickSort(nums, j + 1, u);
+            R_quickSort(nums, j + 1, r);
         }
     }
 
 
     @Override
-    public void NR_mergeSort(int[] nums) {
-
-    }
-
-    @Override
     public void NR_quickSort(int[] nums) {
+        LinkedList<Integer> list = new LinkedList<>();
+        list.addLast(0); //push left
+        list.addLast(nums.length-1);  //push right
+        while (!list.isEmpty())
+        {
+            int l = list.pollFirst();
+            int r = list.pollFirst();
 
+            if (l < r)
+            {
+                int p = nums[l];
+                int i = l + 1;
+                int j = r;
+
+                do {
+                    while (i <= j && nums[i] <= p)
+                        i++;
+                    while (i <= j && nums[j] > p)
+                        j--;
+                    if (i < j)
+                        swap(nums, i, j);
+                } while (i < j);
+                if (l < j)
+                    swap(nums, l, j);
+                list.addLast(l);
+                list.addLast(j-1);
+                list.addLast(j+1);
+                list.addLast(r);
+            }
+        }
     }
 
     @Override

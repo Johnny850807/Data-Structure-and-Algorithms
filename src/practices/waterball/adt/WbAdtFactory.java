@@ -80,8 +80,4 @@ public class WbAdtFactory implements AdtFactory {
         return new WbHashMap();
     }
 
-    @Override
-    public Graph createGraph() {
-        return null;
-    }
 }

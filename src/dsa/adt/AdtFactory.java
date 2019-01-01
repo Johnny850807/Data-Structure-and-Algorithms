@@ -18,5 +18,4 @@ public interface AdtFactory {
     DisjointSet createDisjointSet();
     MinMaxHeap createMinMaxHeap();
     HashMap createHashMap();
-    Graph createGraph();
 }
