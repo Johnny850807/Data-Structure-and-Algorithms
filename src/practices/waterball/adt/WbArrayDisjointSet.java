@@ -3,11 +3,17 @@ package practices.waterball.adt;
 import dsa.adt.DisjointSet;
 
 public class WbArrayDisjointSet implements DisjointSet {
-    private int SIZE = 100;
+    private int SIZE;
     private final static int NULL = -1;
-    private int[] elements = new int[SIZE];
+    private int[] elements;
 
     public WbArrayDisjointSet() {
+        this(100);
+    }
+
+    public WbArrayDisjointSet(int SIZE) {
+        this.SIZE = SIZE;
+        elements = new int[SIZE];
         for (int i = 0; i < elements.length; i++) {
             elements[i] = NULL;
         }

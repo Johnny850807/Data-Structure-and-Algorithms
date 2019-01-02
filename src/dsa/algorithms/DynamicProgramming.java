@@ -6,9 +6,9 @@ import java.util.List;
 public interface DynamicProgramming {
 
     /**
-     * @param w total weight
+     * @param w total w
      * @param vs each item's value
-     * @param ws each item's weight
+     * @param ws each item's w
      */
     KnapSackAnswer R_01knapsack(int w, int[] vs, int[] ws);
 
