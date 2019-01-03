@@ -9,6 +9,7 @@ import static org.junit.Assert.*;
 public class GraphTest {
     private Graph cyclicConnectedGraph1 = new WbGraph();  //replace it with yours
     private Graph acyclicDisconnectedGraph2 = new WbGraph();  //replace it with yours
+    private Graph negativeCyclicGraph3 = new WbGraph();  //replace it with yours
     private int mspWeightGraph1;
     private int[] shortestPathGraph1;
 
@@ -44,6 +45,16 @@ public class GraphTest {
         acyclicDisconnectedGraph2.addEdge(5, 7, 1);
         acyclicDisconnectedGraph2.addEdge(9, 10, 1);
         acyclicDisconnectedGraph2.addEdge(9, 11, 1);
+
+        negativeCyclicGraph3.setSize(6);
+        negativeCyclicGraph3.addEdge(1, 2, 1);
+        negativeCyclicGraph3.addEdge(2, 3, 1);
+        negativeCyclicGraph3.addEdge(3, 4, 1);
+        negativeCyclicGraph3.addEdge(4, 5, 1);
+        negativeCyclicGraph3.addEdge(5, 6, 1);
+        negativeCyclicGraph3.addEdge(6, 1, 1);
+        negativeCyclicGraph3.addEdge(2, 5, -5);
+        negativeCyclicGraph3.addEdge(3, 6, 2);
     }
 
     @Test
@@ -71,15 +82,17 @@ public class GraphTest {
     }
 
     @Test
-    public void testMSP(){
-        Edge[] kruskalMSP = cyclicConnectedGraph1.kruskalMSP();
-        assertEquals(mspWeightGraph1, getEdgeWeightSum(kruskalMSP));
-        assertAllNodesCovered(kruskalMSP, cyclicConnectedGraph1.getSize());
+    public void testKruskal(){
+        assertGraph1MSTCorrect(cyclicConnectedGraph1.kruskalMSP());
+    }
 
-
-        Edge[] primMSP = cyclicConnectedGraph1.primMSP(1);
-        assertEquals(mspWeightGraph1, getEdgeWeightSum(primMSP));
-        assertAllNodesCovered(primMSP, cyclicConnectedGraph1.getSize());
+    @Test
+    public void testPrim(){
+        assertGraph1MSTCorrect(cyclicConnectedGraph1.primMSP(1));
+    }
+    private void assertGraph1MSTCorrect(Edge[] mst){
+        assertEquals(mspWeightGraph1, getEdgeWeightSum(mst));
+        assertAllNodesCovered(mst, cyclicConnectedGraph1.getSize());
     }
 
     private int getEdgeWeightSum(Edge[] edges){
@@ -101,8 +114,22 @@ public class GraphTest {
     }
 
     @Test
-    public void testShortestPath(){
+    public void testDijkstraShortestPath(){
         int[] pathDijkstra = cyclicConnectedGraph1.dijkstraShortestPath(1, 10);
         assertArrayEquals(shortestPathGraph1, pathDijkstra);
+    }
+
+    @Test
+    public void testBellmanFordShortestPath(){
+        int[] pathBellmanFord = cyclicConnectedGraph1.bellmanFordShortestPath(1, 10);
+        assertArrayEquals(shortestPathGraph1, pathBellmanFord);
+
+        try {
+            negativeCyclicGraph3.bellmanFordShortestPath(1, 4);
+            fail();  //Not detecting negative cycle
+        }catch (Graph.NegativeCycleException ignored){}
+    }
+
+    public void testfloydWarshallShortestPath(){
     }
 }

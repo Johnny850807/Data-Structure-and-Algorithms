@@ -37,7 +37,7 @@ public class WbGraph implements Graph {
         adjacencyList[v2].add(new Node(v1, weight));
     }
 
-    public Set<Edge> getEdges(){
+    public Set<Edge> getUndirectedEdges(){
         HashSet<Edge> edges = new HashSet<>();
         for (int i = 1; i <= n; i ++) {
             for (Node node : adjacencyList[i])
@@ -47,6 +47,16 @@ public class WbGraph implements Graph {
                 if (!edges.contains(new Edge(v2, v1, node.w)))
                     edges.add(new Edge(v1, v2, node.w));
             }
+        }
+        return edges;
+    }
+
+
+    public Set<Edge> getDirectedEdges(){
+        HashSet<Edge> edges = new HashSet<>();
+        for (int i = 1; i <= n; i ++) {
+            for (Node node : adjacencyList[i])
+                edges.add(new Edge(i, node.i, node.w));
         }
         return edges;
     }
@@ -209,7 +219,7 @@ public class WbGraph implements Graph {
             disjointSet.put(i, i);  //init a set per node
         }
 
-        LinkedList<Edge> sortedEdges = new LinkedList<>(getEdges());
+        LinkedList<Edge> sortedEdges = new LinkedList<>(getUndirectedEdges());
         sortedEdges.sort((e1, e2) -> e1.w - e2.w);  //O(nLgn)
 
         Edge[] msp = new Edge[n-1];
@@ -243,6 +253,7 @@ public class WbGraph implements Graph {
             Q.add(i);
         }
         key[s] = 0; //origin
+        Q.updateKey(s);
 
         while (!Q.isEmpty())
         {
@@ -253,7 +264,7 @@ public class WbGraph implements Graph {
                 {
                     parents[v] = new Node(u, node.w);
                     key[v] = node.w;
-                    Q.updateKay(v);
+                    Q.updateKey(v);
                 }
             }
         }
@@ -273,10 +284,10 @@ public class WbGraph implements Graph {
     public int[] dijkstraShortestPath(int s, int t) {
         int[] parent = new int[n+1];
         int[][] adjMatrix = adjacencyMatrix();
-        int[] D = new int[n+1];  //distances
+        long[] D = new long[n+1];  //distances  //we need long to contain value higher than Int.max
         PrioritySet<Integer> Q = new PrioritySet<>((v1, v2) -> {
             if (D[v1] != D[v2])
-                return D[v1] - D[v2];
+                return (int) (D[v1] - D[v2]);
             return v1 - v2;
         }); //sorted by their distances
 
@@ -288,34 +299,72 @@ public class WbGraph implements Graph {
             Q.add(i);
         }
 
+        System.out.println("WB Dijkstra: ");
         while (!Q.isEmpty()){
             int u = Q.extractMin();
             for (Node node : adjacencyList[u]) {
                 int v = node.i;
                 if (D[u] + adjMatrix[u][v] < D[v]){
                     D[v] = D[u] + adjMatrix[u][v];
-                    Q.updateKay(v);
+                    Q.updateKey(v);
                     parent[v] = u;
                 }
             }
             System.out.println(Utils.tableToString(D, 3));
         }
 
-        //back-tracking
-        LinkedList<Integer> path = new LinkedList<>();
-        int nodeIdx = t; //start from the target node
-        path.addFirst(t);
-        while (nodeIdx != s) //until tracked back to the origin
-        {
-            path.addFirst(parent[nodeIdx]);
-            nodeIdx = parent[nodeIdx];
+        return backtrackPathFromParents(s, t, parent);
+    }
+
+
+    public int[] bellmanFordShortestPath(int s, int t){
+        int[] parent = new int[n+1];
+        int[][] adjMatrix = adjacencyMatrix();
+        long[] D = new long[n+1];  //distances //we need long to contain value higher than Int.max
+        Set<Edge> edges = getDirectedEdges();
+
+        for (int i = 1; i <= n; i++) {
+            D[i] = i == s ? 0 : Integer.MAX_VALUE;
         }
-        return intListToArray(path);
+
+        for (int k = 1; k <= n-1; k++) {
+            for (Edge edge : edges) {
+                int u = edge.v1;
+                int v = edge.v2;
+                if (D[u] + adjMatrix[u][v] < D[v]){
+                    D[v] = D[u] + adjMatrix[u][v];
+                    parent[v] = u;
+                }
+            }
+        }
+
+        for (Edge edge : edges) {
+            int u = edge.v1;
+            int v = edge.v2;
+            if (D[u] + adjMatrix[u][v] < D[v]) {
+                throw new NegativeCycleException();
+            }
+        }
+
+
+        return backtrackPathFromParents(s, t, parent);
     }
 
     @Override
     public int[][] floydWarshallShortestPath() {
         return new int[0][];
+    }
+
+    private int[] backtrackPathFromParents(int sourceNode, int targetNode, int[] parent){
+        LinkedList<Integer> path = new LinkedList<>();
+        int nodeIdx = targetNode; //start from the target node
+        path.addFirst(targetNode);
+        while (nodeIdx != sourceNode) //until tracked back to the origin
+        {
+            path.addFirst(parent[nodeIdx]);
+            nodeIdx = parent[nodeIdx];
+        }
+        return intListToArray(path);
     }
 
     @Override

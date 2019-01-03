@@ -57,8 +57,12 @@ public interface Graph {
 
         @Override
         public int hashCode() {
-
             return Objects.hash(v1, v2, w);
+        }
+
+        @Override
+        public String toString() {
+            return String.format("(%d, %d, [%d])", v1, v2, w);
         }
     }
 
@@ -102,10 +106,19 @@ public interface Graph {
      */
     int[] dijkstraShortestPath(int s, int t);
 
+    /***
+     * @param s source node's number
+     * @param t target node's number
+     * @return path
+     */
+    int[] bellmanFordShortestPath(int s, int t);
+
     /**
      * @return all pair shortest path matrix
      */
     int[][] floydWarshallShortestPath();
 
     int[][] transitiveClosure();
+
+    public static class NegativeCycleException extends RuntimeException{ }
 }

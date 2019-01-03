@@ -34,8 +34,16 @@ public class Utils {
         }
     }
 
-    public static String tableToString(int[] table, int fieldSize){
-        return tableToString(new int[][]{table}, fieldSize);
+    public static String tableToString(int[] row, int fieldSize){
+        return tableToString(new int[][]{row}, fieldSize);
+    }
+
+    public static String tableToString(long[] row, int fieldSize){
+        int[] r = new int[row.length];
+        for (int i = 0; i < row.length; i++) {
+            r[i] = (int) row[i];
+        }
+        return tableToString(new int[][]{r}, fieldSize);
     }
 
     public static String tableToString(int[][] table, int fieldSize){
@@ -145,7 +153,7 @@ public class Utils {
             return treeSet.contains(t);
         }
 
-        public void updateKay(T t){
+        public void updateKey(T t){
             treeSet.remove(t);
             treeSet.add(t);
         }
