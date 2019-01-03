@@ -34,7 +34,7 @@ public class WbGeometryAlgorithm implements GeometryAlgorithm {
             findRanks(rankMap, points, m + 1, r);
 
         } else
-            rankMap.put(points.get(l), 0);  //put rank as 0 as terminating condition
+            rankMap.put(points.get(l), 0);  //makeSet rank as 0 as terminating condition
     }
 
     @Override

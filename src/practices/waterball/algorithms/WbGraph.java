@@ -4,7 +4,7 @@ import dsa.Utils;
 import dsa.Utils.PrioritySet;
 import dsa.adt.DisjointSet;
 import dsa.adt.Graph;
-import practices.waterball.adt.WbArrayDisjointSet;
+import practices.waterball.adt.WbDisjointSet;
 
 import java.util.*;
 
@@ -214,10 +214,7 @@ public class WbGraph implements Graph {
 
     @Override  //O(nLgn)
     public Edge[] kruskalMSP() {
-        DisjointSet disjointSet = new WbArrayDisjointSet(n+1);
-        for (int i = 1; i <= n; i++) {  //O(n)
-            disjointSet.put(i, i);  //init a set per node
-        }
+        DisjointSet disjointSet = new WbDisjointSet(n+1);
 
         LinkedList<Edge> sortedEdges = new LinkedList<>(getUndirectedEdges());
         sortedEdges.sort((e1, e2) -> e1.w - e2.w);  //O(nLgn)
@@ -374,7 +371,7 @@ public class WbGraph implements Graph {
             }
         }
 
-        System.out.println("Floyd-Warshall: ");
+        System.out.println("Floyd's shortest path: ");
         System.out.println(Utils.tableToString(D, 3));
         return D;
     }
@@ -411,7 +408,7 @@ public class WbGraph implements Graph {
             }
         }
 
-        System.out.println("Floyd-Warshall Transitive Closure : ");
+        System.out.println("Warshall's Algorithm (Transitive Closure) : ");
         System.out.println(Utils.tableToString(T, 3));
         return T;
     }

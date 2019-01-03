@@ -32,7 +32,7 @@ public interface BasicRecursive {
      * @param n number of heaps
      * @param source move from where
      * @param buffer use where to buffer
-     * @param target the place wanna put on
+     * @param target the place wanna makeSet on
      * @return the steps it takes and print the procedure
      */
     int R_towerOfHanoi(int n, char source, char buffer, char target);

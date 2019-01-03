@@ -67,7 +67,7 @@ public class WbAdtFactory implements AdtFactory {
 
     @Override
     public DisjointSet createDisjointSet() {
-        return new WbArrayDisjointSet();
+        return new WbDisjointSet();
     }
 
     @Override

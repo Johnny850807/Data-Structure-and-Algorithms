@@ -47,7 +47,7 @@ public class WbDynamicProgramming implements DynamicProgramming {
                     {
                         kp[i][k] = vs[i]+kp[i-1][k-ws[i]];
                         takenRecords[i][k] = cloneSet(takenRecords[i-1][k-ws[i]]);
-                        takenRecords[i][k].add(i);  //put it into the knapsack
+                        takenRecords[i][k].add(i);  //makeSet it into the knapsack
                     }
                 }
             }

@@ -214,23 +214,26 @@ public class AdtTest {
         DisjointSet disjointSet = adtFactory.createDisjointSet();
         int[][] nums = {{1,2,3},{4,5,6},{7,8,9}};
         for (int i = 0; i < nums.length; i++) {
-            for (int num : nums[i]) {
-                disjointSet.put(num, i);
+            int root = nums[i][0];
+            for (int j = 1; j < nums[0].length; j ++) {
+                disjointSet.union(root, nums[i][j]);
             }
         }
 
-        for (int i = 0; i < nums.length; i++) {
-            for (int num : nums[i]) {
-                assertEquals(i, disjointSet.find(num));
+        for (int i = 0; i < nums[0].length; i++) {
+            int root = nums[i][0];
+            for (int j = 1; j < nums[0].length; j ++) {
+                assertEquals(root, disjointSet.find(nums[i][j]));
             }
         }
 
-        disjointSet.union(1, 0);
-        disjointSet.union(2, 0);
+        disjointSet.union(2, 5);
+        disjointSet.union(6, 9);
 
+        int root = disjointSet.find(1);
         for (int i = 0; i < nums.length; i++) {
             for (int num : nums[i]) {
-                assertEquals(0, disjointSet.find(num));
+                assertEquals(root, disjointSet.find(num));
             }
         }
     }
