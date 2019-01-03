@@ -20,7 +20,7 @@ public class WbSorter implements Sorter {
                     swap(nums, j, j + 1);
                     swapped = true;
                 }
-            if (!swapped)
+            if (!swapped)  //due to swapping detection, the best case (sorted) of bubble sort is O(n)
                 break;
         }
     }
@@ -57,7 +57,22 @@ public class WbSorter implements Sorter {
 
     @Override
     public void shellSort(int[] nums) {
-
+        int span = nums.length/2;
+        int n = nums.length;
+        while (span >= 1)
+        {
+            boolean swapped;
+            do {
+                swapped = false;
+                for (int i = 0; i < n - span; i++) {
+                    if (nums[i] > nums[i+span]){
+                        swap(nums, i, i+span);
+                        swapped = true;
+                    }
+                }
+            }while (swapped);
+            span /= 2;
+        }
     }
 
     @Override
@@ -140,20 +155,6 @@ public class WbSorter implements Sorter {
                 merge(nums, i, i+l-1, i+l, min(i+2*l-1, n-1));
     }
 
-    /*int i;
-        int n = nums.length;
-        int len = 1;
-        while (len < n)
-        {
-            i = 0 ;
-            while (i < n-len)
-            {
-                merge(nums, i, i+len-1, i+len, min(i+2*len-1,n-1));
-                i = i+2*len ;
-            }
-            len *= 2 ;
-        }*/
-
     @Override
     public void R_quickSort(int[] nums, int l, int r) {
         int i, j;
@@ -210,6 +211,31 @@ public class WbSorter implements Sorter {
                 list.addLast(r);
             }
         }
+    }
+
+    @Override
+    public void countingSort(int[] nums, int startInclusive, int endInclusive) {
+        int offset = (-1) * startInclusive;  //offset from 0
+        int n = nums.length;
+        int k = endInclusive - startInclusive + 1;
+        int[] count = new int[k];
+        int[] start = new int[k];
+        int[] output = new int[n];
+
+        for (int num : nums)
+            count[num + offset] ++;
+
+        start[0] = 0;
+        for (int i = 1; i < k; i++) {
+            start[i] = start[i-1] + count[i-1];
+        }
+
+        for (int i = 0; i < n; i++) {
+            output[start[nums[i] + offset]] = nums[i];
+            start[nums[i] + offset] ++;
+        }
+
+        System.arraycopy(output, 0, nums, 0, n);
     }
 
     @Override

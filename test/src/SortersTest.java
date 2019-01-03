@@ -9,8 +9,8 @@ import org.junit.Test;
 import java.util.Arrays;
 
 public class SortersTest {
-    private static final int NUMBER_FROM = 0;
-    private static final int NUMBER_TO = 5000;
+    private static final int NUMBER_FROM = 10;
+    private static final int NUMBER_TO = 50;
     private static final int NUMBER_SIZE = NUMBER_TO - NUMBER_FROM;
 
     private static final int[] massiveSortedNums = new int[NUMBER_SIZE];
@@ -48,6 +48,13 @@ public class SortersTest {
     public void testSelectionSort(){
         sorter.selectionSort(randomNumbers);
         System.out.println("After SelectionSort sort: " +  Arrays.toString(randomNumbers));
+        Assert.assertArrayEquals(massiveSortedNums, randomNumbers);
+    }
+
+    @Test
+    public void shellSort(){
+        sorter.shellSort(randomNumbers);
+        System.out.println("After shellSort sort: " +  Arrays.toString(randomNumbers));
         Assert.assertArrayEquals(massiveSortedNums, randomNumbers);
     }
 
@@ -93,4 +100,10 @@ public class SortersTest {
         Assert.assertArrayEquals(massiveSortedNums, randomNumbers);
     }
 
+    @Test
+    public void countingSort(){
+        sorter.countingSort(randomNumbers, NUMBER_FROM, NUMBER_TO);
+        System.out.println("After countingSort sort: " +  Arrays.toString(randomNumbers));
+        Assert.assertArrayEquals(massiveSortedNums, randomNumbers);
+    }
 }

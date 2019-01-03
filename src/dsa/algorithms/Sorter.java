@@ -24,6 +24,13 @@ public interface Sorter {
     void NR_quickSort(int[] nums);
 
     /**
+     * @param startInclusive the start value of the range of the given data inclusively
+     * @param endInclusive  the end value of the range of the given data inclusively
+     *                      (e.g. if startInclusive=1, endInclusive=10, the data value will be in the range of 1~10)
+     */
+    void countingSort(int[] nums, int startInclusive, int endInclusive);
+
+    /**
      * @param r digital base
      */
     void radixSort(int[] nums, final int r);
