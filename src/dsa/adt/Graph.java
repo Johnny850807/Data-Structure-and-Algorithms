@@ -116,9 +116,11 @@ public interface Graph {
     /**
      * @return all pair shortest path matrix
      */
-    int[][] floydWarshallShortestPath();
+    long[][] floydWarshallShortestPath();
 
     int[][] transitiveClosure();
+
+    int[][] johnsonShortestPath();
 
     public static class NegativeCycleException extends RuntimeException{ }
 }

@@ -57,6 +57,17 @@ public class Utils {
         return stringBuilder.toString();
     }
 
+    public static String tableToString(long[][] table, int fieldSize){
+        StringBuilder stringBuilder = new StringBuilder();
+        for (long[] aTable : table) {
+            for (int j = 0; j < table[0].length; j++)
+                stringBuilder.append(String.format("%" + fieldSize + "s",
+                        aTable[j] == Integer.MAX_VALUE ? "∞" : aTable[j]));
+            stringBuilder.append("\n");
+        }
+        return stringBuilder.toString();
+    }
+
     public static String tableToString(HashSet<Integer>[][] table, int fieldSize){
         StringBuilder stringBuilder = new StringBuilder();
         for (HashSet<Integer>[] aTable : table) {

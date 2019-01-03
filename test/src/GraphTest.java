@@ -12,6 +12,7 @@ public class GraphTest {
     private Graph negativeCyclicGraph3 = new WbGraph();  //replace it with yours
     private int mspWeightGraph1;
     private int[] shortestPathGraph1;
+    private int[][] transitiveClosureGraph2;
 
     @Before
     public void before(){
@@ -45,6 +46,22 @@ public class GraphTest {
         acyclicDisconnectedGraph2.addEdge(5, 7, 1);
         acyclicDisconnectedGraph2.addEdge(9, 10, 1);
         acyclicDisconnectedGraph2.addEdge(9, 11, 1);
+
+        transitiveClosureGraph2 = new int[][]{
+                        /*0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11*/
+                new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},  // 0 empty
+                new int[]{0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0},
+                new int[]{0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0},
+                new int[]{0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0},
+                new int[]{0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0},
+                new int[]{0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0},
+                new int[]{0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0},
+                new int[]{0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0},
+                new int[]{0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
+                new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1},
+                new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1},
+                new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1}
+        };
 
         negativeCyclicGraph3.setSize(6);
         negativeCyclicGraph3.addEdge(1, 2, 1);
@@ -130,6 +147,14 @@ public class GraphTest {
         }catch (Graph.NegativeCycleException ignored){}
     }
 
+    @Test
     public void testfloydWarshallShortestPath(){
+        //cyclicConnectedGraph1.floydWarshallShortestPath();
+    }
+
+
+    @Test
+    public void testTransitiveClosure(){
+        assertArrayEquals(transitiveClosureGraph2, acyclicDisconnectedGraph2.transitiveClosure());
     }
 }

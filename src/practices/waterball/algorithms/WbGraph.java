@@ -310,7 +310,7 @@ public class WbGraph implements Graph {
                     parent[v] = u;
                 }
             }
-            System.out.println(Utils.tableToString(D, 3));
+            System.out.print(Utils.tableToString(D, 3));
         }
 
         return backtrackPathFromParents(s, t, parent);
@@ -346,13 +346,37 @@ public class WbGraph implements Graph {
             }
         }
 
-
         return backtrackPathFromParents(s, t, parent);
     }
 
     @Override
-    public int[][] floydWarshallShortestPath() {
-        return new int[0][];
+    public long[][] floydWarshallShortestPath() {
+        long[][] D = new long[n+1][n+1];  //take off the offset now to fit the answer
+        int[][] adjMatrix = adjacencyMatrix();
+        int[][] parents = new int[n+1][n+1];
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (i != j && adjMatrix[i][j] != Integer.MAX_VALUE)
+                    parents[i][j] = i;
+                D[i][j] = adjMatrix[i][j];
+            }
+        }
+
+        for (int k = 1; k <= n; k++) {
+            for (int i = 1; i <= n; i++) {
+                for (int j = 1; j <= n; j++) {
+                    if (D[i][k] + D[k][j] < D[i][j]){
+                        D[i][j] = D[i][k] + D[k][j];
+                        parents[i][j] = parents[k][j];
+                    }
+                }
+            }
+        }
+
+        System.out.println("Floyd-Warshall: ");
+        System.out.println(Utils.tableToString(D, 3));
+        return D;
     }
 
     private int[] backtrackPathFromParents(int sourceNode, int targetNode, int[] parent){
@@ -369,6 +393,31 @@ public class WbGraph implements Graph {
 
     @Override
     public int[][] transitiveClosure() {
+        int[][] T = new int[n+1][n+1];  //take off the offset now to fit the answer
+        int[][] adjMatrix = adjacencyMatrix();
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (adjMatrix[i][j] != Integer.MAX_VALUE)
+                    T[i][j] = 1;
+            }
+        }
+
+        for (int k = 1; k <= n; k++) {
+            for (int i = 1; i <= n; i++) {
+                for (int j = 1; j <= n; j++) {
+                    T[i][j] |= T[i][k] & T[k][j];
+                }
+            }
+        }
+
+        System.out.println("Floyd-Warshall Transitive Closure : ");
+        System.out.println(Utils.tableToString(T, 3));
+        return T;
+    }
+
+    @Override
+    public int[][] johnsonShortestPath() {
         return new int[0][];
     }
 }
