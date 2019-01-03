@@ -1,12 +1,15 @@
 package practices.waterball.algorithms;
 
+import dsa.Utils;
+import dsa.Utils.PrioritySet;
 import dsa.adt.DisjointSet;
 import dsa.adt.Graph;
 import practices.waterball.adt.WbArrayDisjointSet;
 
-import java.lang.reflect.Array;
 import java.util.*;
-import java.util.LinkedList;
+
+import static dsa.Utils.intListToArray;
+import static java.lang.Math.min;
 
 public class WbGraph implements Graph {
     private int n;
@@ -54,9 +57,18 @@ public class WbGraph implements Graph {
     }
 
     @Override
-    public int[][] getAdjacencyMatrix() {
+    public int[][] adjacencyMatrix() {
         int[][] m = new int[n+1][n+1];
         for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (i == j)
+                    m[i][j] = 0;  //self to self
+                else
+                    m[i][j] = Integer.MAX_VALUE;  //Infinity weight as default
+            }
+        }
+
+        for (int i = 1; i <= n; i++) {  //update adjacent nodes with their weights
             for (Node node : adjacencyList[i]) {
                 m[i][node.i] = node.w;
             }
@@ -172,7 +184,7 @@ public class WbGraph implements Graph {
                 checkCycleByDfsVisit(u, t);
             }
             else if (t.color[u] == TraversalStates.GRAY
-                    && u != t.parent[v] && v != t.parent[u])
+                    && u != t.parent[v] && v != t.parent[u])  //check if u and v have no relation to each other
                 return true;
         }
 
@@ -190,24 +202,25 @@ public class WbGraph implements Graph {
         return true;
     }
 
-    @Override
+    @Override  //O(nLgn)
     public Edge[] kruskalMSP() {
         DisjointSet disjointSet = new WbArrayDisjointSet(n+1);
-        for (int i = 1; i <= n; i++) {
+        for (int i = 1; i <= n; i++) {  //O(n)
             disjointSet.put(i, i);  //init a set per node
         }
 
         LinkedList<Edge> sortedEdges = new LinkedList<>(getEdges());
-        sortedEdges.sort((e1, e2) -> e1.w - e2.w);
+        sortedEdges.sort((e1, e2) -> e1.w - e2.w);  //O(nLgn)
 
         Edge[] msp = new Edge[n-1];
         int mspCount = 0;
-        for (Edge edge : sortedEdges) {
-            int set1 = disjointSet.find(edge.v1);
-            int set2 = disjointSet.find(edge.v2);
+        while (!sortedEdges.isEmpty()) {  //O(e)
+            Edge minEdge = sortedEdges.pollFirst();  //O(1)
+            int set1 = disjointSet.find(minEdge.v1);
+            int set2 = disjointSet.find(minEdge.v2);
             if (set1 != set2)
             {
-                msp[mspCount++] = edge;
+                msp[mspCount++] = minEdge;
                 disjointSet.union(set1, set2);
             }
         }
@@ -216,13 +229,88 @@ public class WbGraph implements Graph {
     }
 
     @Override
-    public Edge[] primMSP() {
-        return new Edge[0];
+    public Edge[] primMSP(int s) {
+        int[] key = new int[n+1];
+        Node[] parents = new Node[n+1];
+        PrioritySet<Integer> Q = new PrioritySet<>((v1, v2)-> {
+            if (key[v1] != key[v2])
+                return key[v1] - key[v2];
+            return v1 - v2;
+        });  //sorted by their key
+
+        for (int i = 1; i <= n; i++) {
+            key[i] = Integer.MAX_VALUE;
+            Q.add(i);
+        }
+        key[s] = 0; //origin
+
+        while (!Q.isEmpty())
+        {
+            int u = Q.extractMin();
+            for (Node node : adjacencyList[u]) {
+                int v = node.i;
+                if (Q.contains(v) && node.w < key[v])
+                {
+                    parents[v] = new Node(u, node.w);
+                    key[v] = node.w;
+                    Q.updateKay(v);
+                }
+            }
+        }
+
+        Edge[] msp = new Edge[n-1];
+        int mspCount = 0;
+        for (int i = 1; i <= n; i++) {
+            int child = i;  //padding index off 1
+            Node parent = parents[child];
+            if (parent != null)
+                msp[mspCount++] = new Edge(parent.i, child, parent.w);
+        }
+        return msp;
     }
 
     @Override
     public int[] dijkstraShortestPath(int s, int t) {
-        return new int[0];
+        int[] parent = new int[n+1];
+        int[][] adjMatrix = adjacencyMatrix();
+        int[] D = new int[n+1];  //distances
+        PrioritySet<Integer> Q = new PrioritySet<>((v1, v2) -> {
+            if (D[v1] != D[v2])
+                return D[v1] - D[v2];
+            return v1 - v2;
+        }); //sorted by their distances
+
+        for (int i = 1; i <= n; i++)
+        {
+            D[i] = adjMatrix[s][i];
+            if (D[i] != Integer.MAX_VALUE)
+                parent[i] = s;
+            Q.add(i);
+        }
+
+        while (!Q.isEmpty()){
+            int u = Q.extractMin();
+            for (Node node : adjacencyList[u]) {
+                int v = node.i;
+                if (D[u] + adjMatrix[u][v] < D[v]){
+                    D[v] = D[u] + adjMatrix[u][v];
+                    Q.updateKay(v);
+                    parent[v] = u;
+                }
+            }
+            System.out.println(Utils.tableToString(D, 3));
+        }
+
+        //back-tracking
+        LinkedList<Integer> path = new LinkedList<>();
+        int nodeIdx = t; //start from the target node
+        path.addFirst(t);
+        while (nodeIdx != s) //until tracked back to the origin
+        {
+            path.addFirst(parent[nodeIdx]);
+            nodeIdx = parent[nodeIdx];
+        }
+        return intListToArray(path);
     }
 
     @Override

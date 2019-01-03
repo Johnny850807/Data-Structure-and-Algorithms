@@ -1,9 +1,6 @@
 package dsa;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class Utils {
 
@@ -37,11 +34,16 @@ public class Utils {
         }
     }
 
+    public static String tableToString(int[] table, int fieldSize){
+        return tableToString(new int[][]{table}, fieldSize);
+    }
+
     public static String tableToString(int[][] table, int fieldSize){
         StringBuilder stringBuilder = new StringBuilder();
         for (int[] aTable : table) {
             for (int j = 0; j < table[0].length; j++)
-                stringBuilder.append(String.format("%" + fieldSize + "s", aTable[j]));
+                stringBuilder.append(String.format("%" + fieldSize + "s",
+                        aTable[j] == Integer.MAX_VALUE ? "∞" : aTable[j]));
             stringBuilder.append("\n");
         }
         return stringBuilder.toString();
@@ -111,6 +113,13 @@ public class Utils {
         array[i] = array[i] ^ array[j];*/
     }
 
+    public static int[] intListToArray(List<Integer> integerList){
+        int[] arr = new int[integerList.size()];
+        for (int i = 0; i < integerList.size(); i++) {
+            arr[i] = integerList.get(i);
+        }
+        return arr;
+    }
 
     public static int[] padddingZero(int[] array, int index, int length){
         int[] p = new int[array.length+length];
@@ -119,5 +128,32 @@ public class Utils {
         for (int i = length; i < p.length; i ++)
             p[i] = array[i-length];
         return p;
+    }
+
+    public static class PrioritySet<T> {
+        private TreeSet<T> treeSet;
+
+        public PrioritySet(Comparator<T> comparator) {
+            this.treeSet = new TreeSet<>(comparator);
+        }
+
+        public T extractMin(){
+            return treeSet.pollFirst();
+        }
+
+        public boolean contains(T t){
+            return treeSet.contains(t);
+        }
+
+        public void updateKay(T t){
+            treeSet.remove(t);
+            treeSet.add(t);
+        }
+        public boolean isEmpty(){
+            return treeSet.isEmpty();
+        }
+        public void add(T t){
+            treeSet.add(t);
+        }
     }
 }

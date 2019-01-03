@@ -77,7 +77,7 @@ public interface Graph {
     void addEdge(int v1, int v2, int weight);
 
     TreeSet<Node>[] adjacencyList();
-    int[][] getAdjacencyMatrix();
+    int[][] adjacencyMatrix();
 
     /**
      * @param s source node's number
@@ -93,7 +93,7 @@ public interface Graph {
     boolean isCyclic();
     boolean isConnected();
     Edge[] kruskalMSP();
-    Edge[] primMSP();
+    Edge[] primMSP(int s);
 
     /***
      * @param s source node's number

@@ -4,15 +4,13 @@ import org.junit.Before;
 import org.junit.Test;
 import practices.waterball.algorithms.WbGraph;
 
-import java.util.Arrays;
-import java.util.TreeSet;
-
 import static org.junit.Assert.*;
 
 public class GraphTest {
     private Graph cyclicConnectedGraph1 = new WbGraph();  //replace it with yours
     private Graph acyclicDisconnectedGraph2 = new WbGraph();  //replace it with yours
-    private int mspWeight = 20;
+    private int mspWeightGraph1;
+    private int[] shortestPathGraph1;
 
     @Before
     public void before(){
@@ -33,6 +31,9 @@ public class GraphTest {
         cyclicConnectedGraph1.addEdge(9, 10, 1);
         cyclicConnectedGraph1.addEdge(7, 9, 1);
         cyclicConnectedGraph1.addEdge(7, 10, 2);  //to see what cyclicConnectedGraph1 built here, see 圖論程式測資.png
+
+        mspWeightGraph1 = 20;
+        shortestPathGraph1 = new int[]{1, 3, 6, 7, 10};
 
         acyclicDisconnectedGraph2.setSize(11);
         acyclicDisconnectedGraph2.addEdge(1, 2, 1);
@@ -72,8 +73,13 @@ public class GraphTest {
     @Test
     public void testMSP(){
         Edge[] kruskalMSP = cyclicConnectedGraph1.kruskalMSP();
-        assertEquals(mspWeight, getEdgeWeightSum(kruskalMSP));
+        assertEquals(mspWeightGraph1, getEdgeWeightSum(kruskalMSP));
         assertAllNodesCovered(kruskalMSP, cyclicConnectedGraph1.getSize());
+
+
+        Edge[] primMSP = cyclicConnectedGraph1.primMSP(1);
+        assertEquals(mspWeightGraph1, getEdgeWeightSum(primMSP));
+        assertAllNodesCovered(primMSP, cyclicConnectedGraph1.getSize());
     }
 
     private int getEdgeWeightSum(Edge[] edges){
@@ -92,5 +98,11 @@ public class GraphTest {
         for (int i = 1; i <= n; i ++) {
             assertTrue(covered[i]);
         }
+    }
+
+    @Test
+    public void testShortestPath(){
+        int[] pathDijkstra = cyclicConnectedGraph1.dijkstraShortestPath(1, 10);
+        assertArrayEquals(shortestPathGraph1, pathDijkstra);
     }
 }
