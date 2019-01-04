@@ -4,11 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import practices.waterball.algorithms.WbSearcher;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static org.junit.Assert.assertEquals;
@@ -44,7 +40,7 @@ public class SearcherTest {
         int[] numsArray = IntStream.range(0, 1000).toArray();  //0~1000
         Utils.shuffleArray(numsArray);
         int expected500thMin = 499;
-        assertEquals(expected500thMin, searcher.selection(numsArray, 500));
+        assertEquals(expected500thMin, searcher.selectionMin(numsArray, 500));
     }
 
     @Test

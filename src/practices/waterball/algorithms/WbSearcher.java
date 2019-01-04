@@ -65,21 +65,21 @@ public class WbSearcher implements Searcher {
     }
 
     @Override
-    public int selection(int[] nums, int k) {
+    public int selectionMin(int[] nums, int k) {
         //(k-1): start from 0, e.g. if desired the first small number means 0th small number
-        return selection(nums, 0, nums.length-1, k-1);
+        return selectionMin(nums, 0, nums.length-1, k-1);
     }
 
-    private int selection(int[] nums, int l, int r, int k){
+    private int selectionMin(int[] nums, int l, int r, int k){
         if (l < r){
             int pivotVal = medianOfMedians(nums, l, r);
             int p = partition(nums, pivotVal, l, r);  //use medium of mediums to find Pivot val for partitioning :O(n)
             if (k+l < p)  //note: k must plus l because k's index should be offset from l
-                return selection(nums, l, p-1, k);
+                return selectionMin(nums, l, p-1, k);
             if (k+l == p)
                 return nums[p];
             else
-                return selection(nums, p+1, r, (k+l)-p-1);
+                return selectionMin(nums, p+1, r, (k+l)-p-1);
         }
         else
             return nums[l];
@@ -135,7 +135,7 @@ public class WbSearcher implements Searcher {
         for (int[] group : groups)
             sorter.insertionSort(group);
 
-        //(3) Recursively get the medium of mediums until there remains only one group : O(n)
+        //(3) Recursively get the median of medians until there remains only one group : O(n)
         int[] mediums = new int[groupCount];
         for (int i = 0; i < groupCount; i++) {
             mediums[i] = groups[i][2];

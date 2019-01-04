@@ -12,7 +12,6 @@ public class WbSudoku implements Sudoku{
     }
 
     private boolean solveGrid(int[][] grid) {
-
         int row = -1;
         int col = -1;
 
@@ -22,24 +21,22 @@ public class WbSudoku implements Sudoku{
                 if (grid[i][j] == 0) {
                     row = i;
                     col = j;
+                    break;
                 }
             }
         }
 
         // return true if cannot find empty cell
-        if (row < 0 || col < 0) {
+        if (row < 0) {
             return true;
         }
 
-        // recursively solve
+        // recursively solve  Time complexity: Theta(9^n)
         for (int i = 1; i <= 9; i++) {
             if (legal(i, row, col, grid)) {
                 grid[row][col] = i;
-
-                if (solveGrid(grid)) {
+                if (solveGrid(grid))
                     return true;
-                }
-
                 grid[row][col] = 0;
             }
         }

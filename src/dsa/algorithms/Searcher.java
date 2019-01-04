@@ -16,7 +16,7 @@ public interface Searcher {
     /**
      * @return the k-th small number in nums
      */
-    int selection(int[] nums, int k);
+    int selectionMin(int[] nums, int k);
 
     MinMax findMinMax(int[] nums);
 
