@@ -2,8 +2,11 @@ package practices.waterball.algorithms;
 
 import dsa.algorithms.BasicRecursive;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 
-public class WbBasicRecursive implements BasicRecursive {
+
+public class WbRecursive implements BasicRecursive {
 
     @Override
     public int NR_Fibonacci(int n) {
@@ -108,6 +111,31 @@ public class WbBasicRecursive implements BasicRecursive {
                 swap(nums, from, i);
             }
         }
+    }
+
+    @Override
+    public HashSet<HashSet<Integer>> powerSet(HashSet<Integer> set) {
+        return powerSet(new ArrayList<>(set), new HashSet<HashSet<Integer>>(), new boolean[set.size()], 0);
+    }
+
+    private HashSet<HashSet<Integer>> powerSet(ArrayList<Integer> nums, HashSet<HashSet<Integer>> powerSet, boolean[] member, int k){
+        if (k >= nums.size())
+        {
+            HashSet<Integer> subset = new HashSet<>();
+            for (int i = 0; i < member.length; i++) {
+                if (member[i])
+                    subset.add(nums.get(i));
+            }
+            powerSet.add(subset);
+        }
+        else
+        {
+            member[k] = true;
+            powerSet(nums, powerSet, member, k+1);
+            member[k] = false;
+            powerSet(nums, powerSet, member, k+1);
+        }
+        return powerSet;
     }
 
     private void printArray(int[] array){

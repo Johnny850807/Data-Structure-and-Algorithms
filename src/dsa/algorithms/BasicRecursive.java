@@ -1,5 +1,7 @@
 package dsa.algorithms;
 
+import java.util.HashSet;
+
 /**
  * Method prefixed by NR means Non-recursive, by R means Recursive.
  * See default methods NR_Factorization, R_Factorization as examples.
@@ -44,6 +46,8 @@ public interface BasicRecursive {
      * @return list of all possible permuted letters
      */
     void R_generatePermutation(int[] nums, int from, int to);
+
+    HashSet<HashSet<Integer>> powerSet(HashSet<Integer> set);
 
 
 }

@@ -78,19 +78,6 @@ public class Utils {
         return stringBuilder.toString();
     }
 
-    public static String setToString(Set<Integer> set){
-        StringBuilder stringBuilder = new StringBuilder();
-        if (set.isEmpty())
-            return "∅";
-        stringBuilder.append("{");
-        for (int num : set) {
-            stringBuilder.append(num).append(",");
-        }
-        stringBuilder.deleteCharAt(stringBuilder.length()-1);
-        stringBuilder.append("}");
-        return stringBuilder.toString();
-
-    }
     public static String tableToString(int[][] table){
         return tableToString(table, 4);
     }
@@ -147,6 +134,20 @@ public class Utils {
         for (int i = length; i < p.length; i ++)
             p[i] = array[i-length];
         return p;
+    }
+
+    public static String setToString(Set set){
+        StringBuilder strb = new StringBuilder("{");
+        if (set.size() == 0)
+            return "∅";
+        for (Object o : set) {
+            if (o instanceof Set)
+                strb.append(setToString((Set) o));
+            else
+                strb.append(o);
+            strb.append(", ");
+        }
+        return strb.delete(strb.length()-2, strb.length()).append("}").toString();
     }
 
     public static class PrioritySet<T> {
