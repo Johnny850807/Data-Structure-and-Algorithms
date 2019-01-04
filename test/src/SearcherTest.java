@@ -40,6 +40,14 @@ public class SearcherTest {
     }
 
     @Test
+    public void testSelection(){
+        int[] numsArray = IntStream.range(0, 1000).toArray();  //0~1000
+        Utils.shuffleArray(numsArray);
+        int expected500thMin = 499;
+        assertEquals(expected500thMin, searcher.selection(numsArray, 500));
+    }
+
+    @Test
     public void testFindMinMax(){
         int[] numsArray = IntStream.range(0, 1001).toArray();  //0~1000
         Utils.shuffleArray(numsArray);

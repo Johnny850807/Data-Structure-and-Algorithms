@@ -48,11 +48,6 @@ public class WbSearcher implements Searcher {
     }
 
     @Override
-    public int selection(int[] nums, int k) {
-        return selection(nums, k, 0, nums.length-1);
-    }
-
-    @Override
     public MinMax findMinMax(int[] nums) {
         return findMinMax(nums, 0, nums.length-1);
     }
@@ -63,22 +58,28 @@ public class WbSearcher implements Searcher {
         if (l+2 < r)
         {
             MinMax minMax = findMinMax(nums, l+2, r);
-            return new MinMax(min(x, minMax.min), max(y, minMax.max));
+            return new MinMax(min(x, minMax.min), max(y, minMax.max));  //Comparisons: T(n) = T(n-2) + 3 = 3n/2 < naive way: T(n) = 2(n-1)
         }
         else
             return new MinMax(x, y);
     }
 
-    private int selection(int[] nums, int k, int l, int r){
+    @Override
+    public int selection(int[] nums, int k) {
+        //(k-1): start from 0, e.g. if desired the first small number means 0th small number
+        return selection(nums, 0, nums.length-1, k-1);
+    }
+
+    private int selection(int[] nums, int l, int r, int k){
         if (l < r){
-            int pivotVal = mediumOfMediums(nums, l, r);
+            int pivotVal = medianOfMedians(nums, l, r);
             int p = partition(nums, pivotVal, l, r);  //use medium of mediums to find Pivot val for partitioning :O(n)
-            if (k < p)
-                return selection(nums, l+k-1, l, p-1);
-            if (k == p)
+            if (k+l < p)  //note: k must plus l because k's index should be offset from l
+                return selection(nums, l, p-1, k);
+            if (k+l == p)
                 return nums[p];
             else
-                return selection(nums, l+k-p-2, p+1, r);
+                return selection(nums, p+1, r, (k+l)-p-1);
         }
         else
             return nums[l];
@@ -88,33 +89,29 @@ public class WbSearcher implements Searcher {
      * @return index of the pivot
      */
     private int partition(int[] nums, int pivot, int l, int r){
-        int p = 0;
-
-        for (int j = 0; j < nums.length; j++) {  //look for the pivot position
+        for (int j = l; j <= r; j++) {  //look for the pivot position
             if (nums[j] == pivot)
-                p = j;
-        }
-
-        //swap(nums, p, nums);
-        int i = p-1;
-        for (int j = p; j < nums.length; j++) {
-            if (nums[j] <= pivot)
             {
-                swap(nums, i, j);
-                if (nums[i] == pivot)
-                    p = i;
-                i ++;
+                swap(nums, j, r);  //swap the pivot to the rightest position
+                break;
             }
         }
-        swap(nums, p, i);
+
+        int i = l;
+        for (int j = l; j < r; j++) {
+            if (nums[j] <= pivot)
+                swap(nums, i++, j);
+        }
+
+        swap(nums, i, r);
         return i;
     }
 
-    private int mediumOfMediums(int[] nums, int l, int r){
-        return mediumOfMediums(Arrays.copyOfRange(nums, l, r+1));
+    private int medianOfMedians(int[] nums, int l, int r){
+        return medianOfMedians(Arrays.copyOfRange(nums, l, r+1));
     }
 
-    private int mediumOfMediums(int[] nums){
+    private int medianOfMedians(int[] nums){
         int groupCount = ceil(nums.length/5.0);
         int[][] groups = new int[groupCount][5];
 
@@ -144,7 +141,7 @@ public class WbSearcher implements Searcher {
             mediums[i] = groups[i][2];
         }
 
-        return mediumOfMediums(mediums);
+        return medianOfMedians(mediums);
     }
 
 
