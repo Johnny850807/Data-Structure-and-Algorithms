@@ -1,5 +1,7 @@
+import dsa.Utils;
 import dsa.adt.Graph;
 import dsa.adt.Graph.Edge;
+import dsa.adt.Graph.ShortestPathResult;
 import org.junit.Before;
 import org.junit.Test;
 import practices.waterball.algorithms.WbGraph;
@@ -12,7 +14,9 @@ public class GraphTest {
     private Graph negativeCyclicGraph3 = new WbGraph();  //replace it with yours
     private int mspWeightGraph1;
     private int[] shortestPathGraph1;
+    private long shortestPathWeightGraph1;
     private int[][] transitiveClosureGraph2;
+    private long[][] allPairShortestPathGraph1;
 
     @Before
     public void before(){
@@ -36,6 +40,7 @@ public class GraphTest {
 
         mspWeightGraph1 = 20;
         shortestPathGraph1 = new int[]{1, 3, 6, 7, 10};
+        shortestPathWeightGraph1 = 13;
 
         acyclicDisconnectedGraph2.setSize(11);
         acyclicDisconnectedGraph2.addEdge(1, 2, 1);
@@ -62,6 +67,21 @@ public class GraphTest {
                 new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1},
                 new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1}
         };
+
+        allPairShortestPathGraph1 = new long[][]{
+                new long[]{0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
+                new long[]{0,  0,  3,  5,  4,  5,  9, 11, 13, 12, 13},
+                new long[]{0,  3,  0,  6,  1,  2, 10, 10, 12, 11, 12},
+                new long[]{0,  5,  6,  0,  5,  8,  4,  6,  8,  7,  8},
+                new long[]{0,  4,  1,  5,  0,  3,  9, 11, 13, 12, 13},
+                new long[]{0,  5,  2,  8,  3,  0, 10,  8, 10,  9, 10},
+                new long[]{0,  9, 10,  4,  9, 10,  0,  2,  4,  3,  4},
+                new long[]{0, 11, 10,  6, 11,  8,  2,  0,  2,  1,  2},
+                new long[]{0, 13, 12,  8, 13, 10,  4,  2,  0,  1,  2},
+                new long[]{0, 12, 11,  7, 12,  9,  3,  1,  1,  0,  1},
+                new long[]{0, 13, 12,  8, 13, 10,  4,  2,  2,  1,  0}
+        };
+
 
         negativeCyclicGraph3.setSize(6);
         negativeCyclicGraph3.addEdge(1, 2, 1);
@@ -132,14 +152,16 @@ public class GraphTest {
 
     @Test
     public void testDijkstraShortestPath(){
-        int[] pathDijkstra = cyclicConnectedGraph1.dijkstraShortestPath(1, 10);
-        assertArrayEquals(shortestPathGraph1, pathDijkstra);
+        ShortestPathResult shortestPathResults = cyclicConnectedGraph1.dijkstraShortestPath(1, 10);
+        assertArrayEquals(shortestPathGraph1, shortestPathResults.path);
+        assertEquals(shortestPathWeightGraph1, shortestPathResults.D[10]);
     }
 
     @Test
     public void testBellmanFordShortestPath(){
-        int[] pathBellmanFord = cyclicConnectedGraph1.bellmanFordShortestPath(1, 10);
-        assertArrayEquals(shortestPathGraph1, pathBellmanFord);
+        ShortestPathResult shortestPathResults = cyclicConnectedGraph1.bellmanFordShortestPath(1, 10);
+        assertArrayEquals(shortestPathGraph1, shortestPathResults.path);
+        assertEquals(shortestPathWeightGraph1, shortestPathResults.D[10]);
 
         try {
             negativeCyclicGraph3.bellmanFordShortestPath(1, 4);
@@ -148,13 +170,26 @@ public class GraphTest {
     }
 
     @Test
-    public void testfloydWarshallShortestPath(){
-        //cyclicConnectedGraph1.floydWarshallShortestPath();
+    public void testFloydShortestPath(){
+        long[][] D = cyclicConnectedGraph1.floydWarshallShortestPath();
+        System.out.println("Floyd-Warshall Shortest path: ");
+        System.out.println(Utils.tableToString(D, 3));
+        assertArrayEquals(allPairShortestPathGraph1, D);
     }
 
+    @Test
+    public void testJohnsonShortestPath(){
+        long[][] D = cyclicConnectedGraph1.johnsonShortestPath();
+        System.out.println("Johnson Shortest path: ");
+        System.out.println(Utils.tableToString(D, 3));
+        assertArrayEquals(allPairShortestPathGraph1, D);
+    }
 
     @Test
     public void testTransitiveClosure(){
-        assertArrayEquals(transitiveClosureGraph2, acyclicDisconnectedGraph2.transitiveClosure());
+        int[][] T = acyclicDisconnectedGraph2.transitiveClosure();
+        System.out.println("Transitive Closure: ");
+        System.out.println(Utils.tableToString(T, 3));
+        assertArrayEquals(transitiveClosureGraph2, T);
     }
 }

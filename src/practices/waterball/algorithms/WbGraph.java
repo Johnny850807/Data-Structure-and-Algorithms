@@ -11,7 +11,7 @@ import java.util.*;
 import static dsa.Utils.intListToArray;
 import static java.lang.Math.min;
 
-public class WbGraph implements Graph {
+public class WbGraph implements Graph, Cloneable{
     private int n;
     private TreeSet<Node>[] adjacencyList;
 
@@ -28,6 +28,18 @@ public class WbGraph implements Graph {
         for (int i = 1; i <= n; i++) {
             adjacencyList[i] = new TreeSet<>((o1, o2)-> o1.i - o2.i);
         }
+    }
+
+    /**
+     * @return new node's number
+     */
+    @SuppressWarnings("unchecked")
+    public int addNode(){
+        TreeSet<Node>[] newAdjList = new TreeSet[n+2];
+        System.arraycopy(this.adjacencyList, 1, newAdjList, 1, n);  //copy the old adj lists
+        newAdjList[n+1] = new TreeSet<>((o1, o2)-> o1.i - o2.i);  // add a new adj list for the new node
+        this.adjacencyList = newAdjList;  //set the new adj list back
+        return ++n;  //plus 1 and return the new node's number
     }
 
     @Override
@@ -278,7 +290,7 @@ public class WbGraph implements Graph {
     }
 
     @Override
-    public int[] dijkstraShortestPath(int s, int t) {
+    public ShortestPathResult dijkstraShortestPath(int s, int t) {
         int[] parent = new int[n+1];
         int[][] adjMatrix = adjacencyMatrix();
         long[] D = new long[n+1];  //distances  //we need long to contain value higher than Int.max
@@ -296,7 +308,6 @@ public class WbGraph implements Graph {
             Q.add(i);
         }
 
-        System.out.println("WB Dijkstra: ");
         while (!Q.isEmpty()){
             int u = Q.extractMin();
             for (Node node : adjacencyList[u]) {
@@ -307,14 +318,13 @@ public class WbGraph implements Graph {
                     parent[v] = u;
                 }
             }
-            System.out.print(Utils.tableToString(D, 3));
         }
 
-        return backtrackPathFromParents(s, t, parent);
+        return new ShortestPathResult(backtrackPathFromParents(s, t, parent), D);
     }
 
 
-    public int[] bellmanFordShortestPath(int s, int t){
+    public ShortestPathResult bellmanFordShortestPath(int s, int t){
         int[] parent = new int[n+1];
         int[][] adjMatrix = adjacencyMatrix();
         long[] D = new long[n+1];  //distances //we need long to contain value higher than Int.max
@@ -343,7 +353,7 @@ public class WbGraph implements Graph {
             }
         }
 
-        return backtrackPathFromParents(s, t, parent);
+        return new ShortestPathResult(backtrackPathFromParents(s, t, parent), D);
     }
 
     @Override
@@ -371,8 +381,6 @@ public class WbGraph implements Graph {
             }
         }
 
-        System.out.println("Floyd's shortest path: ");
-        System.out.println(Utils.tableToString(D, 3));
         return D;
     }
 
@@ -408,13 +416,53 @@ public class WbGraph implements Graph {
             }
         }
 
-        System.out.println("Warshall's Algorithm (Transitive Closure) : ");
-        System.out.println(Utils.tableToString(T, 3));
         return T;
     }
 
     @Override
-    public int[][] johnsonShortestPath() {
-        return new int[0][];
+    public long[][] johnsonShortestPath() {
+        WbGraph graph = this.clone();  //to avoid change to the original graph, clone a new one
+
+        //(1) add a new node s with 0 weight incident to each node : O(V)
+        int s = graph.addNode();
+        for (int i = 1; i <= n; i++) {
+            graph.addEdge(s, i, 0) ;
+        }
+
+        //(2) Use BellmanFord to compute the shortest path from s to each node, stored in h : O(VE)
+        long[] h = graph.bellmanFordShortestPath(s, n).D;
+
+        graph = this.clone(); //clone again to remove the s node
+        //(3) Reweight by w(u,v) = w(u, v) + h(u) - h(v) : O(E)
+        for (int i = 1; i <= n; i++) {
+            for (Node node : graph.adjacencyList[i]) {
+                node.w = (int) (node.w + h[i] - h[node.i]);
+            }
+        }
+
+        //(4) Compute all-pair Dijkstra : O(V(E + VlgV)) = O(VE + V^2lgV)
+        long[][] D = new long[n+1][n+1];
+        for (int i = 1; i <= n; i++)
+            D[i] = graph.dijkstraShortestPath(i, n).D;
+
+        return D;
     }
+
+    @SuppressWarnings("unchecked")
+    protected WbGraph clone(){
+        try {
+            WbGraph clone = (WbGraph) super.clone();
+            clone.adjacencyList = new TreeSet[n+1];
+            for (int i = 1; i <= n; i++) {
+                clone.adjacencyList[i] = new TreeSet<>((o1, o2)-> o1.i - o2.i);
+                for (Node node : adjacencyList[i]) {
+                    clone.adjacencyList[i].add(node);
+                }
+            }
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new Error();
+        }
+    }
+
 }

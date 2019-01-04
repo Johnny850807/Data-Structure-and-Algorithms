@@ -5,6 +5,8 @@ import java.util.TreeSet;
 
 /**
  * Undirected graph
+ * Note that the weight value to represent Infinity should use Integer.MAX_VALUE,
+ * to avoid overflow, some problems such like shortest path problem should use long[] array to store the distances.
  */
 public interface Graph {
     public static class Node {
@@ -29,7 +31,6 @@ public interface Graph {
 
         @Override
         public int hashCode() {
-
             return Objects.hash(i, w);
         }
     }
@@ -99,19 +100,26 @@ public interface Graph {
     Edge[] kruskalMSP();
     Edge[] primMSP(int s);
 
-    /***
-     * @param s source node's number
-     * @param t target node's number
-     * @return path
-     */
-    int[] dijkstraShortestPath(int s, int t);
+    public static class ShortestPathResult{
+        public int[] path;  //node numbers
+        public long[] D;  //shortest distances
+        public ShortestPathResult(int[] path, long[] D) {
+            this.path = path;
+            this.D = D;
+        }
+    }
 
     /***
      * @param s source node's number
      * @param t target node's number
-     * @return path
      */
-    int[] bellmanFordShortestPath(int s, int t);
+    ShortestPathResult dijkstraShortestPath(int s, int t);
+
+    /***
+     * @param s source node's number
+     * @param t target node's number
+     */
+    ShortestPathResult bellmanFordShortestPath(int s, int t);
 
     /**
      * @return all pair shortest path matrix
@@ -120,7 +128,7 @@ public interface Graph {
 
     int[][] transitiveClosure();
 
-    int[][] johnsonShortestPath();
+    long[][] johnsonShortestPath();
 
     public static class NegativeCycleException extends RuntimeException{ }
 }
