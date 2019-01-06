@@ -70,7 +70,6 @@ public class DynamicProgrammingTest {
         Type[] expectedEdtionTypes = new Type[]{REMOVE, REMOVE, INSERT, INSERT};
         DynamicProgramming.MinimumEditDistance med = dynamicProgramming.minimumEditDistance(
                 new StringBuilder("acbabca"), new StringBuilder("babcbac"));
-        //babca
         System.out.println("Minimum Edit Distance: \n" + med);
         for (int i = 0; i < expectedDistance; i++) {
             assertEquals(expectedEdtionTypes[i], med.editions.get(i).type);

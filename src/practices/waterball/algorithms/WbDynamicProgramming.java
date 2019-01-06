@@ -176,7 +176,7 @@ public class WbDynamicProgramming implements DynamicProgramming {
                     }
                     else if (minimum == editInsertion){
                         D[i][j] = D[i][j-1] + 1;
-                        E[i][j] = new Edition(INSERT, format("Insert %c at B(%d).", B.charAt(i), i));
+                        E[i][j] = new Edition(INSERT, format("Insert %c at A(%d).", B.charAt(j), i));
                     }
                     else{
                         D[i][j] = D[i-1][j-1] + 1;
@@ -191,10 +191,10 @@ public class WbDynamicProgramming implements DynamicProgramming {
             }
         }
 
-        return getMinimumEditDistanceByBacktracking(E);
+        return getMinimumEditDistanceByBacktracking(E, A, B);
     }
 
-    private MinimumEditDistance getMinimumEditDistanceByBacktracking(Edition[][] E){
+    private MinimumEditDistance getMinimumEditDistanceByBacktracking(Edition[][] E, StringBuilder A, StringBuilder B){
         MinimumEditDistance med = new MinimumEditDistance();
         int i = E.length-1;
         int j = E[0].length-1;
@@ -210,11 +210,9 @@ public class WbDynamicProgramming implements DynamicProgramming {
                 case REMOVE:
                     i--;
                     break;
-
                 case INSERT:
                     j--;
                     break;
-
                 case NONE:
                 case REPLACE:
                     i--;
