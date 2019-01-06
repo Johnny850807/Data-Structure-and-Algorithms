@@ -156,7 +156,7 @@ public class WbDynamicProgramming implements DynamicProgramming {
             E[i][0] = new Edition(REMOVE, format("Remove %c at A(%d).", A.charAt(i), i));
         }
         for (int i = 1; i < B.length(); i++) {
-            E[0][i] = new Edition(INSERT, format("Insert %c at A(%d).", A.charAt(i), i));
+            E[0][i] = new Edition(INSERT, format("Insert %c at B(%d).", B.charAt(i), i));
         }
         E[0][0] = new Edition(NONE, "");
 
@@ -176,7 +176,7 @@ public class WbDynamicProgramming implements DynamicProgramming {
                     }
                     else if (minimum == editInsertion){
                         D[i][j] = D[i][j-1] + 1;
-                        E[i][j] = new Edition(INSERT, format("Insert %c at A(%d).", A.charAt(i), i));
+                        E[i][j] = new Edition(INSERT, format("Insert %c at B(%d).", B.charAt(i), i));
                     }
                     else{
                         D[i][j] = D[i-1][j-1] + 1;

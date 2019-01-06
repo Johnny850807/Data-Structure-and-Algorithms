@@ -19,7 +19,7 @@ public class WbThreadBSTree implements BSTree {
             root = new WbBTreeThreadNode(item);
 
             // set the thread predecessor and successor of the root is itself
-            // this is necessary for ensuring the leftmost and the rightmost inorder element pointing to root
+            // this is necessary for ensuring the leftmost and the rightmost inorder node pointing to the root
             // see inorderSuccessor() and inorderPredecessor
             root.left = root.right = root;
         }

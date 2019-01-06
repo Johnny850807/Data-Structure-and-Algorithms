@@ -15,6 +15,7 @@ import static dsa.algorithms.DynamicProgramming.MinimumEditDistance.Edition.Type
 import static dsa.algorithms.DynamicProgramming.MinimumEditDistance.Edition.Type.REMOVE;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class DynamicProgrammingTest {
     DynamicProgramming dynamicProgramming = new WbDynamicProgramming();  //replace it with yours
@@ -69,8 +70,8 @@ public class DynamicProgrammingTest {
         Type[] expectedEdtionTypes = new Type[]{REMOVE, REMOVE, INSERT, INSERT};
         DynamicProgramming.MinimumEditDistance med = dynamicProgramming.minimumEditDistance(
                 new StringBuilder("acbabca"), new StringBuilder("babcbac"));
+        //babca
         System.out.println("Minimum Edit Distance: \n" + med);
-
         for (int i = 0; i < expectedDistance; i++) {
             assertEquals(expectedEdtionTypes[i], med.editions.get(i).type);
         }

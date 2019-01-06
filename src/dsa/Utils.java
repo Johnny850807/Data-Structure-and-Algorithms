@@ -57,6 +57,17 @@ public class Utils {
         return stringBuilder.toString();
     }
 
+    public static String tableToString(double[][] table, int fieldSize, int precision){
+        StringBuilder stringBuilder = new StringBuilder();
+        for (double[] aTable : table) {
+            for (int j = 0; j < table[0].length; j++)
+                stringBuilder.append(String.format("%" + fieldSize + "." + precision + "f",
+                        aTable[j] == Integer.MAX_VALUE || aTable[j] == Double.MAX_VALUE ? "∞" : aTable[j]));
+            stringBuilder.append("\n");
+        }
+        return stringBuilder.toString();
+    }
+
     public static String tableToString(Object[][] table, int fieldSize){
         StringBuilder stringBuilder = new StringBuilder();
         for (Object[] aTable : table) {
@@ -148,6 +159,15 @@ public class Utils {
 
     public static int[] padddingZero(int[] array, int index, int length){
         int[] p = new int[array.length+length];
+        for (int i = 0; i < length; i ++)
+            p[i] = 0;
+        for (int i = length; i < p.length; i ++)
+            p[i] = array[i-length];
+        return p;
+    }
+
+    public static double[] padddingZero(double[] array, int index, int length){
+        double[] p = new double[array.length+length];
         for (int i = 0; i < length; i ++)
             p[i] = 0;
         for (int i = length; i < p.length; i ++)
