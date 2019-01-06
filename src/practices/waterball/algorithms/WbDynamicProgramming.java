@@ -2,11 +2,14 @@ package practices.waterball.algorithms;
 
 import dsa.Utils;
 import dsa.algorithms.DynamicProgramming;
+import dsa.algorithms.DynamicProgramming.MinimumEditDistance.Edition;
 
 import java.util.*;
 
 import static dsa.Utils.padddingZero;
+import static dsa.algorithms.DynamicProgramming.MinimumEditDistance.Edition.Type.*;
 import static java.lang.Math.min;
+import static java.lang.String.format;
 
 @SuppressWarnings("ALL")
 public class WbDynamicProgramming implements DynamicProgramming {
@@ -140,6 +143,86 @@ public class WbDynamicProgramming implements DynamicProgramming {
 
         System.out.println("Matri chain table: \n" + Utils.tableToString(m, 4));
         return new MatrixChainAnswer(m[0][n-1], produceMinimumMatrixChainFormula(matrices, s, 0, n-1));
+    }
+
+    @Override
+    public MinimumEditDistance minimumEditDistance(StringBuilder A, StringBuilder B) {
+        A.insert(0, "-");  //padding with zero
+        B.insert(0, "-");
+        int[][] D = new int[A.length()][B.length()];
+        Edition[][] E = new Edition[A.length()][B.length()];
+
+        for (int i = 1; i < A.length(); i++) {
+            E[i][0] = new Edition(REMOVE, format("Remove %c at A(%d).", A.charAt(i), i));
+        }
+        for (int i = 1; i < B.length(); i++) {
+            E[0][i] = new Edition(INSERT, format("Insert %c at A(%d).", A.charAt(i), i));
+        }
+        E[0][0] = new Edition(NONE, "");
+
+        for (int i = 1; i < A.length(); i++)
+        {
+            for (int j = 1; j < B.length(); j++) {
+                if (A.charAt(i) != B.charAt(j))
+                {
+                    int editDeletion = D[i-1][j];
+                    int editInsertion = D[i][j-1];
+                    int editReplacement = D[i-1][j-1];
+                    int minimum = Utils.min(editDeletion, editInsertion, editReplacement);
+
+                    if (minimum == editDeletion){
+                        D[i][j] = D[i-1][j] + 1;
+                        E[i][j] = new Edition(REMOVE, format("Remove %c at A(%d).", A.charAt(i), i));
+                    }
+                    else if (minimum == editInsertion){
+                        D[i][j] = D[i][j-1] + 1;
+                        E[i][j] = new Edition(INSERT, format("Insert %c at A(%d).", A.charAt(i), i));
+                    }
+                    else{
+                        D[i][j] = D[i-1][j-1] + 1;
+                        E[i][j] = new Edition(REPLACE, format("Replace %c at A(%d) with %c.", A.charAt(i), i, B.charAt(j)));
+                    }
+                }
+                else
+                {
+                    D[i][j] = D[i-1][j-1];
+                    E[i][j] = new Edition(NONE, "");
+                }
+            }
+        }
+
+        return getMinimumEditDistanceByBacktracking(E);
+    }
+
+    private MinimumEditDistance getMinimumEditDistanceByBacktracking(Edition[][] E){
+        MinimumEditDistance med = new MinimumEditDistance();
+        int i = E.length-1;
+        int j = E[0].length-1;
+
+        System.out.println(Utils.tableToString(E, 3));
+        while (i >= 0 && j >= 0)
+        {
+            Edition edition = E[i][j];
+            if (edition.type != NONE)
+                med.editions.addFirst(edition);
+            switch (edition.type)
+            {
+                case REMOVE:
+                    i--;
+                    break;
+
+                case INSERT:
+                    j--;
+                    break;
+
+                case NONE:
+                case REPLACE:
+                    i--;
+                    j--;
+                    break;
+            }
+        }
+        return med;
     }
 
     private String produceMinimumMatrixChainFormula(String[] matrices, int[][] s, int i, int j){

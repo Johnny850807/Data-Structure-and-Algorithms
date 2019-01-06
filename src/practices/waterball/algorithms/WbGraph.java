@@ -37,7 +37,7 @@ public class WbGraph implements Graph, Cloneable{
     public int addNode(){
         TreeSet<Node>[] newAdjList = new TreeSet[n+2];
         System.arraycopy(this.adjacencyList, 1, newAdjList, 1, n);  //copy the old adj lists
-        newAdjList[n+1] = new TreeSet<>((o1, o2)-> o1.i - o2.i);  // add a new adj list for the new node
+        newAdjList[n+1] = new TreeSet<>((o1, o2)-> o1.i - o2.i);  // addEdition a new adj list for the new node
         this.adjacencyList = newAdjList;  //set the new adj list back
         return ++n;  //plus 1 and return the new node's number
     }
@@ -373,7 +373,7 @@ public class WbGraph implements Graph, Cloneable{
         for (int k = 1; k <= n; k++) {
             for (int i = 1; i <= n; i++) {
                 for (int j = 1; j <= n; j++) {
-                    if (D[i][k] + D[k][j] < D[i][j]){
+                    if (D[i][j] > D[i][k] + D[k][j]){
                         D[i][j] = D[i][k] + D[k][j];
                         parents[i][j] = parents[k][j];
                     }
@@ -423,7 +423,7 @@ public class WbGraph implements Graph, Cloneable{
     public long[][] johnsonShortestPath() {
         WbGraph graph = this.clone();  //to avoid change to the original graph, clone a new one
 
-        //(1) add a new node s with 0 weight incident to each node : O(V)
+        //(1) addEdition a new node s with 0 weight incident to each node : O(V)
         int s = graph.addNode();
         for (int i = 1; i <= n; i++) {
             graph.addEdge(s, i, 0) ;

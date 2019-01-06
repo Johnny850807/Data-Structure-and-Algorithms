@@ -57,6 +57,16 @@ public class Utils {
         return stringBuilder.toString();
     }
 
+    public static String tableToString(Object[][] table, int fieldSize){
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Object[] aTable : table) {
+            for (int j = 0; j < table[0].length; j++)
+                stringBuilder.append(String.format("%" + fieldSize + "s", aTable[j]));
+            stringBuilder.append("\n");
+        }
+        return stringBuilder.toString();
+    }
+
     public static String tableToString(long[][] table, int fieldSize){
         StringBuilder stringBuilder = new StringBuilder();
         for (long[] aTable : table) {
@@ -108,6 +118,15 @@ public class Utils {
         for (int i = 0; i < arr1.length; i ++)
             s[i] = arr1[i] - arr2[i];
         return s;
+    }
+
+    public static int min(int... nums){
+        int min = Integer.MAX_VALUE;
+        for (int num : nums) {
+            if (num < min)
+                min = num;
+        }
+        return min;
     }
 
     public static void swap(int[] array, int i, int j){

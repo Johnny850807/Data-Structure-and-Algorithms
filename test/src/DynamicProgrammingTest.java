@@ -1,13 +1,18 @@
 import dsa.algorithms.DynamicProgramming;
 import dsa.algorithms.DynamicProgramming.KnapSackAnswer;
 import dsa.algorithms.DynamicProgramming.MatrixChainAnswer;
+import dsa.algorithms.DynamicProgramming.MinimumEditDistance.Edition.Type;
 import org.junit.Test;
 import practices.waterball.algorithms.WbDynamicProgramming;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Random;
 import java.util.stream.IntStream;
 
+import static dsa.algorithms.DynamicProgramming.MinimumEditDistance.Edition.Type.INSERT;
+import static dsa.algorithms.DynamicProgramming.MinimumEditDistance.Edition.Type.REMOVE;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
@@ -25,26 +30,14 @@ public class DynamicProgrammingTest {
     }
 
     @Test
-    public void testLIS(){
-        LinkedList<Integer> nums = new LinkedList<>();
-        int[] s1 = new int[200];
-        int[] lis = new int[100];
-        for (int i = 0; i < 100; i++) {
-            nums.add(i);
-            lis[i] = i;
-        }
-        for (int i = 0; i < 100; i++) {
-            nums.add(-1);  //make fragments
-        }
-        for (int i = 0; i < nums.size(); i++) {
-            s1[i] = nums.get(i);
-        }
-        assertArrayEquals(lis, dynamicProgramming.longestIncreasingSequence(s1));
+    public void testLIS() {
+        int[] s1 = new int[]{66, 92, 123, 31, 83, 53, 48, 17, 9, 57, 75};
+        int[] expectedLIS = new int[]{31, 53, 57, 75};
+        int[] actualLIS = dynamicProgramming.longestIncreasingSequence(s1);
+        System.out.println(Arrays.toString(actualLIS));
+        assertArrayEquals(expectedLIS, actualLIS);
     }
 
-    @Test
-    public void testLcString(){
-    }
 
     @Test
     public void test01Knapsack(){
@@ -68,5 +61,19 @@ public class DynamicProgrammingTest {
         assertEquals(36, answer.numberOfMultiplications);
         assertEquals("(A(B(C(DE))))", answer.matrixChain);
         System.out.printf("Matrix Chain: %s, min multiplication: %d\n", answer.matrixChain, answer.numberOfMultiplications);
+    }
+
+    @Test
+    public void testMinimumEditDistance(){
+        int expectedDistance = 4;
+        Type[] expectedEdtionTypes = new Type[]{REMOVE, REMOVE, INSERT, INSERT};
+        DynamicProgramming.MinimumEditDistance med = dynamicProgramming.minimumEditDistance(
+                new StringBuilder("acbabca"), new StringBuilder("babcbac"));
+        System.out.println("Minimum Edit Distance: \n" + med);
+
+        for (int i = 0; i < expectedDistance; i++) {
+            assertEquals(expectedEdtionTypes[i], med.editions.get(i).type);
+        }
+
     }
 }

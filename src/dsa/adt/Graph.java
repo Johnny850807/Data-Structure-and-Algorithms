@@ -75,7 +75,7 @@ public interface Graph {
     void setSize(int n);
 
     /**
-     * Add an edge to the graph, you should add the new edge into the adjacency list of vertex v1's
+     * Add an edge to the graph, you should addEdition the new edge into the adjacency list of vertex v1's
      * @param v1 source node's number
      * @param v2 target node's number
      */

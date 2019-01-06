@@ -1,6 +1,7 @@
 package dsa.algorithms;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 
 public interface DynamicProgramming {
@@ -43,4 +44,48 @@ public interface DynamicProgramming {
         }
     }
 
+    public MinimumEditDistance minimumEditDistance(StringBuilder A, StringBuilder b);
+
+    public static class MinimumEditDistance{
+        public LinkedList<Edition> editions = new LinkedList<>();
+        public static class Edition{
+            public enum Type{
+                REMOVE, INSERT, REPLACE, NONE
+            }
+            public Type type;
+            public String message;
+
+            public Edition(Type type, String message) {
+                this.type = type;
+                this.message = message;
+            }
+
+            @Override
+            public String toString() {
+                switch (type) {
+                    case INSERT:
+                        return "←";
+                    case REMOVE:
+                        return "↑";
+                    case NONE:
+                        return "⇖";
+                    case REPLACE:
+                        return "↖";
+                    default:
+                        throw new Error();
+                }
+            }
+        }
+        public int length(){return editions.size();}
+
+        @Override
+        public String toString() {
+            StringBuilder strb = new StringBuilder();
+            for (int i = 0; i < editions.size(); i++) {
+                Edition edition = editions.get(i);
+                strb.append(i).append(": ").append(edition.type).append(" ").append(edition.message).append("\n");
+            }
+            return strb.toString().trim();
+        }
+    }
 }

@@ -52,10 +52,7 @@ public class WbRecursive implements BasicRecursive {
         int num1 = Math.max(a, b);
         int num2 = Math.min(a, b);
 
-        int r = num1 % num2;
-        if (r == 0)
-            return num2;
-        return R_gcd(num2, r);
+        return num2 == 0 ? num1 : R_gcd(num2, num1 % num2);
     }
 
     @Override

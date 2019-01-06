@@ -3,6 +3,7 @@ package practices.waterball.algorithms;
 import dsa.Utils;
 import dsa.algorithms.Sorter;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Stack;
 
@@ -113,6 +114,7 @@ public class WbSorter implements Sorter {
     @SuppressWarnings("ManualArrayCopy")
     @Override
     public void R_mergeSort(int[] nums, int l, int r) {
+        System.out.println("Recursive");
         if (l < r)
         {
             int m = (l+r)/2;
@@ -160,14 +162,14 @@ public class WbSorter implements Sorter {
         int i, j;
         int p;
         if (l < r) {
-            i = l + 1;
+            i = l+1;
             j = r;
             p = nums[l];
             do {
                 while (i <= j && nums[i] <= p)
-                    i++;
+                    i ++;
                 while (i <= j && nums[j] > p)
-                    j--;
+                    j --;
                 if (i < j)
                     swap(nums, i, j);
             } while (i < j);
