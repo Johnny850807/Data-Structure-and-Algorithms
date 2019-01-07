@@ -19,24 +19,29 @@ public class WbDisjointSet implements DisjointSet {
         }
     }
 
-    @Override   //O(n)
+    @Override
     public DisjointSet union(int item1, int item2) {
-        int root1 = find(item1);
-        int root2 = find(item2);
-        int rankTotal = elements[root1] + elements[root2];
-        if (root1 > root2){  //higher rank root has lower number
-            elements[root1] = root2;
-            elements[root2] = rankTotal;
+        int set1 = find(item1);
+        int set2 = find(item2);
+        return unionBySetNumber(set1, set2);
+    }
+
+    //O(1)
+    private DisjointSet unionBySetNumber(int set1, int set2){
+        int rankTotal = elements[set1] + elements[set2];
+        if (set1 > set2){  //higher rank root has lower number
+            elements[set1] = set2;
+            elements[set2] = rankTotal;
         }
         else
         {
-            elements[root2] = root1;
-            elements[root1] = rankTotal;
+            elements[set2] = set1;
+            elements[set1] = rankTotal;
         }
         return this;
     }
 
-    @Override  //O(1)
+    @Override  //O(log n) -> bounded by weighted union
     public int find(int item) {
         int root = item;
         while (elements[root] > 0)  //until find root -> element value of (1) root: negative value, (2) non-root: positive parent number
