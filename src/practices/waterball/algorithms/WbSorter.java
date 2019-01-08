@@ -3,9 +3,7 @@ package practices.waterball.algorithms;
 import dsa.Utils;
 import dsa.algorithms.Sorter;
 
-import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.Stack;
 
 import static java.lang.Math.*;
 
@@ -79,7 +77,7 @@ public class WbSorter implements Sorter {
     @Override
     public void heapSort(int[] nums) {
         int n = nums.length;
-        int[] temp = Utils.padddingZero(nums, 0, 1); //padding zero so the index starts from 1 to n
+        int[] temp = Utils.paddingZero(nums, 0, 1); //padding zero so the index starts from 1 to n
         for (int i = n/2; i >= 1; i --) //max-heapify (If you want to sort in ascending, you have to max-heapify it instead of min-heapify)
             adjustMaxHeap(temp, i, n);
 

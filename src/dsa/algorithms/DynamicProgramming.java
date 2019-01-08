@@ -88,4 +88,11 @@ public interface DynamicProgramming {
             return strb.toString().trim();
         }
     }
+
+    public TwoSequenceAlignmentAnswer twoSequenceAlignment(StringBuilder A, StringBuilder B);
+
+    public static class TwoSequenceAlignmentAnswer{
+        public String aligned;
+        public int point;
+    }
 }

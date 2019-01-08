@@ -6,7 +6,7 @@ import dsa.algorithms.DynamicProgramming.MinimumEditDistance.Edition;
 
 import java.util.*;
 
-import static dsa.Utils.padddingZero;
+import static dsa.Utils.paddingZero;
 import static dsa.algorithms.DynamicProgramming.MinimumEditDistance.Edition.Type.*;
 import static java.lang.Math.min;
 import static java.lang.String.format;
@@ -19,8 +19,8 @@ public class WbDynamicProgramming implements DynamicProgramming {
         int n = vs.length;
         int[][] kp = new int[n+1][w+1];
         HashSet<Integer>[][] takenRecords = new HashSet[n+1][w+1];
-        vs = padddingZero(vs, 0, 1);  // e.g. [1, 2, 2] => [0, 1, 2, 2]
-        ws = padddingZero(ws, 0, 1);
+        vs = Utils.paddingZero(vs, 0, 1);  // e.g. [1, 2, 2] => [0, 1, 2, 2]
+        ws = Utils.paddingZero(ws, 0, 1);
 
         for (int k = 0; k <= w; k ++)
         {
@@ -67,8 +67,8 @@ public class WbDynamicProgramming implements DynamicProgramming {
     public int[] longestCommonSubsequence(int[] s1, int[] s2) {
         int[][] lcsTable = new int[s1.length+1][s2.length+1];
         int[][] previousTable = new int[s1.length+1][s2.length+1];  // record previous node
-        s1 = padddingZero(s1, 0, 1);
-        s2 = padddingZero(s2, 0, 1);
+        s1 = Utils.paddingZero(s1, 0, 1);
+        s2 = Utils.paddingZero(s2, 0, 1);
 
         for (int i = 1; i < s1.length; i ++)
             for (int j = 1; j < s2.length; j ++)
@@ -192,6 +192,18 @@ public class WbDynamicProgramming implements DynamicProgramming {
         }
 
         return getMinimumEditDistanceByBacktracking(E, A, B);
+    }
+
+    @Override
+    public TwoSequenceAlignmentAnswer twoSequenceAlignment(StringBuilder A, StringBuilder B) {
+        int n = A.length();
+        int m = B.length();
+        int[][] E = new int[n+1][m+1];
+        A.insert(0, "-");
+        B.insert(0, "-");
+
+
+        return null;
     }
 
     private MinimumEditDistance getMinimumEditDistanceByBacktracking(Edition[][] E, StringBuilder A, StringBuilder B){

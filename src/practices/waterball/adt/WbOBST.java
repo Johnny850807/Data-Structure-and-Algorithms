@@ -16,7 +16,7 @@ public class WbOBST extends WbThreadBSTree {
     private int[] produceOptimalInsertionOrder(int n, double p[]) {
         int[][] R = new int[n+1][n+1];
         double[][] A = new double[n+1][n+1];
-        p = Utils.padddingZero(p, 0, 1);
+        p = Utils.paddingZero(p, 0, 1);
 
         /**
          * //todo DP

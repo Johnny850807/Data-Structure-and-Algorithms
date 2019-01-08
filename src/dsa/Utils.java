@@ -157,7 +157,7 @@ public class Utils {
         return arr;
     }
 
-    public static int[] padddingZero(int[] array, int index, int length){
+    public static int[] paddingZero(int[] array, int index, int length){
         int[] p = new int[array.length+length];
         for (int i = 0; i < length; i ++)
             p[i] = 0;
@@ -166,7 +166,7 @@ public class Utils {
         return p;
     }
 
-    public static double[] padddingZero(double[] array, int index, int length){
+    public static double[] paddingZero(double[] array, int index, int length){
         double[] p = new double[array.length+length];
         for (int i = 0; i < length; i ++)
             p[i] = 0;
