@@ -84,6 +84,6 @@ public class DynamicProgrammingTest {
         TwoSequenceAlignmentAnswer alignmentAnswer = dynamicProgramming.twoSequenceAlignment(A, B);
         assertEquals(expectedAlignment, alignmentAnswer.alignment);
         assertEquals(expectedPoint, alignmentAnswer.point);
-
+        //..
     }
 }
