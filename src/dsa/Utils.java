@@ -144,9 +144,6 @@ public class Utils {
         int temp = array[i];
         array[i] = array[j];
         array[j] = temp;
-        /*array[i] = array[i] ^ array[j];
-        array[j] = array[i] ^ array[j];
-        array[i] = array[i] ^ array[j];*/
     }
 
     public static int[] intListToArray(List<Integer> integerList){

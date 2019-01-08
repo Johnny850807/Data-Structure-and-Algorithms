@@ -92,7 +92,7 @@ public interface DynamicProgramming {
     public TwoSequenceAlignmentAnswer twoSequenceAlignment(StringBuilder A, StringBuilder B);
 
     public static class TwoSequenceAlignmentAnswer{
-        public String aligned;
+        public String alignment;
         public int point;
     }
 }

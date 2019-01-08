@@ -7,6 +7,7 @@ import dsa.algorithms.DynamicProgramming.MinimumEditDistance.Edition;
 import java.util.*;
 
 import static dsa.Utils.paddingZero;
+import static dsa.Utils.tableToString;
 import static dsa.algorithms.DynamicProgramming.MinimumEditDistance.Edition.Type.*;
 import static java.lang.Math.min;
 import static java.lang.String.format;
@@ -202,6 +203,9 @@ public class WbDynamicProgramming implements DynamicProgramming {
         A.insert(0, "-");
         B.insert(0, "-");
 
+
+        System.out.println("Two sequence alignment: ");
+        System.out.println(tableToString(E));
 
         return null;
     }

@@ -2,13 +2,12 @@ import dsa.algorithms.DynamicProgramming;
 import dsa.algorithms.DynamicProgramming.KnapSackAnswer;
 import dsa.algorithms.DynamicProgramming.MatrixChainAnswer;
 import dsa.algorithms.DynamicProgramming.MinimumEditDistance.Edition.Type;
+import dsa.algorithms.DynamicProgramming.TwoSequenceAlignmentAnswer;
 import org.junit.Test;
 import practices.waterball.algorithms.WbDynamicProgramming;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Random;
 import java.util.stream.IntStream;
 
 import static dsa.algorithms.DynamicProgramming.MinimumEditDistance.Edition.Type.INSERT;
@@ -74,6 +73,17 @@ public class DynamicProgrammingTest {
         for (int i = 0; i < expectedDistance; i++) {
             assertEquals(expectedEdtionTypes[i], med.editions.get(i).type);
         }
+    }
+
+    @Test
+    public void testTwoSequenceAlignment(){
+        StringBuilder A = new StringBuilder("APPLE");
+        StringBuilder B = new StringBuilder("APPE");
+        String expectedAlignment = "APP-E";
+        int expectedPoint = 3;
+        TwoSequenceAlignmentAnswer alignmentAnswer = dynamicProgramming.twoSequenceAlignment(A, B);
+        assertEquals(expectedAlignment, alignmentAnswer.alignment);
+        assertEquals(expectedPoint, alignmentAnswer.point);
 
     }
 }
