@@ -108,7 +108,6 @@ public class WbGraph implements Graph, Cloneable{
         int[] d = new int[n+1];  //discover time or distance
         int[] color = new int[n+1];  //white=1, gray=2, black=3
         LinkedList<Integer> path = new LinkedList<>();
-        boolean hasCycle = false;
 
         int[] pathToArray(){
             int[] pathArray = new int[path.size()];
@@ -183,35 +182,40 @@ public class WbGraph implements Graph, Cloneable{
 
     @Override
     public boolean isCyclic() {
+        System.out.println("===");
         TraversalStates t = new TraversalStates();
 
         for (int i = 1; i <= n; i++)
             t.color[i] = TraversalStates.WHITE;
 
         for (int i = 1; i <= n; i++) {
-            if (checkCycleByDfsVisit(i, t))
+            if (t.color[i] == TraversalStates.WHITE &&
+                    checkCycleByDfsVisit(i, t))
                 return true;
         }
         return false;
     }
 
-    private boolean checkCycleByDfsVisit(int v, TraversalStates t){
-        t.color[v] = TraversalStates.GRAY;
+    private boolean checkCycleByDfsVisit(int u, TraversalStates t){
+        t.color[u] = TraversalStates.GRAY;
 
-        for (Node node : adjacencyList[v]) {
-            int u = node.i;
-            if (t.color[u] == TraversalStates.WHITE)
+        for (Node node : adjacencyList[u]) {
+            int v = node.i;
+            if (t.color[v] == TraversalStates.WHITE)
             {
-                t.parent[u] = v;
-                checkCycleByDfsVisit(u, t);
+                System.out.println("Do");
+                t.parent[v] = u;
+                checkCycleByDfsVisit(v, t);
             }
-            else if (t.color[u] == TraversalStates.GRAY
-                    && u != t.parent[v] && v != t.parent[u])  //check if u and v have no relation to each other
+            else if (t.color[v] == TraversalStates.GRAY
+                    && v != t.parent[u])  //check if there is no relation between u and v
                 return true;
         }
 
+        t.color[u] = TraversalStates.BLACK;
         return false;
     }
+
 
     @Override
     public boolean isConnected() {
