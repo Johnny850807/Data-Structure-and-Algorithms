@@ -198,14 +198,8 @@ public class WbDynamicProgramming implements DynamicProgramming {
 
     @Override
     public TwoSequenceAlignmentAnswer twoSequenceAlignment(StringBuilder A, StringBuilder B) {
-        // 相同: 1  錯位: 0  不相同:-1
         TwoSequenceAlignmentAnswer twoSequenceAlignmentAnswer = new TwoSequenceAlignmentAnswer();
 
-//        if (A.length() > B.length() ){
-//            StringBuilder c = A;
-//            A = B;
-//            B = c;
-//        }
         int n = A.length();
         int m = B.length();
         StringBuilder answer;
@@ -215,7 +209,6 @@ public class WbDynamicProgramming implements DynamicProgramming {
         B.insert(0, "-");
         initTable(E);
         initTable(D);
-
 
         fillTable(E, D, A, B);
         twoSequenceAlignmentAnswer.alignment = backtracking(D, A, B);
@@ -230,7 +223,6 @@ public class WbDynamicProgramming implements DynamicProgramming {
     }
 
     private String backtracking(int[][] d, StringBuilder a, StringBuilder b) {
-        System.out.println("start to backtracking");
         int i = d.length-1;
         int j = d[0].length-1;
         StringBuilder min = a.length() < b.length() ? a : b;
@@ -239,7 +231,6 @@ public class WbDynamicProgramming implements DynamicProgramming {
 
 
         while (i != 0 && j != 0){
-            System.out.println(i + " " + j);
             if (d[i][j] == 1){
                 ans.append(min.charAt(index));
                 i--;
@@ -256,13 +247,11 @@ public class WbDynamicProgramming implements DynamicProgramming {
                 j--;
 
             }
-            System.out.println(ans);
         }
         return ans.reverse().toString();
     }
 
     private void fillTable(int[][] e, int[][] d, StringBuilder a, StringBuilder b) {
-        System.out.println("start to fill  the table");
         for (int i = 1; i < e.length; i++){
             for (int j = 1; j < e[0].length; j++){
                 e[i][j] = maximum(e, d, i, j, a.charAt(i), b.charAt(j));
@@ -273,8 +262,9 @@ public class WbDynamicProgramming implements DynamicProgramming {
     private int maximum(int[][] e, int[][] d, int i, int j, char a, char b) {
         int max = -100;
         int leftUp = 1;
-        int up = 3;
         int left = 2;
+        int up = 3;
+
         int ans1 = (e[i-1][j] - 1);
         int ans2 = (e[i][j-1] - 1);
         int extra = a == b ? 2 : 1;
@@ -298,10 +288,8 @@ public class WbDynamicProgramming implements DynamicProgramming {
     private void initTable(int[][] E) {
         for (int i = 0; i < E.length; i++)
             E[i][0] = i * -1;
-        System.out.println(E.length +" " + E[0].length);
         for (int j = 0; j < E[0].length; j++)
             E[0][j] = j * -1;
-        System.out.println("init successful");
     }
 
     private MinimumEditDistance getMinimumEditDistanceByBacktracking(Edition[][] E, StringBuilder A, StringBuilder B){

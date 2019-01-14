@@ -77,10 +77,10 @@ public class DynamicProgrammingTest {
 
     @Test
     public void testTwoSequenceAlignment(){
-        StringBuilder A = new StringBuilder("APPLE");
-        StringBuilder B = new StringBuilder("APPE");
-        String expectedAlignment = "APP-E";
-        int expectedPoint = 7;
+        StringBuilder A = new StringBuilder("dangerous");
+        StringBuilder B = new StringBuilder("dangeos");
+        String expectedAlignment = "dange-o-s";
+        int expectedPoint = 12;
         TwoSequenceAlignmentAnswer alignmentAnswer = dynamicProgramming.twoSequenceAlignment(A, B);
         assertEquals(expectedAlignment, alignmentAnswer.alignment);
         assertEquals(expectedPoint, alignmentAnswer.point);
