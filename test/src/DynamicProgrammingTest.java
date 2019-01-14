@@ -80,7 +80,7 @@ public class DynamicProgrammingTest {
         StringBuilder A = new StringBuilder("APPLE");
         StringBuilder B = new StringBuilder("APPE");
         String expectedAlignment = "APP-E";
-        int expectedPoint = 4;
+        int expectedPoint = 7;
         TwoSequenceAlignmentAnswer alignmentAnswer = dynamicProgramming.twoSequenceAlignment(A, B);
         assertEquals(expectedAlignment, alignmentAnswer.alignment);
         assertEquals(expectedPoint, alignmentAnswer.point);
