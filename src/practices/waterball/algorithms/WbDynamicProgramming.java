@@ -7,6 +7,7 @@ import dsa.algorithms.DynamicProgramming.MinimumEditDistance.Edition;
 import java.util.*;
 
 import static dsa.Utils.paddingZero;
+import static dsa.Utils.swap;
 import static dsa.Utils.tableToString;
 import static dsa.algorithms.DynamicProgramming.MinimumEditDistance.Edition.Type.*;
 import static java.lang.Math.min;
@@ -197,17 +198,98 @@ public class WbDynamicProgramming implements DynamicProgramming {
 
     @Override
     public TwoSequenceAlignmentAnswer twoSequenceAlignment(StringBuilder A, StringBuilder B) {
+        TwoSequenceAlignmentAnswer twoSequenceAlignmentAnswer = new TwoSequenceAlignmentAnswer();
+
         int n = A.length();
         int m = B.length();
+        StringBuilder answer;
         int[][] E = new int[n+1][m+1];
+        int[][] D = new int[n+1][m+1];
         A.insert(0, "-");
         B.insert(0, "-");
+        initTable(E);
+        initTable(D);
 
+        fillTable(E, D, A, B);
+        twoSequenceAlignmentAnswer.alignment = backtracking(D, A, B);
+        twoSequenceAlignmentAnswer.point = E[n][m];
+        System.out.println(twoSequenceAlignmentAnswer.alignment + " " + twoSequenceAlignmentAnswer.point);
 
         System.out.println("Two sequence alignment: ");
         System.out.println(tableToString(E));
+        System.out.println(tableToString(D));
 
-        return null;
+        return twoSequenceAlignmentAnswer;
+    }
+
+    private String backtracking(int[][] d, StringBuilder a, StringBuilder b) {
+        int i = d.length-1;
+        int j = d[0].length-1;
+        StringBuilder min = a.length() < b.length() ? a : b;
+        int index = min.length()-1;
+        StringBuilder ans = new StringBuilder("");
+
+
+        while (i != 0 && j != 0){
+            if (d[i][j] == 1){
+                ans.append(min.charAt(index));
+                i--;
+                j--;
+                index--;
+            }
+            else if (d[i][j] == 3) {
+                ans.append('-');
+                i--;
+
+            }
+            else if (d[i][j] == 2) {
+                ans.append('-');
+                j--;
+
+            }
+        }
+        return ans.reverse().toString();
+    }
+
+    private void fillTable(int[][] e, int[][] d, StringBuilder a, StringBuilder b) {
+        for (int i = 1; i < e.length; i++){
+            for (int j = 1; j < e[0].length; j++){
+                e[i][j] = maximum(e, d, i, j, a.charAt(i), b.charAt(j));
+            }
+        }
+    }
+
+    private int maximum(int[][] e, int[][] d, int i, int j, char a, char b) {
+        int max = -100;
+        int leftUp = 1;
+        int left = 2;
+        int up = 3;
+
+        int ans1 = (e[i-1][j] - 1);
+        int ans2 = (e[i][j-1] - 1);
+        int extra = a == b ? 2 : 1;
+        int ans3 = (e[i-1][j-1] + extra);
+
+        if (ans1 > max) {
+            max = ans1;
+            d[i][j] = up;
+        }
+        if (ans2 > max) {
+            max = ans2;
+            d[i][j] = left;
+        }
+        if (ans3 > max) {
+            max = ans3;
+            d[i][j] = leftUp;
+        }
+        return max;
+    }
+
+    private void initTable(int[][] E) {
+        for (int i = 0; i < E.length; i++)
+            E[i][0] = i * -1;
+        for (int j = 0; j < E[0].length; j++)
+            E[0][j] = j * -1;
     }
 
     private MinimumEditDistance getMinimumEditDistanceByBacktracking(Edition[][] E, StringBuilder A, StringBuilder B){
