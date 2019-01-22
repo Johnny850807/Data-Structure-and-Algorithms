@@ -103,9 +103,9 @@ public class WbOS implements OS {
         private int nextCount = 0;  // number of P
 
         @Override
-        public void doProcedure(Runnable runnable){
+        public void doProcedure(Runnable task){
             mutex.sWait();
-            runnable.run();
+            task.run();
             if (nextCount > 0)
                 next.sSignal();  // Q finished, wake P up
             else
@@ -131,10 +131,10 @@ public class WbOS implements OS {
             public void cSignal(){
                 if (value > 0) // there exists Q, do signaling process
                 {
-                    nextCount ++;
+                    nextCount++;
                     sem.sSignal();  // wake one Q up
                     next.sWait();  // wait the waked Q until Q's completion or Q's blocked again
-                    nextCount --;
+                    nextCount--;
                 }
             }
 

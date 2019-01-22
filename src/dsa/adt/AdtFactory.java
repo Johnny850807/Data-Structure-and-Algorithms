@@ -18,4 +18,5 @@ public interface AdtFactory {
     DisjointSet createDisjointSet();
     MinMaxHeap createMinMaxHeap();
     HashMap createHashMap();
+    BSTree createOBST(double[] p);
 }

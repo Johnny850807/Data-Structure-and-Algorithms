@@ -203,7 +203,6 @@ public class WbGraph implements Graph, Cloneable{
             int v = node.i;
             if (t.color[v] == TraversalStates.WHITE)
             {
-                System.out.println("Do");
                 t.parent[v] = u;
                 checkCycleByDfsVisit(v, t);
             }

@@ -320,4 +320,10 @@ public class AdtTest {
         for (Data data : answerHashMap.keySet())
             assertEquals(new Integer(hashMap.get(data)), answerHashMap.get(data));
     }
+
+    @Test
+    public void testOBST(){
+        BSTree obst = adtFactory.createOBST(new double[]{2, 3, 3, 4});
+
+    }
 }

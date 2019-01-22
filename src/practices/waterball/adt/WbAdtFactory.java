@@ -80,4 +80,9 @@ public class WbAdtFactory implements AdtFactory {
         return new WbHashMap();
     }
 
+    @Override
+    public BSTree createOBST(double[] P) {
+        return new WbOBST(P);
+    }
+
 }
