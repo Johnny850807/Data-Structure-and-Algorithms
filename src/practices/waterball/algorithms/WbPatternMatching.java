@@ -3,7 +3,10 @@ package practices.waterball.algorithms;
 
 import dsa.algorithms.PatternMatching;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
+
+import static java.lang.Math.min;
 import static java.lang.Math.pow;
 
 public class WbPatternMatching implements PatternMatching {
@@ -27,9 +30,9 @@ public class WbPatternMatching implements PatternMatching {
 
         int[] H = new int[n-m+1];
 
-        //preprocessing O(m)
+        //preprocessing θ(m)
         int modulo = 65537;  //prime modulo
-        HashMap<Character, Integer> charHashTable = constructCharacterHashTable(T + P); //O(m)
+        HashMap<Character, Integer> charHashTable = constructCharacterHashTable(P); //O(m)
         int charSize = charHashTable.size();
         int patternHash = computeHashValue(modulo, charSize, P, charHashTable); //O(m)
         H[0] = computeHashValue(modulo, charSize, T.substring(0, m), charHashTable);  //O(m)
@@ -42,22 +45,11 @@ public class WbPatternMatching implements PatternMatching {
                     return s;
             if (s+1 < H.length) {
                 int h = (int) (pow(charSize, m-1)) % modulo;
-                H[s+1] = (charSize * (H[s] - h*charHashTable.get(T.charAt(s))) + charHashTable.get(T.charAt(s+m))) % modulo;
+                H[s+1] = (charSize * (H[s] - h*charHashTable.getOrDefault(T.charAt(s), 0)) + charHashTable.getOrDefault(T.charAt(s+m), 0)) % modulo;
             }
         }
 
         return -1;
-    }
-
-    private HashMap<Character, Integer> constructCharacterHashTable(String T){
-        HashMap<Character, Integer> charHashTable = new HashMap<>();
-        int id = 0;
-        for (char c : T.toCharArray())
-        {
-            if (!charHashTable.containsKey(c))
-                charHashTable.put(c, id++);
-        }
-        return charHashTable;
     }
 
     private int computeHashValue(int modulo, int charSize, String text, HashMap<Character, Integer> charHashTable) {
@@ -65,22 +57,68 @@ public class WbPatternMatching implements PatternMatching {
         int val = 0;
         int base = 1;
         for (int i = subChars.length - 1; i >= 0; i--) {
-            val = (val + base * charHashTable.get(subChars[i])) % modulo;
+            int hash = charHashTable.getOrDefault(subChars[i], 0);
+            val = (val + base*hash) % modulo;
             base = (base * charSize) % modulo;
         }
         return val;
     }
 
-
     @Override
     public int automataMatching(String T, String P) {
         int n = T.length(), m = P.length();
+
+        //preprocessing θ(n * charSize)
+        HashMap<Character, Integer> charHashTable = constructCharacterHashTable(P);  //θ(m)
+        HashMap<SimpleEntry<Integer, Character>, Integer> automata = new HashMap<>();
+
+        //construct the automata
+        for (int i = 0; i <= m; i++) {
+            for (char c : charHashTable.keySet()) {
+                String text = P.substring(0, i).concat(String.valueOf(c));
+                int p = longestPrefixLength(text, P);
+                automata.put(new SimpleEntry<>(i, c), p);
+            }
+        }
+
+        //processing θ(n) exactly
+        int state = 0;
+        for (int i = 0; i < n; i ++){
+            state = automata.getOrDefault(new SimpleEntry<>(state, T.charAt(i)), 0);
+            if (state == m)
+                return i-m+1;
+        }
+
         return -1;
+    }
+
+    private int longestPrefixLength(String text, String P){
+        int k = min(text.length(), P.length());
+        while (k > 0){
+            if (P.substring(0, k).equals(text.substring(text.length()-k, text.length())))
+                return k;
+            k --;
+        }
+        return 0;
     }
 
     @Override
     public int knuthMorrisPratt(String T, String P) {
         int n = T.length(), m = P.length();
+
+
         return -1;
+    }
+
+
+    private HashMap<Character, Integer> constructCharacterHashTable(String P){
+        HashMap<Character, Integer> charHashTable = new HashMap<>();
+        int id = 0;
+        for (char c : P.toCharArray())
+        {
+            if (!charHashTable.containsKey(c))
+                charHashTable.put(c, id++);
+        }
+        return charHashTable;
     }
 }
