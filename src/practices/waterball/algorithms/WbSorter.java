@@ -112,7 +112,6 @@ public class WbSorter implements Sorter {
     @SuppressWarnings("ManualArrayCopy")
     @Override
     public void R_mergeSort(int[] nums, int l, int r) {
-        System.out.println("Recursive");
         if (l < r)
         {
             int m = (l+r)/2;
@@ -160,24 +159,23 @@ public class WbSorter implements Sorter {
         int i, j;
         int p;
         if (l < r) {
-            i = l+1;
-            j = r;
+            i = l;
+            j = r + 1;
             p = nums[l];
             do {
-                while (i <= j && nums[i] <= p)
-                    i ++;
-                while (i <= j && nums[j] > p)
-                    j --;
+                do i ++;
+                while (i < j && nums[i] < p);
+                do j --;
+                while (i <= j && nums[j] > p);
+
                 if (i < j)
                     swap(nums, i, j);
             } while (i < j);
-            if (l < j)
-                swap(nums, l, j);
+            swap(nums, l, j);
             R_quickSort(nums, l, j - 1);
             R_quickSort(nums, j + 1, r);
         }
     }
-
 
     @Override
     public void NR_quickSort(int[] nums) {
@@ -192,19 +190,19 @@ public class WbSorter implements Sorter {
             if (l < r)
             {
                 int p = nums[l];
-                int i = l + 1;
-                int j = r;
+                int i = l;
+                int j = r + 1;
 
                 do {
-                    while (i <= j && nums[i] <= p)
-                        i++;
-                    while (i <= j && nums[j] > p)
-                        j--;
+                    do i ++;
+                    while (i < j && nums[i] < p);
+                    do j --;
+                    while (i <= j && nums[j] > p);
+
                     if (i < j)
                         swap(nums, i, j);
                 } while (i < j);
-                if (l < j)
-                    swap(nums, l, j);
+                swap(nums, l, j);
                 list.addLast(l);
                 list.addLast(j-1);
                 list.addLast(j+1);

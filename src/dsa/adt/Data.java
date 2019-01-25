@@ -6,7 +6,7 @@ import java.util.Objects;
  * This data class is used as the element
  * of adt's, so that we can test if your
  * binary search tree's searching is correct.
- * Use the key field to test two datas' identities
+ * Use the key field to see a data's identity
  */
 public class Data implements Comparable<Data> {
     public int key;

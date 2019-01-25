@@ -9,8 +9,8 @@ import org.junit.Test;
 import java.util.Arrays;
 
 public class SortersTest {
-    private static final int NUMBER_FROM = 10;
-    private static final int NUMBER_TO = 50;
+    private static final int NUMBER_FROM = 1;
+    private static final int NUMBER_TO = 10000;
     private static final int NUMBER_SIZE = NUMBER_TO - NUMBER_FROM;
 
     private static final int[] massiveSortedNums = new int[NUMBER_SIZE];

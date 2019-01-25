@@ -182,7 +182,6 @@ public class WbGraph implements Graph, Cloneable{
 
     @Override
     public boolean isCyclic() {
-        System.out.println("===");
         TraversalStates t = new TraversalStates();
 
         for (int i = 1; i <= n; i++)

@@ -209,7 +209,6 @@ public class WbDynamicProgramming implements DynamicProgramming {
         B.insert(0, "-");
         initTable(E);
         initTable(D);
-
         fillTable(E, D, A, B);
         twoSequenceAlignmentAnswer.alignment = backtracking(D, A, B);
         twoSequenceAlignmentAnswer.point = E[n][m];

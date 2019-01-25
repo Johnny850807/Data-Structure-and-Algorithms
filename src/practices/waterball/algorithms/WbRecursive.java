@@ -135,12 +135,6 @@ public class WbRecursive implements BasicRecursive {
         return powerSet;
     }
 
-    private void printArray(int[] array){
-        for (int i = 0; i < array.length; i ++)
-            System.out.print(array[i]);
-        System.out.println();
-    }
-
     private void swap(int[] array, int a, int b){
         int temp = array[a];
         array[a] = array[b];

@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+
+//TODO Not the good day to finish this
 public class WbGeometryAlgorithm implements GeometryAlgorithm {
 
     @Override
