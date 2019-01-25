@@ -154,6 +154,11 @@ public class WbSorter implements Sorter {
                 merge(nums, i, i+l-1, i+l, min(i+2*l-1, n-1));
     }
 
+    /**
+     * In this implementation, the best case would be like
+     * (a) 1, 2, 3, 4, 5, 6, ... (Ordered) (b) 5, 5, 5, 5, 5, 5 (Indistinguishable, thanks to do-while)
+     * The worst case would be like: ..., 5, 4, 3, 2, 1 (inverted)
+     */
     @Override
     public void R_quickSort(int[] nums, int l, int r) {
         int i, j;
