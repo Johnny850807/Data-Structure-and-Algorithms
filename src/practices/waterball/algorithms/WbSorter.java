@@ -216,26 +216,29 @@ public class WbSorter implements Sorter {
         }
     }
 
+    /**
+     * This implementation is stable
+     * Space complexity: n + k = Θ(n + k), exactly (k - value range, n - size of nums)
+     * Time complexity: n + k, Θ(n + k) exactly
+     */
     @Override
     public void countingSort(int[] nums, int startInclusive, int endInclusive) {
         int offset = (-1) * startInclusive;  //offset from 0
         int n = nums.length;
         int k = endInclusive - startInclusive + 1;
         int[] count = new int[k];
-        int[] start = new int[k];
         int[] output = new int[n];
 
-        for (int num : nums)
-            count[num + offset] ++;
+        for (int i = 0; i < n; i ++)
+            count[nums[i] + offset] ++;
 
-        start[0] = 0;
         for (int i = 1; i < k; i++) {
-            start[i] = start[i-1] + count[i-1];
+            count[i] = count[i] + count[i-1];
         }
 
-        for (int i = 0; i < n; i++) {
-            output[start[nums[i] + offset]] = nums[i];
-            start[nums[i] + offset] ++;
+        for (int i = n-1; i >= 0; i--) {  // the loop should go from (n-1) downward so it remains the stable property
+            output[count[nums[i] + offset] - 1] = nums[i];
+            count[nums[i] + offset] --;
         }
 
         System.arraycopy(output, 0, nums, 0, n);

@@ -444,8 +444,12 @@ public class WbGraph implements Graph, Cloneable{
 
         //(4) Compute all-pair Dijkstra : O(V(E + VlgV)) = O(VE + V^2lgV)
         long[][] D = new long[n+1][n+1];
-        for (int i = 1; i <= n; i++)
+        for (int i = 1; i <= n; i++){
             D[i] = graph.dijkstraShortestPath(i, n).D;
+            for (int j = 1; j <= n; j++) {
+                D[i][j] = D[i][j] - h[i] + h[j];
+            }
+        }
 
         return D;
     }
