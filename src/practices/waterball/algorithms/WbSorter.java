@@ -217,15 +217,15 @@ public class WbSorter implements Sorter {
     }
 
     /**
-     * This implementation is stable
+     * This implementation is stable, this is important, because counting sort often be used as a subroutine in radix sort.
      * Space complexity: n + k = Θ(n + k), exactly (k - value range, n - size of nums)
      * Time complexity: n + k, Θ(n + k) exactly
      */
     @Override
     public void countingSort(int[] nums, int startInclusive, int endInclusive) {
-        int offset = (-1) * startInclusive;  //offset from 0
+        int k = endInclusive - startInclusive + 1;  //range
         int n = nums.length;
-        int k = endInclusive - startInclusive + 1;
+        int offset = (-1) * startInclusive;  //map the range (start) ~ (end) to 0~(k-1) thanks to the offset from 0
         int[] count = new int[k];
         int[] output = new int[n];
 
