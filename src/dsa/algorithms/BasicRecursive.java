@@ -39,15 +39,10 @@ public interface BasicRecursive {
      */
     int R_towerOfHanoi(int n, char source, char buffer, char target);
 
-    /**
-     * @param nums a list of permuted nums, each row is a permutation
-     * @param from beginning of the permutation range
-     * @param to end of the permutation range
-     * @return list of all possible permuted letters
-     */
-    void R_generatePermutation(int[] nums, int from, int to);
-
-    HashSet<HashSet<Integer>> powerSet(HashSet<Integer> set);
-
+    default void swap(int[] array, int a, int b){
+        int temp = array[a];
+        array[a] = array[b];
+        array[b] = temp;
+    }
 
 }

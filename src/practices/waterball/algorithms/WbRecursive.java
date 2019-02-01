@@ -91,54 +91,7 @@ public class WbRecursive implements BasicRecursive {
         }
     }
 
-    @Override
-    public void R_generatePermutation(int[] nums, int from, int to) {
-        if (from == to)
-        {
-            for (int i = 0; i <= to; i ++)
-                System.out.print(nums[i]);
-            System.out.println();
-        }
-        else
-        {
-            for (int i = from; i <= to; i ++)
-            {
-                swap(nums, from, i);
-                R_generatePermutation(nums, from+1, to);
-                swap(nums, from, i);
-            }
-        }
-    }
 
-    @Override
-    public HashSet<HashSet<Integer>> powerSet(HashSet<Integer> set) {
-        return powerSet(new ArrayList<>(set), new HashSet<HashSet<Integer>>(), new boolean[set.size()], 0);
-    }
 
-    private HashSet<HashSet<Integer>> powerSet(ArrayList<Integer> nums, HashSet<HashSet<Integer>> powerSet, boolean[] member, int k){
-        if (k >= nums.size())
-        {
-            HashSet<Integer> subset = new HashSet<>();
-            for (int i = 0; i < member.length; i++) {
-                if (member[i])
-                    subset.add(nums.get(i));
-            }
-            powerSet.add(subset);
-        }
-        else
-        {
-            member[k] = true;
-            powerSet(nums, powerSet, member, k+1);
-            member[k] = false;
-            powerSet(nums, powerSet, member, k+1);
-        }
-        return powerSet;
-    }
-
-    private void swap(int[] array, int a, int b){
-        int temp = array[a];
-        array[a] = array[b];
-        array[b] = temp;
-    }
 
 }

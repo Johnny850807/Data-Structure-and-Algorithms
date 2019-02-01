@@ -32,32 +32,6 @@ public class RecursiveTest {
     @Test
     public void outputTest(){
         go("R_towerOfHanoi", ()-> recursive.R_towerOfHanoi(3, 'A', 'B', 'C'));
-        go("R_generatePermutation", ()-> recursive.R_generatePermutation(new int[]{0, 1,2}, 0, 2));
-    }
-
-    @Test
-    public void testPowerSet(){
-        HashSet<Integer> set = new HashSet<>();
-        set.add(1);
-        set.add(2);
-        set.add(3);
-
-        int[][] expectedPowerSetArray = {{}, {1}, {2}, {3}, {1, 2}, {2, 3}, {1, 3}, {1, 2, 3}};
-        HashSet<HashSet<Integer>> expectedPowerSet = new HashSet<>();
-        for (int i = 0; i < expectedPowerSetArray.length; i++) {
-            HashSet<Integer> subset = new HashSet<>();
-            for (int j = 0; j < expectedPowerSetArray[i].length; j++) {
-                subset.add(expectedPowerSetArray[i][j]);
-            }
-            expectedPowerSet.add(subset);
-        }
-
-        HashSet<HashSet<Integer>> actualPowerSet = recursive.powerSet(set);
-        System.out.println("Power set of {1,2,3} = \n" + Utils.setToString(actualPowerSet));
-        for (HashSet<Integer> subset : expectedPowerSet) {
-            assertTrue(actualPowerSet.contains(subset));
-        }
-
     }
 
 
