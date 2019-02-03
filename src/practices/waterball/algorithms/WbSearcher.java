@@ -52,6 +52,12 @@ public class WbSearcher implements Searcher {
         return findMinMax(nums, 0, nums.length-1);
     }
 
+    @Override
+    public int findMode(int[] nums) {
+        //TODO
+        return 0;
+    }
+
     private MinMax findMinMax(int[] nums, int l, int r){
         int x = min(nums[l], nums[l+1]);
         int y = max(nums[l], nums[l+1]);
