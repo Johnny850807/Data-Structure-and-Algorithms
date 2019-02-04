@@ -105,9 +105,35 @@ public class WbPatternMatching implements PatternMatching {
     @Override
     public int knuthMorrisPratt(String T, String P) {
         int n = T.length(), m = P.length();
+        int[] A = suffixFunction(P);
+        int k = -1;
 
+        for (int i = 0; i < n; i++) {
+            while (k >= 0 && P.charAt(k+1) != T.charAt(i))
+                k = A[k];
+            if (P.charAt(k+1) == T.charAt(i))
+                k ++;
+            if (k+1 == m)
+                return i - m + 1;
+        }
 
         return -1;
+    }
+
+    private int[] suffixFunction(String P){
+        int m = P.length();
+        int[] A = new int[m];
+        int i = -1;
+        A[0] = -1;
+
+        for (int q = 1; q < m; q++) {
+            while (i >= 0 && P.charAt(i + 1) != P.charAt(q))
+                i = A[i];
+            if (P.charAt(i + 1) == P.charAt(q))
+                i ++;
+            A[q] = i;
+        }
+        return A;
     }
 
 

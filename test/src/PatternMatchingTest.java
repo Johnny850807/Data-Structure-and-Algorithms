@@ -27,6 +27,6 @@ public class PatternMatchingTest {
         assertEquals(expectedIndex, patternMatching.naivePatternMatching(T, P));
         assertEquals(expectedIndex, patternMatching.rabinKarp(T, P));
         assertEquals(expectedIndex, patternMatching.automataMatching(T, P));
-        //assertEquals(expectedIndex, patternMatching.knuthMorrisPratt(T, P));*/
+        assertEquals(expectedIndex, patternMatching.knuthMorrisPratt(T, P));
     }
 }
