@@ -73,8 +73,29 @@ public class WbSearcher implements Searcher {
 
     @Override
     public int findMajority(int[] nums) {
-        //TODO
-        return 0;
+        int c = 1;
+        int m = nums[0];
+
+        for (int i = 1; i < nums.length; i++) {
+            if (c == 0){
+                c = 1;
+                m = nums[i];
+            }
+            else {
+                if (nums[i] == m)
+                    c ++;
+                else
+                    c --;
+            }
+        }
+
+        int count = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == m)
+                count ++;
+        }
+
+        return count >= (nums.length/2) ? m : -1;
     }
 
 

@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import practices.waterball.algorithms.WbSearcher;
 
+import java.awt.font.NumericShaper;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 
@@ -41,7 +42,7 @@ public class SearcherTest {
     @Test
     public void testSelection(){
         int expected500thMin = 499;
-        assertEquals(4, searcher.selectionMin(randomArray, 5));
+        assertEquals(expected500thMin, searcher.selectionMin(randomArray, 500));
     }
 
     @Test
@@ -49,5 +50,21 @@ public class SearcherTest {
         Searcher.MinMax minMax = searcher.findMinMax(sortedArray);
         assertEquals(0, minMax.min);
         assertEquals(NUM-1, minMax.max);
+    }
+
+    @Test
+    public void testFindMajority(){
+        final int MAJORITY = 999999;
+        int[] nums = new int[NUM];
+        for (int i = 0; i < NUM; i++) {
+            if (i < NUM/2)
+                nums[i] = i;
+            else
+                nums[i] = MAJORITY;
+        }
+        Utils.shuffleArray(nums);
+        int majority = searcher.findMajority(nums);
+        assertEquals(majority, majority);
+        assertEquals(-1, searcher.findMajority(sortedArray));
     }
 }

@@ -18,6 +18,9 @@ public interface Searcher {
      */
     int selectionMin(int[] nums, int k);
 
+    /**
+     * @return the majority among the numbers, return -1 if the majority does not exit.
+     */
     MinMax findMinMax(int[] nums);
 
     int findMajority(int[] nums);
