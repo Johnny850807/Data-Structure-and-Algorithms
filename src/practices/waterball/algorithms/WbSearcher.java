@@ -49,43 +49,51 @@ public class WbSearcher implements Searcher {
 
     @Override
     public MinMax findMinMax(int[] nums) {
-        return findMinMax(nums, 0, nums.length-1);
+        if (nums.length % 2 == 1)
+            return findMinMax(nums, nums[0], nums[0], 1, nums.length-1);
+        int min = Math.min(nums[0], nums[1]);
+        int max = Math.max(nums[0], nums[1]);
+        return findMinMax(nums, min, max, 2, nums.length-1);
     }
 
+    private MinMax findMinMax(int[] nums, int min, int max, int l, int r){
+        int x = Math.min(nums[l], nums[l+1]);
+        int y = Math.max(nums[l], nums[l+1]);
+        min = Math.min(x, min);
+        max = Math.max(y, max);
+        if (l+2 < r)
+        {
+            MinMax minMax = findMinMax(nums, min, max, l+2, r);
+            return new MinMax(min(x, minMax.min), max(y, minMax.max));  //Comparisons: T(n) = T(n-2) + 3 = 3n/2 < naive way: T(n) = 2(n-1)
+        }
+        else
+            return new MinMax(min, max);
+    }
+
+
     @Override
-    public int findMode(int[] nums) {
+    public int findMajority(int[] nums) {
         //TODO
         return 0;
     }
 
-    private MinMax findMinMax(int[] nums, int l, int r){
-        int x = min(nums[l], nums[l+1]);
-        int y = max(nums[l], nums[l+1]);
-        if (l+2 < r)
-        {
-            MinMax minMax = findMinMax(nums, l+2, r);
-            return new MinMax(min(x, minMax.min), max(y, minMax.max));  //Comparisons: T(n) = T(n-2) + 3 = 3n/2 < naive way: T(n) = 2(n-1)
-        }
-        else
-            return new MinMax(x, y);
-    }
 
     @Override
     public int selectionMin(int[] nums, int k) {
-        //(k-1): start from 0, e.g. if desired the first small number means 0th small number
-        return selectionMin(nums, 0, nums.length-1, k-1);
+        return selectIthMin(nums, 0, nums.length-1, k);
     }
 
-    private int selectionMin(int[] nums, int l, int r, int k){
+    private int selectIthMin(int[] nums, int l, int r, int i){
         if (l < r){
             int pivotVal = medianOfMedians(nums, l, r);
             int p = partition(nums, pivotVal, l, r);  //use medium of mediums to find Pivot val for partitioning :O(n)
-            if (k+l < p)  //note: k must plus l because k's index should be offset from l
-                return selectionMin(nums, l, p-1, k);
-            if (k+l == p)
+            int k = p - l + 1;
+            if (i == k)
                 return nums[p];
+            if (i < k)
+                return selectIthMin(nums, l, p-1, i);
             else
-                return selectionMin(nums, p+1, r, (k+l)-p-1);
+                return selectIthMin(nums, p+1, r, i-k);
         }
         else
             return nums[l];

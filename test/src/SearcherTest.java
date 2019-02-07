@@ -10,26 +10,29 @@ import java.util.stream.IntStream;
 import static org.junit.Assert.assertEquals;
 
 public class SearcherTest {
-    private static final int NUM = 10;
-    private int[] array = new int[NUM];
+    private static final int NUM = 1001;
+    private int[] sortedArray = new int[NUM];
+    private int[] randomArray;
     private Searcher searcher = new WbSearcher();  //replace it with yours
 
     @Before
     public void setupNumbers(){
         for (int i = 0; i < NUM; i ++)
-            array[i] = i;
+            sortedArray[i] = i;
+        randomArray = IntStream.range(0, NUM).toArray();  //0~1000
+        Utils.shuffleArray(randomArray);
     }
 
     @Test
     public void testSearch(){
-        assertSearching((data)-> searcher.linearSearch(array, data));
-        assertSearching((data)-> searcher.NR_binarySearch(array, data));
-        assertSearching((data)-> searcher.R_binarySearch(array, data, 0, array.length-1));
+        assertSearching((data)-> searcher.linearSearch(sortedArray, data));
+        assertSearching((data)-> searcher.NR_binarySearch(sortedArray, data));
+        assertSearching((data)-> searcher.R_binarySearch(sortedArray, data, 0, sortedArray.length-1));
     }
 
     private void assertSearching(Function<Integer, Integer> searching){
         for (int i = 0; i < NUM; i ++)
-            assertEquals(i, searching.apply(array[i]).intValue());
+            assertEquals(i, searching.apply(sortedArray[i]).intValue());
 
         //fail search should return -1
         assertEquals(-1, searching.apply(-1).intValue());
@@ -37,18 +40,14 @@ public class SearcherTest {
 
     @Test
     public void testSelection(){
-        int[] numsArray = IntStream.range(0, 1000).toArray();  //0~1000
-        Utils.shuffleArray(numsArray);
         int expected500thMin = 499;
-        assertEquals(expected500thMin, searcher.selectionMin(numsArray, 500));
+        assertEquals(4, searcher.selectionMin(randomArray, 5));
     }
 
     @Test
     public void testFindMinMax(){
-        int[] numsArray = IntStream.range(0, 1001).toArray();  //0~1000
-        Utils.shuffleArray(numsArray);
-        Searcher.MinMax minMax = searcher.findMinMax(numsArray);
+        Searcher.MinMax minMax = searcher.findMinMax(sortedArray);
         assertEquals(0, minMax.min);
-        assertEquals(1000, minMax.max);
+        assertEquals(NUM-1, minMax.max);
     }
 }

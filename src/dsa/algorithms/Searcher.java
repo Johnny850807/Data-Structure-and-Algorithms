@@ -14,13 +14,13 @@ public interface Searcher {
     int R_binarySearch(int[] array, int data, int l, int u);
 
     /**
-     * @return the k-th small number in nums
+     * @return the i-th small number in nums
      */
     int selectionMin(int[] nums, int k);
 
     MinMax findMinMax(int[] nums);
 
-    int findMode(int[] nums);
+    int findMajority(int[] nums);
 
     default void swap(int[] nums, int i, int j){
         int temp = nums[i];
