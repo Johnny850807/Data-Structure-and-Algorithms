@@ -1,11 +1,11 @@
 package dsa.adt;
 
-public interface SingleStack {
+public interface Stack {
     boolean isFull();
 
     boolean isEmpty();
 
-    SingleStack push(int item);
+    Stack push(int item);
 
     int pop();
 }

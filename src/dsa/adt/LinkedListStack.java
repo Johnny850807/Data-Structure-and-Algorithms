@@ -1,4 +1,4 @@
 package dsa.adt;
 
-public abstract class LinkedListStack implements SingleStack{
+public abstract class LinkedListStack implements Stack {
 }

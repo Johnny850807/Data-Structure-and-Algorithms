@@ -20,7 +20,7 @@ public class AdtTest {
     }
 
 
-    private void assertStack(SingleStack stack, int runSize, boolean hasSizeLimit){
+    private void assertStack(Stack stack, int runSize, boolean hasSizeLimit){
         assertTrue(stack.isEmpty());
 
         for (int i = 1; i <= runSize; i ++)
@@ -61,8 +61,25 @@ public class AdtTest {
     @Test
     public void testQueues(){
         assertQueue(adtFactory.createCircularArrayQueue(1000), 1000, true);
+        assertQueue(adtFactory.createQueueByTwoStacks(adtFactory.createArrayStack(1000), adtFactory.createArrayStack(1000)), 1000, true);
         assertQueue(adtFactory.createSingleLinkedListQueue(), -1, false);
         assertQueue(adtFactory.createCircularLinkedListQueue(), -1, false);
+        assertDequeue(adtFactory.createDequeByTwoStacks(adtFactory.createArrayStack(1000), adtFactory.createArrayStack(1000)), 1000);
+    }
+
+    private void assertDequeue(Deque deque, int runSize) {
+        assertTrue(deque.isEmpty());
+
+
+        for (int i = 1; i <= runSize/2 ; i++) {
+            deque.addHead(i);
+            deque.addTail((-1)*i);
+        }
+
+        for (int i = runSize/2; i >= 1 ; i--) {
+            assertEquals(i, deque.deleteHead());
+            assertEquals((-1)*i, deque.deleteTail());
+        }
     }
 
     private void assertQueue(Queue queue, int runSize, boolean hasSizeLimit){
@@ -323,7 +340,7 @@ public class AdtTest {
 
     @Test
     public void testOBST(){
-        BSTree obst = adtFactory.createOBST(new double[]{2, 3, 3, 4});
+        //BSTree obst = adtFactory.createOBST(new double[]{2, 3, 3, 4});
 
     }
 }

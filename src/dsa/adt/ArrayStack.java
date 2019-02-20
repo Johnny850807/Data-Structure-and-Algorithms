@@ -1,6 +1,6 @@
 package dsa.adt;
 
-public abstract class ArrayStack implements SingleStack{
+public abstract class ArrayStack implements Stack {
     protected final int MAX_SIZE;
     protected final int[] elements;
 

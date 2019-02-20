@@ -26,6 +26,16 @@ public class WbAdtFactory implements AdtFactory {
     }
 
     @Override
+    public Queue createQueueByTwoStacks(Stack stack1, Stack stack2) {
+        return new QueueByTwoStacks(stack1, stack2);
+    }
+
+    @Override
+    public Deque createDequeByTwoStacks(Stack stack1, Stack stack2) {
+        return new DequeByTwoStacks(stack1, stack2);
+    }
+
+    @Override
     public Queue createCircularArrayQueue(int maxSize) {
         return new WbCircularArrayQueue(maxSize);
     }
